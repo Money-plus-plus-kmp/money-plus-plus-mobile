@@ -1,5 +1,5 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -7,6 +7,16 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val appVersionName =
+    project.property("VERSION_MAJOR").toString() + "." + project.property("VERSION_MINOR")
+        .toString()
 
 kotlin {
     androidTarget {
@@ -59,7 +69,7 @@ android {
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
-        versionName = "1.0"
+        versionName = appVersionName
     }
     packaging {
         resources {
@@ -67,13 +77,48 @@ android {
         }
     }
     buildTypes {
-        getByName("release") {
+        getByName("debug") {
             isMinifyEnabled = false
+            isShrinkResources = false
+        }
+
+        getByName("release") {
+            isMinifyEnabled = true
+            isShrinkResources = true
+            isCrunchPngs = true
         }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    flavorDimensions += "environment"
+
+    productFlavors {
+        create("development") {
+            dimension = "environment"
+            applicationIdSuffix = ".dev"
+            versionNameSuffix = "-dev"
+            val baseUrl = localProperties.getProperty("BASE_URL_DEVELOPMENT", "")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        }
+        create("staging") {
+            dimension = "environment"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+            val baseUrl = localProperties.getProperty("BASE_URL_STAGING", "")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        }
+        create("production") {
+            dimension = "environment"
+            val baseUrl = localProperties.getProperty("BASE_URL_PRODUCTION", "")
+            buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
+        }
     }
 }
 
@@ -81,3 +126,35 @@ dependencies {
     debugImplementation(compose.uiTooling)
 }
 
+tasks.register("generateEnvironmentXcconfig") {
+    val developmentUrl = localProperties.getProperty("BASE_URL_DEVELOPMENT", "")
+    val stagingUrl = localProperties.getProperty("BASE_URL_STAGING", "")
+    val productionUrl = localProperties.getProperty("BASE_URL_PRODUCTION", "")
+    val buildType = providers.environmentVariable("CONFIGURATION").orNull ?: ""
+
+    val baseUrl = when {
+        buildType.endsWith("Staging", ignoreCase = true) -> stagingUrl
+        buildType.endsWith("Production", ignoreCase = true) -> productionUrl
+        else -> developmentUrl
+    }
+
+    val outputFileProperty =
+        project.layout.buildDirectory.file("generated/ios/environment.xcconfig")
+
+    doLast {
+        val outputFile = outputFileProperty.get().asFile
+        outputFile.parentFile.mkdirs()
+
+        outputFile.writeText(
+            """
+          SLASH = /
+          BASE_URL = ${baseUrl.replace("//", "$(SLASH)$(SLASH)")}
+          CFBundleShortVersionString = $appVersionName
+        """.trimIndent()
+        )
+    }
+}
+
+tasks.named("embedAndSignAppleFrameworkForXcode") {
+    dependsOn(tasks.named("generateEnvironmentXcconfig"))
+}

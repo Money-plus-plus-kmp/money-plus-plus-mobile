@@ -20,6 +20,7 @@ kotlin {
 
         }
         iosMain.dependencies {
+
         }
     }
 }

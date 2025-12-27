@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
@@ -6,11 +9,23 @@ plugins {
 }
 
 kotlin {
+    jvm()
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
 
-    // Target declarations - add or remove as needed below. These define
-    // which platforms this KMP module supports.
-    // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
+    val iosX64 = iosX64()
+    val iosArm64 = iosArm64()
+    val iosSimulatorArm64 = iosSimulatorArm64()
 
+    listOf(iosX64, iosArm64, iosSimulatorArm64).forEach { target: KotlinNativeTarget ->
+        target.binaries.framework {
+            baseName = "DesignSystem"
+            isStatic = true
+        }
+    }
 
     sourceSets {
         commonMain {
