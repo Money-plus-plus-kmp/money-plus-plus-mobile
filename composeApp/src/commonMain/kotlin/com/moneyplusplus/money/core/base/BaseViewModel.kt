@@ -6,25 +6,25 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEffect>(
-    initialState: S
+abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
+    initialState: State
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(initialState)
-    val state: StateFlow<S> = _state.asStateFlow()
+    val state: StateFlow<State> = _state.asStateFlow()
 
-    protected val currentState: S get() = _state.value
+    protected val currentState: State get() = _state.value
 
-    private val _effect = Channel<E>(Channel.BUFFERED)
-    val effect: Flow<E> = _effect.receiveAsFlow()
+    private val _effect = Channel<Effect>(Channel.BUFFERED)
+    val effect: Flow<Effect> = _effect.receiveAsFlow()
 
-    abstract fun handleIntent(intent: I)
+    abstract fun handleIntent(intent: Intent)
 
-    protected fun updateState(reduce: S.() -> S) {
+    protected fun updateState(reduce: State.() -> State) {
         _state.update { it.reduce() }
     }
 
-    protected fun sendEffect(effect: E) {
+    protected fun sendEffect(effect: Effect) {
         viewModelScope.launch { _effect.send(effect) }
     }
 
@@ -32,3 +32,24 @@ abstract class BaseViewModel<S : UiState, I : UiIntent, E : UiEffect>(
         viewModelScope.launch { block() }
     }
 }
+
+
+/**
+ * Interface for all one-time side effects.
+ * Implement this in your feature's Effect sealed interface.
+ */
+interface UiEffect
+
+
+/**
+ * Interface for all user intents/events.
+ * Implement this in your feature's Event sealed interface.
+ */
+interface UiIntent
+
+
+/**
+ * Interface for all UI states.
+ * Implement this in your feature's State data class.
+ */
+interface UiState
