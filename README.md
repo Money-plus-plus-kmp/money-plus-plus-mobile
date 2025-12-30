@@ -12,6 +12,12 @@ This is a Kotlin Multiplatform project targeting Android, iOS.
 * [/iosApp](./iosApp/iosApp) contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform,
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
 
+
+### Documentation
+
+*   [**Architecture Guide**](./docs/ARCHITECTURE_GUIDE.md): Learn about the MVI architecture, BaseViewModel, and see usage examples.
+*   [**Presentation Conventions**](./docs/PRESENTATION_CONVENTIONS.md): Naming and structure conventions for the associated UI/Presentation layer.
+
 ### Build and Run Android Application
 
 To build and run the development version of the Android app, use the run configuration from the run widget
