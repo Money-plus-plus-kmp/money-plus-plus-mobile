@@ -2,7 +2,7 @@ package com.moneyplusplus.design_system.theme.color.scheme
 
 import androidx.compose.ui.graphics.Color
 
-val LightColorScheme = ColorScheme(
+internal val LightColorScheme = ColorScheme(
     primary = ColorScheme.Primary(
         primary = Color(0xFFDC143C),
         variant = Color(0xFFFEF1F4)

@@ -12,7 +12,7 @@ import money.design_system.generated.resources.Rubik_SemiBold
 import org.jetbrains.compose.resources.Font
 
 @Composable
-fun createAppTypography(): Typography {
+internal fun createAppTypography(): Typography {
     val rubickFontFamily = FontFamily(
         Font(Res.font.Rubik_Regular, FontWeight.Normal),
         Font(Res.font.Rubik_Medium, FontWeight.Medium),

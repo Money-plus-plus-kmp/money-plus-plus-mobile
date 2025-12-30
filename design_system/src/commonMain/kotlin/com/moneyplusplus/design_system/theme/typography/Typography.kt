@@ -32,4 +32,4 @@ data class Typography(
     )
 }
 
-val LocalTypography = staticCompositionLocalOf<Typography> { error("No Typography provided") }
+internal val LocalTypography = staticCompositionLocalOf<Typography> { error("No Typography provided") }
