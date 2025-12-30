@@ -27,15 +27,15 @@ internal val LightColorScheme = ColorScheme(
     ),
     disable = Color(0xFFDDE1E4),
     accent = ColorScheme.Accent(
-        red = ColorScheme.Red(
+        red = ColorScheme.Accent.Red(
             red = Color(0xFFE54F40),
             redVariant = Color(0xFFFEEDEC)
         ),
-        yellow = ColorScheme.Yellow(
+        yellow = ColorScheme.Accent.Yellow(
             yellow = Color(0xFFF5A623),
             yellowVariant = Color(0xFFFEF3E1)
         ),
-        green = ColorScheme.Green(
+        green = ColorScheme.Accent.Green(
             green = Color(0xFF51AC46),
             greenVariant = Color(0xFFF1F9F1)
         )

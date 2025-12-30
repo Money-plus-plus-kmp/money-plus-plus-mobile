@@ -42,22 +42,22 @@ data class ColorScheme(
         val red: Red,
         val yellow: Yellow,
         val green: Green
-    )
+    ) {
+        data class Red(
+            val red: Color,
+            val redVariant: Color
+        )
 
-    data class Red(
-        val red: Color,
-        val redVariant: Color
-    )
+        data class Yellow(
+            val yellow: Color,
+            val yellowVariant: Color
+        )
 
-    data class Yellow(
-        val yellow: Color,
-        val yellowVariant: Color
-    )
-
-    data class Green(
-        val green: Color,
-        val greenVariant: Color
-    )
+        data class Green(
+            val green: Color,
+            val greenVariant: Color
+        )
+    }
 }
 
 internal val LocalColorScheme = staticCompositionLocalOf { LightColorScheme }
