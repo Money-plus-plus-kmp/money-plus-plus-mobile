@@ -28,8 +28,17 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         viewModelScope.launch { _effect.send(effect) }
     }
 
-    protected fun launch(block: suspend () -> Unit) {
-        viewModelScope.launch { block() }
+    protected fun tryExecute(
+        onError: (suspend (Throwable) -> Unit)? = null,
+        block: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (e: Exception) {
+                onError?.invoke(e)
+            }
+        }
     }
 }
 

@@ -47,8 +47,17 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         viewModelScope.launch { _effect.send(effect) }
     }
 
-    protected fun launch(block: suspend () -> Unit) {
-        viewModelScope.launch { block() }
+    protected fun tryExecute(
+        onError: (suspend (Throwable) -> Unit)? = null,
+        block: suspend () -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                block()
+            } catch (e: Exception) {
+                onError?.invoke(e)
+            }
+        }
     }
 }
 ```
@@ -153,19 +162,19 @@ class LoginViewModel : BaseViewModel<LoginState, LoginIntent, LoginEffect>(
     }
 
     private fun login() {
-        launch {
-            updateState { copy(isLoading = true, error = null) }
-            try {
-                // Simulate network call
-                // performLogin(currentState.email)
-                
-                sendEffect(LoginEffect.NavigateToHome)
-            } catch (e: Exception) {
-                updateState { copy(error = e.message) }
+        tryExecute(
+            onError = { e ->
+                updateState { copy(isLoading = false, error = e.message) }
                 sendEffect(LoginEffect.ShowToast("Login Failed"))
-            } finally {
-                updateState { copy(isLoading = false) }
             }
+        ) {
+            updateState { copy(isLoading = true, error = null) }
+            
+            // Simulate network call
+            // performLogin(currentState.email)
+                
+            updateState { copy(isLoading = false) }
+            sendEffect(LoginEffect.NavigateToHome)
         }
     }
 }
