@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_new_account">إنشاء حساب جديد</string>
+    <string name="create_account">إنشاء حساب</string>
+    <string name="start_control_money">إبدأ التحكم بأموالك</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="name">الاسم</string>
+    <string name="password">الرقم السري</string>
+    <string name="password_hint">* استخدم 8 أحرف على الأقل، يحتوي على حرف كبير واحد ورمز واحد على الأقل.</string>
+    <string name="back_button">زر الرجوع</string>
+    <string name="money_logo">شعار المال</string>
+</resources>

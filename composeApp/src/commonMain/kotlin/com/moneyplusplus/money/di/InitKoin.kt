@@ -1,6 +1,8 @@
 package com.moneyplusplus.money.di
 
+import com.moneyplusplus.presentation.auth.create_account.CreateAccountViewModel
 import org.koin.core.context.startKoin
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
@@ -16,5 +18,5 @@ fun doInitKoin() {
 }
 
 val appModule = module {
-    // defined modules will go here
+    singleOf(::CreateAccountViewModel)
 }
