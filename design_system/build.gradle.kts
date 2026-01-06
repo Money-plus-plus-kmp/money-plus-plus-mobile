@@ -36,7 +36,6 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
-                implementation(compose.uiTooling)
                 implementation(compose.material3)
             }
         }
@@ -71,4 +70,7 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+}
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
