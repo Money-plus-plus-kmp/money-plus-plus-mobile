@@ -14,7 +14,7 @@ kotlin {
 
         }
         commonMain.dependencies {
-
+            implementation(projects.domain)
         }
         commonTest.dependencies {
 
