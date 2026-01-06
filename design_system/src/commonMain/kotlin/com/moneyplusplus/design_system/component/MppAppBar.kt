@@ -43,7 +43,6 @@ fun MppAppBar(
     titleColor: Color = Theme.colorScheme.title,
     backgroundColor: Color = Theme.colorScheme.surface.surfaceLow,
     contentPadding: PaddingValues = PaddingValues(vertical = 16.dp, horizontal = 12.dp),
-    onTitleClick: (() -> Unit) = {},
     onLeadingClick: (() -> Unit) = {},
     leadingIcon: Painter? = null,
     trailingContent: (@Composable () -> Unit)? = null
@@ -63,10 +62,9 @@ fun MppAppBar(
             )
         }
 
-        MppTextType.DatePicker -> {
-            MppAppBarDatePickerContent(
+        MppTextType.Date -> {
+            MppAppBarDateContent(
                 title = title,
-                onTitleClick = onTitleClick,
                 titleStyle = titleStyle,
                 titleColor = titleColor,
                 trailingContent = trailingContent,
@@ -130,14 +128,13 @@ private fun MppAppBarTitleContent(
 }
 
 @Composable
-private fun MppAppBarDatePickerContent(
+private fun MppAppBarDateContent(
     title: String,
     titleStyle: TextStyle,
     titleColor: Color,
     backgroundColor: Color,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
-    onTitleClick: () -> Unit,
     trailingContent: (@Composable () -> Unit)? = null
 ) {
     Row(
@@ -155,7 +152,6 @@ private fun MppAppBarDatePickerContent(
                     shape = RoundedCornerShape(100.dp)
                 )
                 .clip(RoundedCornerShape(100.dp))
-                .clickable(onClick = onTitleClick)
                 .padding(horizontal = 8.dp, vertical = 5.dp)
             ,
             verticalAlignment = Alignment.CenterVertically,
@@ -186,7 +182,7 @@ private fun MppAppBarDatePickerContent(
 
 enum class MppTextType {
     Title,
-    DatePicker,
+    Date,
 }
 
 @Composable
@@ -243,7 +239,7 @@ fun MppAppBarDataPickerPreview() {
     MoneyTheme {
         MppAppBar(
             title = "September, 2025",
-            textType = MppTextType.DatePicker,
+            textType = MppTextType.Date,
             titleStyle = Theme.typography.label.small,
             trailingContent = {
                 Icon(
