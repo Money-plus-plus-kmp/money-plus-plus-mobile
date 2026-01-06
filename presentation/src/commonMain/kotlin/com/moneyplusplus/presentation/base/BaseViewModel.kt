@@ -1,4 +1,4 @@
-package com.moneyplusplus.money.core.base
+package com.moneyplusplus.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,16 +28,19 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         viewModelScope.launch { _effect.send(effect) }
     }
 
-    protected fun tryExecute(
-        onError: (suspend (Throwable) -> Unit)? = null,
-        block: suspend () -> Unit
+    protected fun <T> tryExecute(
+        block: suspend () -> T,
+        onStart: suspend () -> Unit = {},
+        onSuccess: suspend (T) -> Unit = {},
+        onError: suspend (Throwable) -> Unit = {},
+        onCompleted: suspend () -> Unit = {},
     ) {
         viewModelScope.launch {
-            try {
-                block()
-            } catch (e: Exception) {
-                onError?.invoke(e)
-            }
+            onStart()
+            runCatching { block() }
+                .onSuccess { onSuccess(it) }
+                .onFailure { onError(it) }
+            onCompleted()
         }
     }
 }
