@@ -17,7 +17,7 @@ The architecture is built around three main concepts:
 All ViewModels should extend `BaseViewModel`. This base class handles the boilerplate for managing state, processing intents, and emitting effects.
 
 ```kotlin
-package com.moneyplusplus.money.core.base
+package com.moneyplusplus.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -47,16 +47,19 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         viewModelScope.launch { _effect.send(effect) }
     }
 
-    protected fun tryExecute(
-        onError: (suspend (Throwable) -> Unit)? = null,
-        block: suspend () -> Unit
+    protected fun <T> tryExecute(
+        block: suspend () -> T,
+        onStart: suspend () -> Unit = {},
+        onSuccess: suspend (T) -> Unit = {},
+        onError: suspend (Throwable) -> Unit = {},
+        onCompleted: suspend () -> Unit = {},
     ) {
         viewModelScope.launch {
-            try {
-                block()
-            } catch (e: Exception) {
-                onError?.invoke(e)
-            }
+            onStart()
+            runCatching { block() }
+                .onSuccess { onSuccess(it) }
+                .onFailure { onError(it) }
+            onCompleted()
         }
     }
 }
@@ -163,19 +166,20 @@ class LoginViewModel : BaseViewModel<LoginState, LoginIntent, LoginEffect>(
 
     private fun login() {
         tryExecute(
+            block = {
+                // Simulate network call
+                // performLogin(currentState.email)
+            },
+            onStart = { updateState { copy(isLoading = true, error = null) } },
+            onSuccess = {
+                sendEffect(LoginEffect.NavigateToHome)
+            },
             onError = { e ->
-                updateState { copy(isLoading = false, error = e.message) }
+                updateState { copy(error = e.message) }
                 sendEffect(LoginEffect.ShowToast("Login Failed"))
-            }
-        ) {
-            updateState { copy(isLoading = true, error = null) }
-            
-            // Simulate network call
-            // performLogin(currentState.email)
-                
-            updateState { copy(isLoading = false) }
-            sendEffect(LoginEffect.NavigateToHome)
-        }
+            },
+            onCompleted = { updateState { copy(isLoading = false) } }
+        )
     }
 }
 ```

@@ -1,4 +1,4 @@
-package com.moneyplusplus.money.core.base
+package com.moneyplusplus.presentation.base
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
