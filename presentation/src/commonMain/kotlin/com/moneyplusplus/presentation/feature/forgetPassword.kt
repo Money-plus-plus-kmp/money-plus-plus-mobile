@@ -142,7 +142,7 @@ fun ForgetPasswordHeader(
             modifier = Modifier.padding(top = 50.dp)
                 .size(width = 82.dp, height = 112.dp)
                 .offset(y = (-24).dp)
-                .zIndex(1f)
+
         )
     }
 }
