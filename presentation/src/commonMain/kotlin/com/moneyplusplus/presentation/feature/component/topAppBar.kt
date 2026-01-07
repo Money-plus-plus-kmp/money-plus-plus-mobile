@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -34,7 +35,9 @@ fun TopAppBar(
             .background(Theme.colorScheme.surface.surfaceLow),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
+        Icon(
+            painter = painterResource(Res.drawable.arrow_left_04),
+            contentDescription = stringResource(Res.string.arrow_left),
             modifier = Modifier
                 .padding(
                     start = 16.dp,
@@ -44,23 +47,16 @@ fun TopAppBar(
                 )
                 .clip(CircleShape)
                 .background(Theme.colorScheme.surface.surfaceHigh)
+                .padding(10.dp)
+                .size(20.dp)
         )
-        {
-            Icon(
-                painter = painterResource(Res.drawable.arrow_left_04),
-                contentDescription = stringResource(Res.string.arrow_left),
-                modifier = Modifier
-                    .padding(10.dp)
-                    .size(20.dp)
 
-            )
-        }
 
         Text(
             text = stringResource(Res.string.forget_password),
-            style = Theme.typography.title.small,
-            modifier = Modifier.weight(1f)
+            style = Theme.typography.title.small
         )
+        Spacer(modifier = Modifier.weight(1f))
         Image(
             painter = painterResource(Res.drawable.money),
             contentDescription = stringResource(Res.string.money),

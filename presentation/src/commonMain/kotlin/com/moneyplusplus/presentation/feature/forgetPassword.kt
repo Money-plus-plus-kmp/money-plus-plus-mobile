@@ -79,8 +79,9 @@ fun ForgetPassword(
             verticalArrangement = Arrangement.SpaceBetween
         ) {
             OutlinedTextField(
+                //TODO: add value and onValueChange
                 value = "",
-                onValueChange = {},
+                onValueChange = {/*TODO*/},
                 leadingIcon = {
                     Icon(
                         painterResource(Res.drawable.ic_email),
@@ -127,7 +128,7 @@ fun ForgetPasswordHeader(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 23.dp),
+            .padding(top = 24.dp),
         contentAlignment = Alignment.TopCenter
     ) {
 
@@ -139,10 +140,8 @@ fun ForgetPasswordHeader(
             painter = painterResource(Res.drawable.close),
             contentDescription = stringResource(Res.string.close),
             contentScale = ContentScale.Crop,
-            modifier = Modifier.padding(top = 50.dp)
+            modifier = Modifier.padding(top = 25.dp)
                 .size(width = 82.dp, height = 112.dp)
-                .offset(y = (-24).dp)
-
         )
     }
 }
