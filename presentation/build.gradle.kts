@@ -16,6 +16,8 @@ kotlin {
             dependencies {
                 // Compose
                 implementation(compose.runtime)
+                implementation(compose.material3)
+                implementation(projects.designSystem)
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -30,6 +32,7 @@ kotlin {
         }
         androidMain {
             dependencies {
+                implementation(libs.androidx.ui.tooling)
             }
         }
         iosMain {
