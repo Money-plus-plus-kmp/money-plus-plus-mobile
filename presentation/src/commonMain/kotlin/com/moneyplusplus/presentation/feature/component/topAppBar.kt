@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.theme.theme.Theme
 import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.arrow_left
 import money.presentation.generated.resources.arrow_left_04
 import money.presentation.generated.resources.forget_password
 import money.presentation.generated.resources.money
@@ -47,7 +48,7 @@ fun TopAppBar(
         {
             Icon(
                 painter = painterResource(Res.drawable.arrow_left_04),
-                contentDescription = "arrow left",
+                contentDescription = stringResource(Res.string.arrow_left),
                 modifier = Modifier
                     .padding(10.dp)
                     .size(20.dp)
