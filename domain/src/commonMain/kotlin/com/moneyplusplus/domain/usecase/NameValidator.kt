@@ -3,6 +3,7 @@ package com.moneyplusplus.domain.usecase
 import com.moneyplusplus.domain.exception.AppException
 
 class NameValidator {
+
     operator fun invoke(name: String) {
         when {
             name.isBlank() ->
