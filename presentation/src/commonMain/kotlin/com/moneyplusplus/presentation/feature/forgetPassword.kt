@@ -122,7 +122,7 @@ fun ForgetPassword(
 }
 
 @Composable
-fun ForgetPasswordHeader(
+private fun ForgetPasswordHeader(
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -147,7 +147,7 @@ fun ForgetPasswordHeader(
 }
 
 @Composable
-fun ForgetPasswordHeaderText(
+private fun ForgetPasswordHeaderText(
     modifier: Modifier = Modifier
 ) {
     Column(
