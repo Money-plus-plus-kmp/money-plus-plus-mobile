@@ -47,7 +47,7 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         }
     }
 
-    protected fun mapExceptionToErrorState(throwable: Throwable): ErrorState {
+    private fun mapExceptionToErrorState(throwable: Throwable): ErrorState {
         val appException = throwable as AppException
         return ErrorState(
             message = mapExceptionsToMessage(appException),
@@ -56,7 +56,7 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
 
     }
 
-    protected fun mapExceptionsToMessage(exception: AppException): StringResource {
+    private fun mapExceptionsToMessage(exception: AppException): StringResource {
         when(exception){
             is AppException.AuthenticationException.EmptyEmail -> TODO()
             is AppException.AuthenticationException.EmptyName -> TODO()
