@@ -2,9 +2,12 @@ package com.moneyplusplus.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.moneyplusplus.domain.exception.AppException
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import money.presentation.generated.resources.Res
+import org.jetbrains.compose.resources.StringResource
 
 abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
     initialState: State
@@ -32,19 +35,44 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         block: suspend () -> T,
         onStart: suspend () -> Unit = {},
         onSuccess: suspend (T) -> Unit = {},
-        onError: suspend (Throwable) -> Unit = {},
+        onError: suspend (ErrorState) -> Unit = {},
         onCompleted: suspend () -> Unit = {},
     ) {
         viewModelScope.launch {
             onStart()
             runCatching { block() }
                 .onSuccess { onSuccess(it) }
-                .onFailure { onError(it) }
+                .onFailure { onError(mapExceptionToErrorState(it)) }
             onCompleted()
         }
     }
-}
 
+    protected fun mapExceptionToErrorState(throwable: Throwable): ErrorState {
+        val appException = throwable as AppException
+        return ErrorState(
+            message = mapExceptionsToMessage(appException),
+            exception = appException
+        )
+
+    }
+
+    protected fun mapExceptionsToMessage(exception: AppException): StringResource {
+        when(exception){
+            is AppException.AuthenticationException.EmptyEmail -> TODO()
+            is AppException.AuthenticationException.EmptyName -> TODO()
+            is AppException.AuthenticationException.EmptyPassword -> TODO()
+            is AppException.AuthenticationException.InvalidEmail -> TODO()
+            is AppException.AuthenticationException.InvalidPassword -> TODO()
+            is AppException.AuthenticationException.InvalidUserCredential -> TODO()
+            is AppException.AuthenticationException.InvalidUserName -> TODO()
+            is AppException.NetworkException.NoInternetException -> TODO()
+            is AppException.NetworkException.UnAuthorizedException -> TODO()
+            is AppException.NetworkException.UnKnownNetworkException -> TODO()
+            is AppException.UnknownException -> TODO()
+        }
+    }
+
+}
 
 /**
  * Interface for all one-time side effects.
