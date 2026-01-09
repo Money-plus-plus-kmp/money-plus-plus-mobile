@@ -40,9 +40,7 @@ fun TopAppBar(
             painter = painterResource(Res.drawable.arrow_left_04),
             contentDescription = stringResource(Res.string.arrow_left),
             modifier = Modifier
-                .padding(
-                end = 8.dp
-            )
+                .padding(end = 8.dp)
                 .clip(CircleShape)
                 .background(Theme.colorScheme.surface.surfaceHigh)
                 .padding(10.dp)

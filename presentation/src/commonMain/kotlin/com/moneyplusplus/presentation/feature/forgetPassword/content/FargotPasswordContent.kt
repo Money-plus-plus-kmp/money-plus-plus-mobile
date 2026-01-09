@@ -33,6 +33,11 @@ fun ForgetPasswordContent(
     isEnabled: Boolean,
     modifier: Modifier = Modifier
 ){
+    val buttonBackground = if (isEnabled) {
+        Theme.colorScheme.primary.primary
+    } else {
+        Theme.colorScheme.disable
+    }
     Column(
         modifier = modifier.fillMaxSize()
             .verticalScroll(rememberScrollState())
@@ -68,7 +73,7 @@ fun ForgetPasswordContent(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
                 .background(
-                    color = Theme.colorScheme.primary.primary,
+                    color = buttonBackground,
                     shape = RoundedCornerShape(16.dp)
                 ),
             colors = ButtonDefaults.buttonColors(
