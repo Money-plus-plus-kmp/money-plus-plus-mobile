@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.StringResource
 
-abstract class BaseViewModel<State : BaseViewModel.UiState, Intent : BaseViewModel.UiIntent, Effect : BaseViewModel.UiEffect>(
+abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
     initialState: State
 ) : ViewModel() {
 
@@ -72,7 +72,7 @@ abstract class BaseViewModel<State : BaseViewModel.UiState, Intent : BaseViewMod
             AppException.ValidationException.Name.Empty -> TODO()
         }
 
-
+}
     /**
      * Interface for all one-time side effects.
      * Implement this in your feature's Effect sealed interface.
@@ -92,4 +92,3 @@ abstract class BaseViewModel<State : BaseViewModel.UiState, Intent : BaseViewMod
      * Implement this in your feature's State data class.
      */
     interface UiState
-}
