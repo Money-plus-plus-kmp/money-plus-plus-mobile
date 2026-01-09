@@ -41,6 +41,7 @@ mockk = "1.14.7"
 pagingTesting = "3.3.6"
 multiplatformSettings = "1.3.0"
 junitJupiter = "5.8.1"
+turbineVersion = "1.0.0"
 uiTooling = "1.9.4"
 runner = "1.5.2"
 core = "1.5.0"
@@ -77,6 +78,7 @@ coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
+mokkery-coroutines = { module = "dev.mokkery:mokkery-coroutines", version.ref = "mockkery" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 kermit = { module = "co.touchlab:kermit", version.ref = "kermit" }
@@ -129,6 +131,7 @@ androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", v
 
 # DataStore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
+turbine-v100 = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 
 
 [plugins]

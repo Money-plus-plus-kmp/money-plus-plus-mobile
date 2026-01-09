@@ -4,12 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.moneyplusplus.domain.exception.AppException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import money.presentation.generated.resources.Res
 import org.jetbrains.compose.resources.StringResource
 
-abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
+abstract class BaseViewModel<State : BaseViewModel.UiState, Intent : BaseViewModel.UiIntent, Effect : BaseViewModel.UiEffect>(
     initialState: State
 ) : ViewModel() {
 
@@ -56,40 +60,36 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
 
     }
 
-    private fun mapExceptionsToMessage(exception: AppException): StringResource {
-        when(exception){
-            is AppException.AuthenticationException.EmptyEmail -> TODO()
-            is AppException.AuthenticationException.EmptyName -> TODO()
-            is AppException.AuthenticationException.EmptyPassword -> TODO()
-            is AppException.AuthenticationException.InvalidEmail -> TODO()
-            is AppException.AuthenticationException.InvalidPassword -> TODO()
-            is AppException.AuthenticationException.InvalidUserCredential -> TODO()
-            is AppException.AuthenticationException.InvalidUserName -> TODO()
-            is AppException.NetworkException.NoInternetException -> TODO()
-            is AppException.NetworkException.UnAuthorizedException -> TODO()
-            is AppException.NetworkException.UnKnownNetworkException -> TODO()
-            is AppException.UnknownException -> TODO()
+
+    private fun mapExceptionsToMessage(appException: AppException): StringResource =
+        when (appException) {
+            AppException.AuthException.EmailAlreadyExists -> TODO()
+            AppException.AuthException.InvalidCredentials -> TODO()
+            AppException.ValidationException.Email.Empty -> TODO()
+            AppException.ValidationException.Email.InvalidEmail -> TODO()
+            AppException.ValidationException.Password.Empty -> TODO()
+            AppException.ValidationException.Password.InvalidPassword -> TODO()
+            AppException.ValidationException.Name.Empty -> TODO()
         }
-    }
 
+
+    /**
+     * Interface for all one-time side effects.
+     * Implement this in your feature's Effect sealed interface.
+     */
+    interface UiEffect
+
+
+    /**
+     * Interface for all user intents/events.
+     * Implement this in your feature's Event sealed interface.
+     */
+    interface UiIntent
+
+
+    /**
+     * Interface for all UI states.
+     * Implement this in your feature's State data class.
+     */
+    interface UiState
 }
-
-/**
- * Interface for all one-time side effects.
- * Implement this in your feature's Effect sealed interface.
- */
-interface UiEffect
-
-
-/**
- * Interface for all user intents/events.
- * Implement this in your feature's Event sealed interface.
- */
-interface UiIntent
-
-
-/**
- * Interface for all UI states.
- * Implement this in your feature's State data class.
- */
-interface UiState
