@@ -30,8 +30,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun ForgetPasswordScreen(
-    modifier: Modifier = Modifier,
-    isEnable: Boolean = false
+    isEnable: Boolean = false,
+    modifier: Modifier = Modifier
 ) {
 
     Column(
