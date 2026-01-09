@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.feature.component
+package com.moneyplusplus.presentation.feature.forgetPassword.component
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,7 +32,8 @@ fun TopAppBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(Theme.colorScheme.surface.surfaceLow),
+            .background(Theme.colorScheme.surface.surfaceLow)
+            .padding(vertical = 12.dp, horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
@@ -40,11 +41,8 @@ fun TopAppBar(
             contentDescription = stringResource(Res.string.arrow_left),
             modifier = Modifier
                 .padding(
-                    start = 16.dp,
-                    top = 12.dp,
-                    bottom = 12.dp,
-                    end = 8.dp
-                )
+                end = 8.dp
+            )
                 .clip(CircleShape)
                 .background(Theme.colorScheme.surface.surfaceHigh)
                 .padding(10.dp)
@@ -54,13 +52,17 @@ fun TopAppBar(
 
         Text(
             text = stringResource(Res.string.forget_password),
-            style = Theme.typography.title.small
+            style = Theme.typography.title.small,
+            color = Theme.colorScheme.title
         )
+
         Spacer(modifier = Modifier.weight(1f))
+
         Image(
             painter = painterResource(Res.drawable.money),
             contentDescription = stringResource(Res.string.money),
-            modifier = Modifier.padding(start = 8.dp, end = 16.dp)
+            modifier = Modifier
+                .padding(start = 8.dp)
                 .size(width = 65.dp, height = 25.dp)
         )
     }
