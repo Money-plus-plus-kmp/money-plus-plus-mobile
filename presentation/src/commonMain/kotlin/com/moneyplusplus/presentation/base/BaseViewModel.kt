@@ -73,22 +73,22 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         }
 
 }
-    /**
-     * Interface for all one-time side effects.
-     * Implement this in your feature's Effect sealed interface.
-     */
-    interface UiEffect
+/**
+ * Interface for all one-time side effects.
+ * Implement this in your feature's Effect sealed interface.
+ */
+interface UiEffect
 
 
-    /**
-     * Interface for all user intents/events.
-     * Implement this in your feature's Event sealed interface.
-     */
-    interface UiIntent
+/**
+ * Interface for all user intents/events.
+ * Implement this in your feature's Event sealed interface.
+ */
+interface UiIntent
 
 
-    /**
-     * Interface for all UI states.
-     * Implement this in your feature's State data class.
-     */
-    interface UiState
+/**
+ * Interface for all UI states.
+ * Implement this in your feature's State data class.
+ */
+interface UiState
