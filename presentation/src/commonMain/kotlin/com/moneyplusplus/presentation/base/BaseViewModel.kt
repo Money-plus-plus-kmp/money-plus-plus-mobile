@@ -2,16 +2,9 @@ package com.moneyplusplus.presentation.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.moneyplusplus.domain.exception.AppException
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import org.jetbrains.compose.resources.StringResource
 
 abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffect>(
     initialState: State
@@ -39,40 +32,20 @@ abstract class BaseViewModel<State : UiState, Intent : UiIntent, Effect : UiEffe
         block: suspend () -> T,
         onStart: suspend () -> Unit = {},
         onSuccess: suspend (T) -> Unit = {},
-        onError: suspend (ErrorState) -> Unit = {},
+        onError: suspend (Throwable) -> Unit = {},
         onCompleted: suspend () -> Unit = {},
     ) {
         viewModelScope.launch {
             onStart()
             runCatching { block() }
                 .onSuccess { onSuccess(it) }
-                .onFailure { onError(mapExceptionToErrorState(it)) }
+                .onFailure { onError(it) }
             onCompleted()
         }
     }
-
-    private fun mapExceptionToErrorState(throwable: Throwable): ErrorState {
-        val appException = throwable as AppException
-        return ErrorState(
-            message = mapExceptionsToMessage(appException),
-            exception = appException
-        )
-
-    }
-
-
-    private fun mapExceptionsToMessage(appException: AppException): StringResource =
-        when (appException) {
-            AppException.AuthException.EmailAlreadyExists -> TODO()
-            AppException.AuthException.InvalidCredentials -> TODO()
-            AppException.ValidationException.Email.Empty -> TODO()
-            AppException.ValidationException.Email.InvalidEmail -> TODO()
-            AppException.ValidationException.Password.Empty -> TODO()
-            AppException.ValidationException.Password.InvalidPassword -> TODO()
-            AppException.ValidationException.Name.Empty -> TODO()
-        }
-
 }
+
+
 /**
  * Interface for all one-time side effects.
  * Implement this in your feature's Effect sealed interface.

@@ -1,26 +1,27 @@
 package com.moneyplusplus.domain.exception
 
 
-sealed class AppException : Exception() {
-    sealed class ValidationException : AppException() {
+sealed class AppException : Exception()
 
-        sealed class Email : ValidationException() {
-            data object Empty : Email()
-            data object InvalidEmail : Email()
-        }
+sealed class AuthenticationException : AppException() {
+    class EmailAlreadyExists : AuthenticationException()
+    class InvalidCredentials : AuthenticationException()
+}
 
-        sealed class Password : ValidationException() {
-            data object Empty : Password()
-            data object InvalidPassword : Password()
-        }
+sealed class ValidationException : AppException() {
 
-        sealed class Name : ValidationException() {
-           data object Empty : Name()
-        }
+    sealed class Email : ValidationException() {
+        class Empty : Email()
+        class InvalidFormat : Email()
     }
 
-    sealed class AuthException : AppException() {
-        data object EmailAlreadyExists : AuthException()
-        data object InvalidCredentials : AuthException()
+    sealed class Password : ValidationException() {
+        class Empty : Password()
+        class TooShort : Password()
+    }
+
+    sealed class Name : ValidationException() {
+        class Empty : Name()
+        class TooShort : Name()
     }
 }
