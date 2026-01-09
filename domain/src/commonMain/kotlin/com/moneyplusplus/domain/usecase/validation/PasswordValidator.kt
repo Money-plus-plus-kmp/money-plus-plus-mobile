@@ -11,8 +11,10 @@ class PasswordValidator {
             password.isBlank() ->
                 throw Empty()
 
-            password.length < 8 ->
+            password.length < MIN_LENGTH ->
                 throw TooShort()
         }
     }
+
+    private val MIN_LENGTH = 8
 }

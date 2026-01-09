@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import com.moneyplusplus.domain.usecase.validation.NameValidator
-import com.moneyplusplus.domain.exception.AppException.ValidationException.Name.Empty
+import com.moneyplusplus.domain.exception.ValidationException.Name.Empty
 
 class NameValidatorTest {
 
