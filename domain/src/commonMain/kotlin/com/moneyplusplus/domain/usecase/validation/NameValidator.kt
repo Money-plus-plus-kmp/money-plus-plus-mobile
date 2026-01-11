@@ -7,7 +7,7 @@ class NameValidator {
     operator fun invoke(name: String) {
         when {
             name.isBlank() ->
-                throw Empty()
+                throw Empty
         }
     }
 }

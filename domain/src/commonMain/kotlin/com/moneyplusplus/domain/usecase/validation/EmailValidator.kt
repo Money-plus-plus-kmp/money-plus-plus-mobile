@@ -1,6 +1,7 @@
 package com.moneyplusplus.domain.usecase.validation
 
-import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidFormat
+import com.moneyplusplus.domain.exception.ValidationException
+import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidEmail
 import com.moneyplusplus.domain.exception.ValidationException.Email.Empty
 
 class EmailValidator {
@@ -14,10 +15,10 @@ class EmailValidator {
     operator fun invoke(email: String) {
         when {
             email.isBlank() ->
-                throw Empty()
+                throw Empty
 
             !emailRegex.matches(email) ->
-                throw InvalidFormat()
+                throw InvalidEmail
         }
     }
 }

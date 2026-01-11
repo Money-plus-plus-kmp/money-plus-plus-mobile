@@ -17,7 +17,7 @@ sealed class ValidationException : AppException() {
 
     sealed class Password : ValidationException() {
         data object Empty : Password()
-        data object TooShort : Password()
+        data object InvalidPassword : Password()
     }
 
     sealed class Name : ValidationException() {

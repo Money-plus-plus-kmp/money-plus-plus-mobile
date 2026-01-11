@@ -4,7 +4,7 @@ import kotlin.test.Test
 import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 import com.moneyplusplus.domain.exception.ValidationException.Email.Empty
-import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidFormat
+import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidEmail
 import com.moneyplusplus.domain.usecase.validation.EmailValidator
 
 class EmailValidatorTest {
@@ -20,7 +20,7 @@ class EmailValidatorTest {
 
     @Test
     fun `invalid email should throw InvalidEmail`() {
-        assertFailsWith<InvalidFormat> {
+        assertFailsWith<InvalidEmail> {
             validator(INVALID_EMAIL)
         }
     }
