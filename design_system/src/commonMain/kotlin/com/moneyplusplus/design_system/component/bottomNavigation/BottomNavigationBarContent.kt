@@ -1,8 +1,6 @@
 package com.moneyplusplus.design_system.component.bottomNavigation
 
-import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.spring
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -24,6 +22,7 @@ import androidx.compose.ui.graphics.shadow.Shadow
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.moneyplusplus.design_system.theme.animation.springAnimation
 import com.moneyplusplus.design_system.theme.theme.Theme
 
 
@@ -39,10 +38,7 @@ fun BottomNavigationBarContent(
         val indicatorWidth = itemWidth - 40.dp
         val indicatorOffset by animateDpAsState(
             targetValue = selectedItemIndex * itemWidth,
-            animationSpec = spring(
-                dampingRatio = Spring.DampingRatioLowBouncy,
-                stiffness = Spring.StiffnessMediumLow
-            )
+            animationSpec = springAnimation()
         )
 
         Row(

@@ -1,9 +1,7 @@
 package com.moneyplusplus.design_system.component.chip
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +24,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.theme.animation.easingAnimation
 import com.moneyplusplus.design_system.theme.theme.Theme
 
 @Composable
@@ -41,27 +40,18 @@ fun Chip(
     val containerColor by animateColorAsState(
         if (isSelected) Theme.colorScheme.primary.primary
         else Theme.colorScheme.surface.surfaceLow,
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = EaseInOut
-        )
+        animationSpec = easingAnimation()
     )
     val contentColor by animateColorAsState(
         if (isSelected) Theme.colorScheme.onPrimary.onPrimary
         else Theme.colorScheme.title,
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = EaseInOut
-        )
+        animationSpec = easingAnimation()
     )
 
     val horizontalPadding by animateDpAsState(
         if (isSelected) 16.dp
         else 12.dp,
-        animationSpec = tween(
-            durationMillis = 300,
-            easing = EaseInOut
-        )
+        animationSpec = easingAnimation()
     )
 
     Row(

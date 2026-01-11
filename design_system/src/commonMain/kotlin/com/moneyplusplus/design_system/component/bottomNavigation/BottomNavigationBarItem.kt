@@ -3,8 +3,6 @@ package com.moneyplusplus.design_system.component.bottomNavigation
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.EaseInOut
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +20,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.theme.animation.easingAnimation
 import com.moneyplusplus.design_system.theme.theme.Theme
 
 @Composable
@@ -35,10 +34,7 @@ fun BottomNavigationBarItem(
 ) {
     val animatedIconTint by animateColorAsState(
         targetValue = if (isSelected) Theme.colorScheme.primary.primary else Theme.colorScheme.body,
-        animationSpec = tween(
-            durationMillis = 150,
-            easing = EaseInOut
-        )
+        animationSpec = easingAnimation(durationMillis = 150)
     )
     val interactionSource = remember { MutableInteractionSource() }
 
@@ -68,10 +64,7 @@ fun BottomNavigationBarItem(
             Crossfade(
                 targetState = isSelected,
                 label = "IconSelectionCrossfade",
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = EaseInOut
-                )
+                animationSpec = easingAnimation()
             ) {
                 Icon(
                     painter = if (isSelected) selectedIcon else unselectedIcon,
