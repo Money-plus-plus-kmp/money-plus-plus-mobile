@@ -32,16 +32,24 @@ fun Chip(
     text: String,
     isSelected: Boolean,
     onClick: () -> Unit,
-    painter: Painter? = null,
+    selectedIcon: Painter? = null,
+    notSelectedIcon: Painter? = null,
     modifier: Modifier = Modifier,
     iconSize: Dp = 16.dp,
     shape: Shape = RoundedCornerShape(12.dp)
 ) {
+    require(
+        !(notSelectedIcon == null && selectedIcon != null)
+    ) {
+        "Chip: notSelectedIcon cannot be provided without selectedIcon"
+    }
+
     val containerColor by animateColorAsState(
         if (isSelected) Theme.colorScheme.primary.primary
         else Theme.colorScheme.surface.surfaceLow,
         animationSpec = easingAnimation()
     )
+
     val contentColor by animateColorAsState(
         if (isSelected) Theme.colorScheme.onPrimary.onPrimary
         else Theme.colorScheme.title,
@@ -49,10 +57,16 @@ fun Chip(
     )
 
     val horizontalPadding by animateDpAsState(
-        if (isSelected) 16.dp
-        else 12.dp,
+        if (isSelected) 16.dp else 12.dp,
         animationSpec = easingAnimation()
     )
+
+    val resolvedPainter: Painter? = when {
+        notSelectedIcon == null -> null
+        selectedIcon != null ->
+            if (isSelected) selectedIcon else notSelectedIcon
+        else -> notSelectedIcon
+    }
 
     Row(
         horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
@@ -74,12 +88,15 @@ fun Chip(
                     )
                 } else Modifier
             )
-            .padding(
-                vertical = 6.dp,
-                horizontal = horizontalPadding
-            )
+            .padding(vertical = 6.dp, horizontal = horizontalPadding)
     ) {
-        painter?.let { iconPainter ->
+        Text(
+            text = text,
+            style = Theme.typography.label.medium,
+            color = contentColor
+        )
+
+        resolvedPainter?.let { iconPainter ->
             Icon(
                 painter = iconPainter,
                 modifier = Modifier.size(iconSize),
@@ -87,10 +104,5 @@ fun Chip(
                 tint = contentColor
             )
         }
-        Text(
-            text = text,
-            style = Theme.typography.label.medium,
-            color = contentColor,
-        )
     }
 }
