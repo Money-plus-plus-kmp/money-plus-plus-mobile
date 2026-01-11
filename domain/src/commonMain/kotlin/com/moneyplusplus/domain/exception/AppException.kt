@@ -11,16 +11,16 @@ sealed class AuthenticationException : AppException() {
 sealed class ValidationException : AppException() {
 
     sealed class Email : ValidationException() {
-        data object Empty : Email()
-        data object InvalidEmail : Email()
+        object Empty : Email()
+        object InvalidEmail : Email()
     }
 
     sealed class Password : ValidationException() {
-        data object Empty : Password()
-        data object InvalidPassword : Password()
+        object Empty : Password()
+        object InvalidPassword : Password()
     }
 
     sealed class Name : ValidationException() {
-        data object Empty : Name()
+        object Empty : Name()
     }
 }
