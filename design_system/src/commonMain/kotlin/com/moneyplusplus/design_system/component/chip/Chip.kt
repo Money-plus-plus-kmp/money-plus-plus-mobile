@@ -1,0 +1,77 @@
+package com.moneyplusplus.design_system.component.chip
+
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.icon.Icon
+import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.theme.theme.Theme
+
+@Composable
+fun Chip(
+    text: String,
+    isSelected: Boolean,
+    onClick: () -> Unit,
+    painter: Painter? = null,
+    modifier: Modifier = Modifier,
+    iconSize: Dp = 16.dp,
+    shape: Shape = CircleShape
+) {
+    val transition = updateTransition(isSelected)
+    val containerColor by transition.animateColor(
+        targetValueByState = { isCurrentSelected ->
+            if (isCurrentSelected) Theme.colorScheme.primary.primary
+            else Theme.colorScheme.surface.surfaceLow
+        }
+    )
+    val contentColor by transition.animateColor(
+        targetValueByState = { isCurrentSelected ->
+            if (isCurrentSelected) Theme.colorScheme.onPrimary.onPrimary
+            else Theme.colorScheme.title
+        },
+    )
+
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp, Alignment.CenterHorizontally),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+            .clip(shape)
+            .clickable(onClick = onClick)
+            .background(containerColor)
+            .padding(
+                vertical = 6.dp,
+                horizontal = 12.dp
+            )
+    ) {
+
+        painter?.let { iconPainter ->
+            Icon(
+                painter = iconPainter,
+                modifier = Modifier.size(iconSize),
+                contentDescription = null,
+                tint = contentColor
+            )
+        }
+
+        Text(
+            text = text,
+            style = Theme.typography.label.medium,
+            color = contentColor,
+        )
+    }
+}
