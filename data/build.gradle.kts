@@ -15,6 +15,8 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain)
+            implementation(libs.kotlinx.coroutines.core)
+
         }
         commonTest.dependencies {
 
