@@ -16,13 +16,6 @@ import kotlinx.coroutines.CancellationException
  * @param block The suspending function to execute
  * @return Result.success with the data, or Result.failure with the exception
  */
-suspend fun <T> safeCall(block: suspend () -> T): Result<T> {
-    return try {
-        Result.success(block())
-    } catch (e: CancellationException) {
-        // Don't catch cancellation exceptions - they should propagate
-        throw e
-    } catch (e: Throwable) {
-        Result.failure(e)
-    }
-}
+suspend fun <T> safeCall(block: suspend () -> T): Result<T> =
+    runCatching { block() }
+        .onFailure { if (it is CancellationException) throw it }
