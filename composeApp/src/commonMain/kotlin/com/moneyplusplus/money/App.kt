@@ -1,49 +1,39 @@
 package com.moneyplusplus.money
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.safeContentPadding
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.painterResource
+import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.chart.config.ChartColorScheme
+import com.moneyplusplus.design_system.chart.config.SpendingChartConfig
+import com.moneyplusplus.design_system.chart.config.ValueFormat
+import com.moneyplusplus.design_system.chart.defaults.SampleData
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import com.moneyplusplus.design_system.chart.components.SpendingTrendChart
 
-import money.composeapp.generated.resources.Res
-import money.composeapp.generated.resources.compose_multiplatform
 
 @Composable
 @Preview
 fun App() {
     MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
         Column(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+            SpendingTrendChart(
+                data = SampleData.monthlyIncome(),
+                config = SpendingChartConfig(
+                    colorScheme = ChartColorScheme.RED,
+                    valueFormat = ValueFormat.IQD,
+                    showGrid = true,
+                    showXAxis = true,
+                    showYAxis = true
+                )
+            )
         }
     }
 }

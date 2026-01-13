@@ -36,6 +36,9 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
+                implementation("io.github.thechance101:chart:1.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.7.1")
+
             }
         }
 
