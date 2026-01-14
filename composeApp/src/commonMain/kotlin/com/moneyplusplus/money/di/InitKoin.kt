@@ -1,7 +1,6 @@
 package com.moneyplusplus.money.di
 
 import com.moneyplusplus.presentation.di.moneyPresentationModule
-import com.moneyplusplus.presentation.di.platformModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -18,5 +17,7 @@ fun doInitKoin() {
 }
 
 val appModule = module {
-    includes(moneyPresentationModule, platformModule())
+    includes(
+        moneyPresentationModule,
+    )
 }
