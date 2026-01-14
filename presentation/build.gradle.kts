@@ -61,3 +61,7 @@ android {
         unitTests.isReturnDefaultValues = true
     }
 }
+
+dependencies {
+    debugImplementation(compose.uiTooling)
+}

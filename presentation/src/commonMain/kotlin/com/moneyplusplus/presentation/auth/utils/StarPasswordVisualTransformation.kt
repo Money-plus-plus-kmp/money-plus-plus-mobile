@@ -6,7 +6,7 @@ import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 
 class StarPasswordVisualTransformation(
-    private val mask: Char = '*'
+    private val mask: Char = STAR_PASSWORD_MASK
 ) : VisualTransformation {
 
     override fun filter(text: AnnotatedString): TransformedText {
@@ -17,3 +17,5 @@ class StarPasswordVisualTransformation(
         )
     }
 }
+
+const val STAR_PASSWORD_MASK = '*'

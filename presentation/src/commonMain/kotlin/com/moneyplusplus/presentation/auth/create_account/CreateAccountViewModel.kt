@@ -21,8 +21,8 @@ class CreateAccountViewModel :
         tryExecute(
             block = ::createNewAccount,
             onStart = { updateState { copy(isLoading = true, error = null) } },
-            onSuccess = { ::onCreateAccountSuccess },
-            onError = { ::onCreateAccountError }
+            onSuccess = { onCreateAccountSuccess() },
+            onError = ::onCreateAccountError
         )
     }
 

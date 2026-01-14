@@ -10,9 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.design_system.theme.theme.Theme
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_icon
 import money.presentation.generated.resources.back_button
@@ -20,6 +21,7 @@ import money.presentation.generated.resources.create_account
 import money.presentation.generated.resources.money_logo
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun TopBar(
@@ -40,7 +42,8 @@ internal fun TopBar(
 
         Text(
             text = stringResource(Res.string.create_account),
-            color = Color.Gray,
+            style = Theme.typography.title.small,
+            color = Theme.colorScheme.title,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .padding(start = 8.dp)
@@ -50,6 +53,16 @@ internal fun TopBar(
         Image(
             painter = painterResource(Res.drawable.money_logo),
             contentDescription = stringResource(Res.string.money_logo),
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MoneyTheme {
+        TopBar(
+            onBackClick = {}
         )
     }
 }

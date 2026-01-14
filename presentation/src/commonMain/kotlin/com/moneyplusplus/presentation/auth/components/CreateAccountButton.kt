@@ -11,11 +11,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.design_system.theme.theme.Theme
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.create_account
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun CreateAccountButton(
@@ -32,18 +34,20 @@ internal fun CreateAccountButton(
             .height(52.dp),
         shape = RoundedCornerShape(16.dp),
         colors = ButtonColors(
-            containerColor = Color.Red,
-            contentColor = Color.White,
-            disabledContainerColor = Color.Gray,
-            disabledContentColor = Color.White
+            containerColor = Theme.colorScheme.primary.primary,
+            contentColor = Theme.colorScheme.onPrimary.onPrimary,
+            disabledContainerColor = Theme.colorScheme.disable,
+            disabledContentColor = Theme.colorScheme.onPrimary.onPrimary
         )
     ) {
         Text(
-            text = stringResource(Res.string.create_account)
+            text = stringResource(Res.string.create_account),
+            style = Theme.typography.label.medium,
+            color = Theme.colorScheme.onPrimary.onPrimary
         )
         if (loading) {
             CircularProgressIndicator(
-                color = Color.White,
+                color = Theme.colorScheme.onPrimary.onPrimary,
                 strokeWidth = 2.dp,
                 modifier = Modifier
                     .size(24.dp)
@@ -51,5 +55,17 @@ internal fun CreateAccountButton(
             )
 
         }
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MoneyTheme {
+        CreateAccountButton(
+            enabled = true,
+            loading = false,
+            onClick = {}
+        )
     }
 }

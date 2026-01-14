@@ -53,6 +53,7 @@ kotlin {
             implementation(projects.data)
             implementation(projects.domain)
             implementation(projects.presentation)
+            implementation(projects.designSystem)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)

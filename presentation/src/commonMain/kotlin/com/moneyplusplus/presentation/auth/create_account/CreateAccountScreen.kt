@@ -5,14 +5,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.auth.components.CreateAccountButton
 import com.moneyplusplus.presentation.auth.components.EmailInput
 import com.moneyplusplus.presentation.auth.components.PasswordInput
@@ -25,6 +24,7 @@ import money.presentation.generated.resources.create_new_account
 import money.presentation.generated.resources.password_hint
 import money.presentation.generated.resources.start_control_money
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -80,15 +80,15 @@ fun CreateAccountContent(
 
         Text(
             text = stringResource(Res.string.create_new_account),
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
+            style = Theme.typography.heading.medium,
+            color = Theme.colorScheme.title,
             modifier = Modifier.padding(top = 16.dp)
         )
 
         Text(
             text = stringResource(Res.string.start_control_money),
-            style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
+            style = Theme.typography.body.small,
+            color = Theme.colorScheme.body,
             modifier = Modifier.padding(top = 4.dp)
         )
 
@@ -118,10 +118,21 @@ fun CreateAccountContent(
 
         Text(
             text = stringResource(Res.string.password_hint),
-            color = Color(0xFFFF9800),
-            style = MaterialTheme.typography.bodySmall,
+            style = Theme.typography.label.small,
+            color = Theme.colorScheme.accent.yellow.yellow,
             modifier = Modifier.padding(top = 8.dp)
         )
 
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    MoneyTheme {
+        CreateAccountContent(
+            state = CreateAccountState(),
+            intent = {}
+        )
     }
 }
