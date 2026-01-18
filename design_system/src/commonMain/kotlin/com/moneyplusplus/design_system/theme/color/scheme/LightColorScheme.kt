@@ -26,6 +26,7 @@ internal val LightColorScheme = ColorScheme(
         onPrimaryStroke = Color(0x29FFFFFF)
     ),
     disable = Color(0xFFDDE1E4),
+    innerShadow = Color(0x80FDECF0),
     accent = ColorScheme.Accent(
         red = ColorScheme.Accent.Red(
             red = Color(0xFFE54F40),
