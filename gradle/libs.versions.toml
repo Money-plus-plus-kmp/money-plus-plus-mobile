@@ -132,6 +132,7 @@ androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", v
 # DataStore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 turbine-v100 = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
+ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler" }
 
 
 [plugins]
