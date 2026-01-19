@@ -45,6 +45,10 @@ kotlin {
     }
 }
 
+dependencies {
+    debugImplementation("androidx.compose.ui:ui-tooling")
+}
+
 android {
     namespace = "com.moneyplusplus.presentation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()

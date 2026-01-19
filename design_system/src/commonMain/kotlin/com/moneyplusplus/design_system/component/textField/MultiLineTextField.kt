@@ -4,10 +4,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.design_system.theme.theme.Theme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun MultiLineTextField(
@@ -45,4 +52,40 @@ fun MultiLineTextField(
         focusRequester = focusRequester,
         onFocusChanged = onFocusChanged,
     )
+}
+
+@Preview(
+    name = "MultiLineTextField - Default",
+    showBackground = true
+)
+@Composable
+private fun MultiLineTextFieldPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("") }
+
+        MultiLineTextField(
+            value = text,
+            hint = "Write your message here...",
+            onValueChanged = { text = it }
+        )
+    }
+}
+
+@Preview(
+    name = "MultiLineTextField - With Error",
+    showBackground = true
+)
+@Composable
+private fun MultiLineTextFieldErrorPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("Some text") }
+
+        MultiLineTextField(
+            value = text,
+            hint = "Description",
+            onValueChanged = { text = it },
+            isError = true,
+            errorMessage = "This field is required"
+        )
+    }
 }
