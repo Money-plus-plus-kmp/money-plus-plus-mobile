@@ -1,7 +1,9 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.screens.login
 
 import com.moneyplusplus.presentation.base.BaseViewModel
+import org.koin.android.annotation.KoinViewModel
 
+@KoinViewModel
 class LoginViewModel : BaseViewModel<LoginScreenUiState, LoginScreenEffect>(LoginScreenUiState()),
     LoginInteractionListener {
     override fun onEmailChanged(newEmail: String) {
