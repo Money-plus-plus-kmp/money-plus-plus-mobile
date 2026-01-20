@@ -1,18 +1,18 @@
 <resources>
     <string name="login_welcome">مرحبًا بعودتك!</string>
     <string name="login_subtitle">أدخل بياناتك للوصول إلى حسابك</string>
-
     <string name="email_hint">البريد الإلكتروني</string>
     <string name="password_hint">كلمة المرور</string>
-
     <string name="forget_password">نسيت كلمة المرور؟</string>
     <string name="login">تسجيل الدخول</string>
-
     <string name="or">أو</string>
-
     <string name="continue_with_google">المتابعة باستخدام جوجل</string>
     <string name="create_new_account">إنشاء حساب جديد</string>
-
     <string name="logo_plus">++</string>
     <string name="logo_money">Money</string>
+    <string name="error_email_empty">Email is required</string>
+    <string name="error_email_invalid">Invalid email address</string>
+    <string name="error_password_empty">Password is required</string>
+    <string name="error_password_invalid">Invalid password</string>
+    <string name="error_invalid_credentials">Invalid email or password</string>
 </resources>

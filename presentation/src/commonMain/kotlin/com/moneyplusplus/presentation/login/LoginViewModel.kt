@@ -1,15 +1,28 @@
 package com.moneyplusplus.presentation.login
 
+import com.moneyplusplus.domain.entity.User
+import com.moneyplusplus.domain.exception.AuthenticationException
+import com.moneyplusplus.domain.exception.ValidationException
+import com.moneyplusplus.domain.repository.AuthRepository
 import com.moneyplusplus.presentation.base.BaseViewModel
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.error_email_empty
+import money.presentation.generated.resources.error_email_invalid
+import money.presentation.generated.resources.error_invalid_credentials
+import money.presentation.generated.resources.error_password_empty
+import money.presentation.generated.resources.error_password_invalid
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 
 @KoinViewModel
-class LoginViewModel : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
+class LoginViewModel(
+    @Provided val authRepository: AuthRepository
+) : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
     override fun handleIntent(intent: LoginIntent) {
         when (intent) {
-            is LoginIntent.EmailChanged -> updateState { copy(email = intent.newEmail) }
-            is LoginIntent.PasswordChanged -> updateState { copy(password = intent.newPassword) }
-            LoginIntent.LoginClicked -> login()
+            is LoginIntent.EmailChanged -> onEmailChanged(intent.newEmail)
+            is LoginIntent.PasswordChanged -> onPasswordChanged(intent.newPassword)
+            LoginIntent.LoginClicked -> onLoginClicked()
             LoginIntent.ForgetPasswordClicked -> forgetPassword()
             LoginIntent.TogglePasswordVisibility -> togglePasswordVisibility()
             LoginIntent.ContinueWithGoogleClicked -> continueWithGoogle()
@@ -18,27 +31,105 @@ class LoginViewModel : BaseViewModel<LoginState, LoginIntent, LoginEffect>(Login
         }
     }
 
-    private fun login(){
+    private fun onPasswordChanged(newPassword: String) {
+        updateState { copy(password = newPassword) }
+        clearErrors()
+    }
+
+    private fun onEmailChanged(newEmail: String) {
+        updateState { copy(email = newEmail) }
+        clearErrors()
+    }
+
+    private fun clearErrors() {
+        updateState { copy(emailError = null, passwordError = null) }
+    }
+
+    private fun onLoginClicked() {
         tryExecute(
-            onStart = {},
-            block = {},
-            onSuccess = {},
-            onError = {}
+            onStart = ::setLoadingState,
+            block = ::loginUser,
+            onSuccess = ::handleLoginSuccess,
+            onError = ::handleLoginError
         )
-
-    }
-    private fun forgetPassword(){
-
-    }
-    private fun togglePasswordVisibility(){
-
-    }
-    private fun continueWithGoogle(){
-
-    }
-    private fun createNewAccount(){
-
     }
 
+    private suspend fun loginUser(): User {
+        return authRepository.login(
+            email = currentState.email,
+            password = currentState.password
+        )
+    }
 
+    private fun handleLoginSuccess(user: User) {
+        updateState { copy(isLoading = false) }
+        sendEffect(LoginEffect.NavigateToHome)
+    }
+
+    private fun handleLoginError(error: Throwable) {
+        updateState { copy(isLoading = false) }
+
+        when(error){
+            is ValidationException -> handleValidationError(error)
+            is AuthenticationException -> handleAuthenticationError(error)
+        }
+    }
+
+    private fun handleValidationError(error: ValidationException) {
+        when (error) {
+
+            is ValidationException.Email.Empty -> updateState {
+                copy(emailError = Res.string.error_email_empty)
+            }
+
+            is ValidationException.Email.InvalidEmail -> updateState {
+                copy(emailError = Res.string.error_email_invalid)
+            }
+
+            is ValidationException.Password.Empty -> updateState {
+                copy(passwordError = Res.string.error_password_empty)
+            }
+
+            is ValidationException.Password.InvalidPassword -> updateState {
+                copy(passwordError = Res.string.error_password_invalid)
+            }
+
+            else -> Unit
+        }
+    }
+
+    private fun handleAuthenticationError(error: AuthenticationException) {
+        when (error) {
+            AuthenticationException.InvalidCredentials -> updateState {
+                copy(
+                    emailError = Res.string.error_invalid_credentials,
+                    passwordError = Res.string.error_invalid_credentials
+                )
+            }
+
+            AuthenticationException.EmailAlreadyExists -> {
+            }
+        }
+    }
+
+
+    private fun togglePasswordVisibility() {
+        updateState { copy(isPasswordVisible = !isPasswordVisible) }
+    }
+
+    private fun forgetPassword() {
+        //navigate to forgetPassword screen
+    }
+
+    private fun continueWithGoogle() {
+        //navigate to continueWithGoogle screen
+    }
+
+    private fun createNewAccount() {
+        //navigate to createNewAccount screen
+    }
+
+    private fun setLoadingState() {
+        updateState { copy(isLoading = true, canSubmit = false) }
+    }
 }

@@ -157,6 +157,7 @@ private fun LoginFormSection(
             hint = stringResource(Res.string.password_hint),
             { intent(LoginIntent.PasswordChanged(it)) },            leadingIcon = painterResource(Res.drawable.square_lock_02),
             trailingIcon = painterResource(Res.drawable.heroicons_outline),
+            showTrailingDivider = false,
             onTrailingIconClick = {intent(LoginIntent.TogglePasswordVisibility)},
             modifier = Modifier.padding(bottom = 12.dp)
         )
