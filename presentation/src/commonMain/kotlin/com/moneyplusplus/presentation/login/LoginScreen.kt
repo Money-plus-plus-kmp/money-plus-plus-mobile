@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.screens.login
+package com.moneyplusplus.presentation.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -30,6 +30,7 @@ import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import com.moneyplusplus.presentation.base.collectEffect
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.continue_with_google
 import money.presentation.generated.resources.create_new_account
@@ -54,19 +55,25 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun LoginScreen(
-    viewModel: LoginViewModel = koinViewModel()
+    viewModel: LoginViewModel = koinViewModel(),
+    onNavigateHome: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    viewModel.effect.collectEffect { effect ->
+        when(effect){
+            LoginEffect.NavigateToHome -> onNavigateHome()
+        }
+    }
     LoginScreenContent(
         state = state,
-        interactionListener = viewModel
+        intent = viewModel::handleIntent
     )
 }
 
 @Composable
 private fun LoginScreenContent(
-    state: LoginScreenUiState,
-    interactionListener: LoginInteractionListener
+    state: LoginState,
+    intent: (LoginIntent) -> Unit
 ) {
     Box {
         Image(
@@ -84,7 +91,7 @@ private fun LoginScreenContent(
             )
             LoginFormSection(
                 state = state,
-                interactionListener = interactionListener
+                intent = intent
             )
         }
     }
@@ -115,8 +122,8 @@ private fun LogoHeader(
 @Composable
 private fun LoginFormSection(
     modifier: Modifier = Modifier,
-    state: LoginScreenUiState,
-    interactionListener: LoginInteractionListener
+    state: LoginState,
+    intent: (LoginIntent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -141,17 +148,16 @@ private fun LoginFormSection(
             value = state.email,
             hint = stringResource(Res.string.email_hint),
             leadingIcon = painterResource(Res.drawable.mail_02),
-            onValueChanged = interactionListener::onEmailChanged,
+            onValueChanged = { intent(LoginIntent.EmailChanged(it)) },
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
         TextField(
             value = state.password,
             hint = stringResource(Res.string.password_hint),
-            onValueChanged = interactionListener::onPasswordChanged,
-            leadingIcon = painterResource(Res.drawable.square_lock_02),
+            { intent(LoginIntent.PasswordChanged(it)) },            leadingIcon = painterResource(Res.drawable.square_lock_02),
             trailingIcon = painterResource(Res.drawable.heroicons_outline),
-            onTrailingIconClick = interactionListener::onTogglePasswordVisibility,
+            onTrailingIconClick = {intent(LoginIntent.TogglePasswordVisibility)},
             modifier = Modifier.padding(bottom = 12.dp)
         )
 
@@ -165,13 +171,13 @@ private fun LoginFormSection(
                     indication = null,
                     interactionSource = remember { MutableInteractionSource() }
                 ) {
-                    interactionListener::onForgetPasswordClicked
+                    {intent(LoginIntent.ForgetPasswordClicked)}
                 }
         )
         Spacer(modifier = Modifier.weight(1f))
         PrimaryButton(
             text = stringResource(Res.string.login),
-            onClick = interactionListener::onLoginClicked,
+            onClick = {intent(LoginIntent.LoginClicked)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
@@ -183,7 +189,7 @@ private fun LoginFormSection(
             text = stringResource(Res.string.continue_with_google),
             trailingIcon = painterResource(Res.drawable.googel),
             containerColor = Theme.colorScheme.surface.surfaceLow,
-            onClick = interactionListener::onContinueWithGoogleClicked,
+            onClick = {intent(LoginIntent.ContinueWithGoogleClicked)},
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -192,7 +198,7 @@ private fun LoginFormSection(
         OutlinedButton(
             text = stringResource(Res.string.create_new_account),
             containerColor = Theme.colorScheme.surface.surfaceLow,
-            onClick = interactionListener::onCreateNewAccountClicked,
+            onClick = {intent(LoginIntent.CreateNewAccountClicked)},
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -236,16 +242,8 @@ private fun OrDivider() {
 private fun LoginScreenContentPreview() {
     MoneyTheme {
         LoginScreenContent(
-            state = LoginScreenUiState(),
-            interactionListener = object : LoginInteractionListener {
-                override fun onEmailChanged(newEmail: String) {}
-                override fun onPasswordChanged(newPassword: String) {}
-                override fun onTogglePasswordVisibility() {}
-                override fun onForgetPasswordClicked() {}
-                override fun onLoginClicked() {}
-                override fun onContinueWithGoogleClicked() {}
-                override fun onCreateNewAccountClicked() {}
-            }
+            state = LoginState(),
+            intent = {}
         )
     }
 }
