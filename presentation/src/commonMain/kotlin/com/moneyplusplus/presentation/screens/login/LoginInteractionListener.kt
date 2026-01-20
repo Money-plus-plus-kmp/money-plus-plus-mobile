@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.screens.login
 
 interface LoginInteractionListener {
     fun onEmailChanged(newEmail: String)

@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.screens.login
 
 data class LoginScreenUiState(
     val isLoading: Boolean = false,
