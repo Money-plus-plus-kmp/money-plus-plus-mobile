@@ -102,17 +102,17 @@ private fun LogoHeader(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.size(80.dp, 40.dp)
+        modifier = modifier.size(80.dp, 45.dp)
     ) {
         Text(
             text = stringResource(Res.string.logo_plus),
-            style = Theme.typography.title.large,
+            style = Theme.typography.heading.medium,
             color = Theme.colorScheme.onPrimary.onPrimary,
             modifier = Modifier.align(Alignment.TopEnd)
         )
         Text(
             text = stringResource(Res.string.logo_money),
-            style = Theme.typography.title.large,
+            style = Theme.typography.heading.medium,
             color = Theme.colorScheme.onPrimary.onPrimary,
             modifier = Modifier.align(Alignment.BottomStart)
         )
@@ -133,7 +133,7 @@ private fun LoginFormSection(
     ) {
         Text(
             text = stringResource(Res.string.login_welcome),
-            style = Theme.typography.title.medium,
+            style = Theme.typography.heading.medium,
             color = Theme.colorScheme.title,
             modifier = Modifier.padding(bottom = 4.dp)
         )
