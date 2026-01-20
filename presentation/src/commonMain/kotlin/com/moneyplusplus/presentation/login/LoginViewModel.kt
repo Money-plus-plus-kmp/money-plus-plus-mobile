@@ -3,7 +3,6 @@ package com.moneyplusplus.presentation.login
 import com.moneyplusplus.domain.entity.User
 import com.moneyplusplus.domain.exception.AuthenticationException
 import com.moneyplusplus.domain.exception.ValidationException
-import com.moneyplusplus.domain.repository.AuthRepository
 import com.moneyplusplus.presentation.base.BaseViewModel
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.error_email_empty
@@ -12,12 +11,11 @@ import money.presentation.generated.resources.error_invalid_credentials
 import money.presentation.generated.resources.error_password_empty
 import money.presentation.generated.resources.error_password_invalid
 import org.koin.android.annotation.KoinViewModel
-import org.koin.core.annotation.Provided
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
 @KoinViewModel
-class LoginViewModel(
-    @Provided val authRepository: AuthRepository
-) : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
+class LoginViewModel() : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
     override fun handleIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.EmailChanged -> onEmailChanged(intent.newEmail)
@@ -54,10 +52,12 @@ class LoginViewModel(
         )
     }
 
+    @OptIn(ExperimentalUuidApi::class)
     private suspend fun loginUser(): User {
-        return authRepository.login(
-            email = currentState.email,
-            password = currentState.password
+        return User(
+            id = Uuid.random(),
+            email = "",
+            name = ""
         )
     }
 
