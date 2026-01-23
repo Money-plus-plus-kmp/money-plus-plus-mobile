@@ -13,7 +13,8 @@ data class ColorScheme(
     val surface: Surface,
     val onPrimary: OnPrimary,
     val disable: Color,
-    val accent: Accent
+    val accent: Accent,
+    val innerShadow: Color,
 ) {
 
     data class Primary(
