@@ -5,24 +5,35 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.appBar.AppBar
+import com.moneyplusplus.design_system.component.appBar.AppBarOptionContainer
+import com.moneyplusplus.design_system.component.button.PrimaryButton
+import com.moneyplusplus.design_system.component.icon.Icon
+import com.moneyplusplus.design_system.component.scaffold.Scaffold
+import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
-import com.moneyplusplus.presentation.auth.components.CreateAccountButton
-import com.moneyplusplus.presentation.auth.components.EmailInput
-import com.moneyplusplus.presentation.auth.components.PasswordInput
-import com.moneyplusplus.presentation.auth.components.TopBar
-import com.moneyplusplus.presentation.auth.components.UsernameInput
 import com.moneyplusplus.presentation.base.collectEffect
 import com.moneyplusplus.presentation.base.collectState
 import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.arrow_icon
+import money.presentation.generated.resources.back_button
+import money.presentation.generated.resources.create_account
 import money.presentation.generated.resources.create_new_account
+import money.presentation.generated.resources.email
+import money.presentation.generated.resources.mail_icon
+import money.presentation.generated.resources.money_logo
+import money.presentation.generated.resources.name
+import money.presentation.generated.resources.password
 import money.presentation.generated.resources.password_hint
+import money.presentation.generated.resources.password_icon
 import money.presentation.generated.resources.start_control_money
+import money.presentation.generated.resources.username_icon
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
@@ -31,8 +42,10 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CreateAccountScreen(
     viewModel: CreateAccountViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    onNavigateToAccountSetup: () -> Unit
-) {
+    intent: (CreateAccountIntent) -> Unit,
+    onNavigateToAccountSetup: () -> Unit,
+
+    ) {
     val state = viewModel.collectState()
 
     viewModel.effect.collectEffect { effect ->
@@ -44,28 +57,51 @@ fun CreateAccountScreen(
     }
 
     Scaffold(
+        topBar = {
+            AppBar(
+                leadingContent = {
+                    AppBarOptionContainer(
+                        onClick = { intent(CreateAccountIntent.OnBackClicked) },
+                        isBadgeVisible = true,
+                        content = {
+                            Icon(
+                                painter = painterResource(Res.drawable.arrow_icon),
+                                contentDescription = stringResource(Res.string.back_button)
+                            )
+                        }
+                    )
+                },
+                title = stringResource(Res.string.create_account),
+                trailingContent = {
+                    Icon(
+                        painter = painterResource(Res.drawable.money_logo),
+                        contentDescription = stringResource(Res.string.money_logo)
+                    )
+                }
+            )
+        },
+        content = {
+            CreateAccountContent(
+                state = state,
+                intent = intent,
+            )
+        },
         bottomBar = {
-            CreateAccountButton(
-                enabled = true,
-                loading = false,
+            PrimaryButton(
                 onClick = {},
-                modifier = Modifier.padding(16.dp)
+                isEnabled = true,
+                isLoading = false,
+                text = stringResource(Res.string.create_account),
             )
         }
-    ) { padding ->
-        CreateAccountContent(
-            modifier = Modifier.padding(padding),
-            state = state,
-            intent = { viewModel.handleIntent(it) }
-        )
-    }
+    )
 }
 
 @Composable
 fun CreateAccountContent(
     modifier: Modifier = Modifier,
     state: CreateAccountState,
-    intent: (CreateAccountIntent) -> Unit,
+    intent: (CreateAccountIntent) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -73,10 +109,6 @@ fun CreateAccountContent(
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
     ) {
-
-        TopBar(
-            onBackClick = {}
-        )
 
         Text(
             text = stringResource(Res.string.create_new_account),
@@ -92,27 +124,33 @@ fun CreateAccountContent(
             modifier = Modifier.padding(top = 4.dp)
         )
 
-        EmailInput(
+        TextField(
             value = state.email,
-            onValueChange = {
+            hint = stringResource(Res.string.email),
+            onValueChanged = {
                 intent(CreateAccountIntent.OnEmailChanged(it))
             },
+            leadingIcon = painterResource(Res.drawable.mail_icon),
             modifier = Modifier.padding(top = 24.dp)
         )
 
-        UsernameInput(
+        TextField(
             value = state.username,
-            onValueChange = {
+            hint = stringResource(Res.string.password),
+            onValueChanged = {
                 intent(CreateAccountIntent.OnUsernameChanged(it))
             },
+            leadingIcon = painterResource(Res.drawable.username_icon),
             modifier = Modifier.padding(top = 12.dp)
         )
 
-        PasswordInput(
+        TextField(
             value = state.password,
-            onValueChange = {
+            hint = stringResource(Res.string.name),
+            onValueChanged = {
                 intent(CreateAccountIntent.OnPasswordChanged(it))
             },
+            leadingIcon = painterResource(Res.drawable.password_icon),
             modifier = Modifier.padding(top = 12.dp)
         )
 
