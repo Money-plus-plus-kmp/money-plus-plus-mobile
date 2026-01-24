@@ -1,0 +1,4 @@
+<resources>
+    <string name="snackbar_title_success">Success</string>
+    <string name="snackbar_title_error">Error</string>
+</resources>

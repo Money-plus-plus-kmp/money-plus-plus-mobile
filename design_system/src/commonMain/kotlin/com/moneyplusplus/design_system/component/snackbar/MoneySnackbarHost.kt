@@ -1,0 +1,73 @@
+package com.moneyplusplus.design_system.component.snackbar
+
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.animation.easingAnimation
+import kotlinx.coroutines.delay
+
+private val TOP_PADDING = 12.dp
+private val HORIZONTAL_PADDING = 16.dp
+private const val AUTO_DISMISS_DURATION = 3000L
+
+@Composable
+fun MSnackbarHost(
+    hostState: MSnackbarHostState,
+    modifier: Modifier = Modifier,
+    autoDismissDuration: Long = AUTO_DISMISS_DURATION
+) {
+    val currentSnackbarData = hostState.currentSnackbarData
+    val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+
+    LaunchedEffect(currentSnackbarData) {
+        if (currentSnackbarData != null) {
+            delay(autoDismissDuration)
+            hostState.dismiss()
+        }
+    }
+
+    Box(
+        modifier = modifier.fillMaxSize(),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        AnimatedVisibility(
+            visible = currentSnackbarData != null,
+            enter = slideInVertically(
+                animationSpec = easingAnimation(),
+                initialOffsetY = { -it }
+            ) + fadeIn(animationSpec = easingAnimation()),
+            exit = slideOutVertically(
+                animationSpec = easingAnimation(),
+                targetOffsetY = { -it }
+            ) + fadeOut(animationSpec = easingAnimation())
+        ) {
+            currentSnackbarData?.let { data ->
+                MSnackbar(
+                    data = data,
+                    onDismiss = { hostState.dismiss() },
+                    modifier = Modifier
+                        .padding(
+                            top = statusBarPadding + TOP_PADDING,
+                            start = HORIZONTAL_PADDING,
+                            end = HORIZONTAL_PADDING
+                        )
+                        .fillMaxWidth()
+                )
+            }
+        }
+    }
+}
