@@ -3,13 +3,16 @@ package com.moneyplusplus.presentation.auth.create_account
 import com.moneyplusplus.presentation.base.UiEffect
 import com.moneyplusplus.presentation.base.UiIntent
 import com.moneyplusplus.presentation.base.UiState
+import org.jetbrains.compose.resources.StringResource
 
 data class CreateAccountState(
     val username: String = "",
     val email: String = "",
     val password: String = "",
     val isFormValid: Boolean = false,
-    val error: String? = null,
+    val emailError: StringResource? = null,
+    val userNameError: StringResource? = null,
+    val passwordError: StringResource? = null,
     val isLoading: Boolean = false,
 ) : UiState
 

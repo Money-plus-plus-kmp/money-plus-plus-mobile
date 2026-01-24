@@ -8,4 +8,11 @@
     <string name="password_hint">*Use at least 8 characters, Contain at least one capital letter and one symbol.</string>
     <string name="back_button">Back Button</string>
     <string name="money_logo">Money Logo</string>
+    <string name="error_username_empty">Username is required</string>
+    <string name="error_email_empty">Email is required</string>
+    <string name="error_email_invalid">Invalid email address</string>
+    <string name="error_password_empty">Password is required</string>
+    <string name="error_password_invalid">Invalid password</string>
+    <string name="error_email_already_exists">Email is already exists</string>
+    <string name="error_invalid_credentials">Invalid name, email or password</string>
 </resources>

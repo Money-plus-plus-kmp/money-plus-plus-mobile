@@ -6,8 +6,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.appBar.AppBar
 import com.moneyplusplus.design_system.component.appBar.AppBarOptionContainer
 import com.moneyplusplus.design_system.component.button.PrimaryButton
@@ -18,7 +20,6 @@ import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.base.collectEffect
-import com.moneyplusplus.presentation.base.collectState
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_icon
 import money.presentation.generated.resources.back_button
@@ -46,7 +47,7 @@ fun CreateAccountScreen(
     onNavigateToAccountSetup: () -> Unit,
 
     ) {
-    val state = viewModel.collectState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     viewModel.effect.collectEffect { effect ->
         when (effect) {
@@ -83,7 +84,7 @@ fun CreateAccountScreen(
         content = {
             CreateAccountContent(
                 state = state,
-                intent = intent,
+                intent = viewModel::handleIntent,
             )
         },
         bottomBar = {
