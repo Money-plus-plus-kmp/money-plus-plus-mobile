@@ -42,7 +42,7 @@ private val SHADOW_BLUR = 16.dp
 private const val SHADOW_ALPHA = 0.08f
 
 @Composable
-fun MSnackbar(
+internal fun MSnackbarContent(
     data: MSnackbarData,
     onDismiss: () -> Unit,
     modifier: Modifier = Modifier

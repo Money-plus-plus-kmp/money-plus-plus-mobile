@@ -14,6 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -25,18 +29,18 @@ private val HORIZONTAL_PADDING = 16.dp
 private const val AUTO_DISMISS_DURATION = 3000L
 
 @Composable
-fun MSnackbarHost(
-    hostState: MSnackbarHostState,
+internal fun MSnackbarHost(
+    state: MSnackbarState,
     modifier: Modifier = Modifier,
     autoDismissDuration: Long = AUTO_DISMISS_DURATION
 ) {
-    val currentSnackbarData = hostState.currentSnackbarData
+    val currentSnackbarData = state.currentSnackbarData
     val statusBarPadding = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
 
     LaunchedEffect(currentSnackbarData) {
         if (currentSnackbarData != null) {
             delay(autoDismissDuration)
-            hostState.dismiss()
+            state.dismiss()
         }
     }
 
@@ -56,9 +60,9 @@ fun MSnackbarHost(
             ) + fadeOut(animationSpec = easingAnimation())
         ) {
             currentSnackbarData?.let { data ->
-                MSnackbar(
+                MSnackbarContent(
                     data = data,
-                    onDismiss = { hostState.dismiss() },
+                    onDismiss = { state.dismiss() },
                     modifier = Modifier
                         .padding(
                             top = statusBarPadding + TOP_PADDING,
@@ -69,5 +73,24 @@ fun MSnackbarHost(
                 )
             }
         }
+    }
+}
+
+@Stable
+class MSnackbarState {
+
+    var currentSnackbarData by mutableStateOf<MSnackbarData?>(null)
+        private set
+
+    fun showSuccess(message: String) {
+        currentSnackbarData = MSnackbarData(MSnackbarType.SUCCESS, message)
+    }
+
+    fun showError(message: String) {
+        currentSnackbarData = MSnackbarData(MSnackbarType.ERROR, message)
+    }
+
+    fun dismiss() {
+        currentSnackbarData = null
     }
 }
