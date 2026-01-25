@@ -18,6 +18,10 @@ fun Icon(
         modifier = modifier,
         painter = painter,
         contentDescription = contentDescription,
-        colorFilter = ColorFilter.tint(color = tint)
+        colorFilter = if (tint == Color.Unspecified) {
+            null
+        } else {
+            ColorFilter.tint(color = tint)
+        }
     )
 }
