@@ -47,7 +47,7 @@ fun Button(
         Theme.colorScheme.primary.primary.copy(0.6f)
     ),
     containerColor: Color = Color.Transparent,
-    disabledContainerColor: Color = Color.Transparent,
+    disabledContainerColor: Color = Theme.colorScheme.disable,
     contentColor: Color = Color.Transparent,
     disabledContentColor: Color = Color.Transparent,
     borderStroke: BorderStroke? = null,

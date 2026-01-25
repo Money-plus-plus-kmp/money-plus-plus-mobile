@@ -51,6 +51,7 @@ coreVersion = "1.7.0"
 composeHotReload="1.0.0"
 resources = "0.25.2"
 androidx-datastore = "1.2.0"
+uiToolingVersion = "1.10.0"
 
 [libraries]
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
@@ -131,6 +132,7 @@ androidx-room-sqlite-wrapper = { module = "androidx.room:room-sqlite-wrapper", v
 
 # DataStore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
+androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 turbine-v100 = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler" }
 
