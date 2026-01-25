@@ -22,6 +22,12 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
+
+                implementation(projects.designSystem)
+                implementation(projects.domain)
+                implementation(libs.androidx.lifecycle.viewmodelCompose)
+                implementation(libs.androidx.lifecycle.runtimeCompose)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
 
@@ -43,7 +49,7 @@ kotlin {
 }
 
 android {
-    namespace = "net.thechance.mena.dukan.presentation"
+    namespace = "com.moneyplusplus.presentation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
