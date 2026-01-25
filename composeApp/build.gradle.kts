@@ -37,6 +37,7 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation(project(":design_system"))
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }

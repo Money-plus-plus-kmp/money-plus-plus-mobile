@@ -15,7 +15,7 @@ fun Text(
     style: TextStyle,
     modifier: Modifier = Modifier,
     color: Color = Color.Unspecified,
-    textAlign: TextAlign = TextAlign.Center,
+    textAlign: TextAlign = TextAlign.Start,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     softWrap: Boolean = true,
     maxLines: Int = Int.MAX_VALUE,

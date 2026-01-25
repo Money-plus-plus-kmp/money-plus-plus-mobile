@@ -8,7 +8,15 @@ plugins {
     alias(libs.plugins.androidLibrary)
 }
 
+
+compose.resources {
+    publicResClass = true
+    packageOfResClass = "com.moneyplusplus.design_system.generated.resources"
+    generateResClass = always
+}
+
 kotlin {
+
     jvm()
     androidTarget {
         compilerOptions {
