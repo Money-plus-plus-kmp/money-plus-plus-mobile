@@ -5,8 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
@@ -22,12 +24,14 @@ import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
+
 @Composable
 fun ForgetPasswordScreen(
     viewModel: ForgetPasswordViewModel = koinViewModel(),
     modifier: Modifier = Modifier
 ) {
-    val uiState = viewModel.state.value
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
