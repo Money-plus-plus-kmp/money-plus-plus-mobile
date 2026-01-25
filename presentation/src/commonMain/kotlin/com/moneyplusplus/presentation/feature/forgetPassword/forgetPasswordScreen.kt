@@ -63,9 +63,7 @@ fun Content(
     Scaffold(
         topBar = {
             TopAppBar(
-                onBackClick = {
-                    onBackClick()
-                }
+                onBackClick = onBackClick
             )
         }
     )
@@ -99,8 +97,8 @@ fun Content(
 
             ResetPasswordInputSection(
                 isEnabled = isEnable,
-                onEmailChanged = { onEmailChanged(it) },
-                onButtonClick = { onButtonClick() }
+                onEmailChanged = onEmailChanged,
+                onButtonClick = onButtonClick
             )
         }
     }

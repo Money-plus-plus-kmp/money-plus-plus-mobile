@@ -17,12 +17,16 @@ class ForgetPasswordViewModel(
             is ForgetPasswordIntent.OnEmailChanged -> updateState { copy(email = intent.email) }
             is ForgetPasswordIntent.OnSendResetLinkClick -> {
                 tryExecute(
-                    block = { emailValidator(email = currentState.email) },
+                    block = ::validateEmail,
                     onSuccess = { emailValidationSuccess() },
-                    onError = { throwable -> emailValidationError(errorMessage = throwable) }
+                    onError = ::emailValidationError
                 )
             }
         }
+    }
+
+    private fun validateEmail() {
+        emailValidator(email = currentState.email)
     }
 
     private fun emailValidationSuccess() {
