@@ -1,0 +1,12 @@
+<resources>
+    <string name="lock">lock</string>
+    <string name="background_pattern">background pattern</string>
+    <string name="arrow_left">arrow left</string>
+    <string name="forget_your_password">Forget your password</string>
+    <string name="forget_password">Forget password</string>
+    <string name="enter_your_email_to_reset_password">Enter your email and we’ll send you a reset link</string>
+    <string name="money">money</string>
+    <string name="email">email</string>
+    <string name="Email_text">Email</string>
+    <string name="send_reset_link">Send reset link</string>
+</resources>
