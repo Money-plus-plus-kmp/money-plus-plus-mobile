@@ -209,6 +209,8 @@ private fun LoginFormSection(
         PrimaryButton(
             text = stringResource(Res.string.login),
             onClick = { intent(LoginIntent.LoginClicked) },
+            isLoading = state.isLoading,
+            isEnabled = state.canSubmit,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
@@ -221,6 +223,7 @@ private fun LoginFormSection(
             trailingIcon = painterResource(Res.drawable.google),
             containerColor = Theme.colorScheme.surface.surfaceLow,
             onClick = { intent(LoginIntent.ContinueWithGoogleClicked) },
+            isLoading = state.isLoading,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -230,6 +233,7 @@ private fun LoginFormSection(
             text = stringResource(Res.string.create_new_account),
             containerColor = Theme.colorScheme.surface.surfaceLow,
             onClick = { intent(LoginIntent.CreateNewAccountClicked) },
+            isLoading = state.isLoading,
             modifier = Modifier.fillMaxWidth()
         )
     }

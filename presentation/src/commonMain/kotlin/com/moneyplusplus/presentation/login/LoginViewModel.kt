@@ -36,11 +36,13 @@ class LoginViewModel(
     private fun onPasswordChanged(newPassword: String) {
         updateState { copy(password = newPassword) }
         clearErrors()
+        updateCanSubmit()
     }
 
     private fun onEmailChanged(newEmail: String) {
         updateState { copy(email = newEmail) }
         clearErrors()
+        updateCanSubmit()
     }
 
     private fun clearErrors() {
@@ -66,15 +68,16 @@ class LoginViewModel(
     private fun handleLoginSuccess(user: User) {
         updateState { copy(isLoading = false) }
         sendEffect(LoginEffect.NavigateToHome)
+        updateCanSubmit()
     }
 
     private fun handleLoginError(error: Throwable) {
         updateState { copy(isLoading = false) }
-
         when (error) {
             is ValidationException -> handleValidationError(error)
             is AuthenticationException -> handleAuthenticationError(error)
         }
+        updateCanSubmit()
     }
 
     private fun handleValidationError(error: ValidationException) {
@@ -132,4 +135,15 @@ class LoginViewModel(
     private fun setLoadingState() {
         updateState { copy(isLoading = true, canSubmit = false) }
     }
+
+    private fun updateCanSubmit() {
+        val canSubmit = currentState.email.isNotBlank() &&
+                currentState.password.isNotBlank() &&
+                currentState.emailError == null &&
+                currentState.passwordError == null &&
+                !currentState.isLoading
+
+        updateState { copy(canSubmit = canSubmit) }
+    }
+
 }
