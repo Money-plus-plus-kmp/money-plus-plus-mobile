@@ -47,7 +47,6 @@ fun AccountInfoCard(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // Avatar
         Box(
             modifier = Modifier
                 .size(52.dp)
@@ -64,7 +63,6 @@ fun AccountInfoCard(
 
         Spacer(Modifier.width(12.dp))
 
-        // Name + Email block expands
         Column(
             modifier = Modifier.weight(1f)
         ) {
@@ -83,7 +81,6 @@ fun AccountInfoCard(
 
         Spacer(Modifier.width(12.dp))
 
-        // Edit Button
         Box(
             modifier = Modifier
                 .size(36.dp)

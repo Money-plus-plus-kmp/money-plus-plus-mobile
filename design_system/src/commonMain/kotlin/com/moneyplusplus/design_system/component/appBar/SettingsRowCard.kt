@@ -16,37 +16,50 @@ import com.moneyplusplus.design_system.theme.theme.Theme
 fun SettingsRowCard(
     title: String,
     leadingContent: (@Composable () -> Unit)? = null,
+    showDivider: Boolean = true,
     onClick: () -> Unit = {}
 ) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(68.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically
+    Column(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        if (leadingContent != null) {
-
-            Box(
-                modifier = Modifier
-                    .size(48.dp)
-                    .background(
-                        color = Theme.colorScheme.surface.surfaceHigh,
-                        shape = RoundedCornerShape(12.dp)
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                leadingContent()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(68.dp)
+                .clickable { onClick() },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if (leadingContent != null) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(
+                            color = Theme.colorScheme.surface.surfaceHigh,
+                            shape = RoundedCornerShape(12.dp)
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    leadingContent()
+                }
             }
 
-            Spacer(Modifier.width(12.dp))
+            Text(
+                text = title,
+                style = Theme.typography.title.medium,
+                color = Theme.colorScheme.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = if (leadingContent != null) 12.dp else 0.dp)
+            )
         }
-
-        Text(
-            text = title,
-            style = Theme.typography.title.medium,
-            color = Theme.colorScheme.title,
-            modifier = Modifier.fillMaxWidth()
-        )
+        
+        if (showDivider) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(1.dp)
+                    .background(Color(0x1A1F1F1F))
+            )
+        }
     }
 }
