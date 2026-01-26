@@ -53,9 +53,11 @@ import money.presentation.generated.resources.login_welcome
 import money.presentation.generated.resources.logo_money
 import money.presentation.generated.resources.logo_plus
 import money.presentation.generated.resources.mail_02
+import money.presentation.generated.resources.money
 import money.presentation.generated.resources.or
 import money.presentation.generated.resources.password_hint
 import money.presentation.generated.resources.square_lock_02
+import money.presentation.generated.resources.white_money
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -110,19 +112,13 @@ private fun LogoHeader(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.size(80.dp, 45.dp)
+        modifier = modifier.size(100.dp, 45.dp)
     ) {
-        Text(
-            text = stringResource(Res.string.logo_plus),
-            style = Theme.typography.heading.medium,
-            color = Theme.colorScheme.onPrimary.onPrimary,
-            modifier = Modifier.align(Alignment.TopEnd)
-        )
-        Text(
-            text = stringResource(Res.string.logo_money),
-            style = Theme.typography.heading.medium,
-            color = Theme.colorScheme.onPrimary.onPrimary,
-            modifier = Modifier.align(Alignment.BottomStart)
+        Image(
+            painter = painterResource(Res.drawable.white_money),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
         )
     }
 }
