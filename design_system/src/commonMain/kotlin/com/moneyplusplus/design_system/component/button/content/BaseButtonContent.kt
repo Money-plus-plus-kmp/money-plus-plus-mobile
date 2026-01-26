@@ -38,7 +38,6 @@ internal fun BaseButtonContent(
             modifier = Modifier
                 .padding(start = iconStartPadding)
                 .size(iconSize),
-            tint = contentColor
         )
     }
 }
