@@ -158,7 +158,6 @@ private fun TextFieldContent(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(24.dp),
-                tint = animatedIconErrorColor
             )
         }
 
