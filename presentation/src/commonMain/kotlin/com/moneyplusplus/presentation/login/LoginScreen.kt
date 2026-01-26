@@ -14,13 +14,21 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,7 +44,7 @@ import money.presentation.generated.resources.continue_with_google
 import money.presentation.generated.resources.create_new_account
 import money.presentation.generated.resources.email_hint
 import money.presentation.generated.resources.forget_password
-import money.presentation.generated.resources.googel
+import money.presentation.generated.resources.google
 import money.presentation.generated.resources.heroicons_outline
 import money.presentation.generated.resources.login
 import money.presentation.generated.resources.login_background
@@ -60,7 +68,7 @@ fun LoginScreen(
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     viewModel.effect.collectEffect { effect ->
-        when(effect){
+        when (effect) {
             LoginEffect.NavigateToHome -> onNavigateHome()
         }
     }
@@ -149,17 +157,38 @@ private fun LoginFormSection(
             hint = stringResource(Res.string.email_hint),
             leadingIcon = painterResource(Res.drawable.mail_02),
             onValueChanged = { intent(LoginIntent.EmailChanged(it)) },
-            modifier = Modifier.padding(bottom = 12.dp)
+            modifier = Modifier.padding(bottom = 12.dp),
+            errorMessage = state.emailError?.let { stringResource(it) },
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Email,
+                imeAction = ImeAction.Next
+            )
         )
 
         TextField(
             value = state.password,
             hint = stringResource(Res.string.password_hint),
-            { intent(LoginIntent.PasswordChanged(it)) },            leadingIcon = painterResource(Res.drawable.square_lock_02),
-            trailingIcon = painterResource(Res.drawable.heroicons_outline),
+            onValueChanged = { intent(LoginIntent.PasswordChanged(it)) },
+            leadingIcon = painterResource(Res.drawable.square_lock_02),
+            trailingIcon = if (state.isPasswordVisible)
+                painterResource(Res.drawable.heroicons_outline)
+            else
+                painterResource(Res.drawable.heroicons_outline),
             showTrailingDivider = false,
-            onTrailingIconClick = {intent(LoginIntent.TogglePasswordVisibility)},
-            modifier = Modifier.padding(bottom = 12.dp)
+            onTrailingIconClick = { intent(LoginIntent.TogglePasswordVisibility) },
+            modifier = Modifier.padding(bottom = 12.dp),
+            errorMessage = state.passwordError?.let { stringResource(it) },
+            visualTransformation = if (state.isPasswordVisible)
+                VisualTransformation.None
+            else
+                PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Password,
+                imeAction = ImeAction.Done
+            ),
+            keyboardActions = KeyboardActions(
+                onDone = { intent(LoginIntent.LoginClicked) }
+            )
         )
 
         Text(
@@ -170,15 +199,16 @@ private fun LoginFormSection(
                 .align(Alignment.CenterHorizontally)
                 .clickable(
                     indication = null,
-                    interactionSource = remember { MutableInteractionSource() }
-                ) {
-                    {intent(LoginIntent.ForgetPasswordClicked)}
-                }
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = {
+                        intent(LoginIntent.ForgetPasswordClicked)
+                    }
+                )
         )
         Spacer(modifier = Modifier.weight(1f))
         PrimaryButton(
             text = stringResource(Res.string.login),
-            onClick = {intent(LoginIntent.LoginClicked)},
+            onClick = { intent(LoginIntent.LoginClicked) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
@@ -188,9 +218,9 @@ private fun LoginFormSection(
 
         OutlinedButton(
             text = stringResource(Res.string.continue_with_google),
-            trailingIcon = painterResource(Res.drawable.googel),
+            trailingIcon = painterResource(Res.drawable.google),
             containerColor = Theme.colorScheme.surface.surfaceLow,
-            onClick = {intent(LoginIntent.ContinueWithGoogleClicked)},
+            onClick = { intent(LoginIntent.ContinueWithGoogleClicked) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 8.dp)
@@ -199,7 +229,7 @@ private fun LoginFormSection(
         OutlinedButton(
             text = stringResource(Res.string.create_new_account),
             containerColor = Theme.colorScheme.surface.surfaceLow,
-            onClick = {intent(LoginIntent.CreateNewAccountClicked)},
+            onClick = { intent(LoginIntent.CreateNewAccountClicked) },
             modifier = Modifier.fillMaxWidth()
         )
     }

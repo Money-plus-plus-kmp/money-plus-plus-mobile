@@ -3,6 +3,7 @@ package com.moneyplusplus.presentation.login
 import com.moneyplusplus.domain.entity.User
 import com.moneyplusplus.domain.exception.AuthenticationException
 import com.moneyplusplus.domain.exception.ValidationException
+import com.moneyplusplus.domain.repository.AuthRepository
 import com.moneyplusplus.presentation.base.BaseViewModel
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.error_email_empty
@@ -11,11 +12,14 @@ import money.presentation.generated.resources.error_invalid_credentials
 import money.presentation.generated.resources.error_password_empty
 import money.presentation.generated.resources.error_password_invalid
 import org.koin.android.annotation.KoinViewModel
+import org.koin.core.annotation.Provided
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @KoinViewModel
-class LoginViewModel() : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
+class LoginViewModel(
+   @Provided val authRepository: AuthRepository
+) : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
     override fun handleIntent(intent: LoginIntent) {
         when (intent) {
             is LoginIntent.EmailChanged -> onEmailChanged(intent.newEmail)
@@ -54,11 +58,9 @@ class LoginViewModel() : BaseViewModel<LoginState, LoginIntent, LoginEffect>(Log
 
     @OptIn(ExperimentalUuidApi::class)
     private suspend fun loginUser(): User {
-        return User(
-            id = Uuid.random(),
-            email = "",
-            name = ""
-        )
+        val email = currentState.email
+        val password = currentState.password
+        return authRepository.login(email, password)
     }
 
     private fun handleLoginSuccess(user: User) {
@@ -69,7 +71,7 @@ class LoginViewModel() : BaseViewModel<LoginState, LoginIntent, LoginEffect>(Log
     private fun handleLoginError(error: Throwable) {
         updateState { copy(isLoading = false) }
 
-        when(error){
+        when (error) {
             is ValidationException -> handleValidationError(error)
             is AuthenticationException -> handleAuthenticationError(error)
         }
@@ -117,12 +119,10 @@ class LoginViewModel() : BaseViewModel<LoginState, LoginIntent, LoginEffect>(Log
         updateState { copy(isPasswordVisible = !isPasswordVisible) }
     }
 
-    private fun forgetPassword() {
-        //navigate to forgetPassword screen
+    private  fun forgetPassword() {
     }
 
-    private fun continueWithGoogle() {
-        //navigate to continueWithGoogle screen
+    private  fun continueWithGoogle() {
     }
 
     private fun createNewAccount() {
