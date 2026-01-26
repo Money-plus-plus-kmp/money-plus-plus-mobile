@@ -20,6 +20,7 @@ kotlin {
             dependencies {
                 // Compose
                 implementation(compose.runtime)
+                implementation(projects.designSystem)
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -47,6 +48,7 @@ kotlin {
         }
         androidMain {
             dependencies {
+                implementation(libs.androidx.ui.tooling)
             }
         }
         iosMain {

@@ -70,7 +70,6 @@ fun BottomNavigationBarItem(
                     painter = if (isSelected) selectedIcon else unselectedIcon,
                     modifier = Modifier.size(24.dp),
                     contentDescription = title,
-                    tint = animatedIconTint
                 )
             }
 
