@@ -3,7 +3,6 @@
     <string name="login_subtitle">Enter your credentials to access your account</string>
     <string name="email_hint">Email</string>
     <string name="password_hint">Password</string>
-    <string name="forget_password">Forget password?</string>
     <string name="login">Login</string>
     <string name="or">or</string>
     <string name="continue_with_google">Continue with Google</string>

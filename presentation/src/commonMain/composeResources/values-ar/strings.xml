@@ -10,9 +10,18 @@
     <string name="create_new_account">إنشاء حساب جديد</string>
     <string name="logo_plus">++</string>
     <string name="logo_money">Money</string>
-    <string name="error_email_empty">Email is required</string>
-    <string name="error_email_invalid">Invalid email address</string>
-    <string name="error_password_empty">Password is required</string>
-    <string name="error_password_invalid">Invalid password</string>
-    <string name="error_invalid_credentials">Invalid email or password</string>
+    <string name="error_email_empty">البريد الإلكتروني مطلوب</string>
+    <string name="error_email_invalid">عنوان البريد الإلكتروني غير صالح</string>
+    <string name="error_password_empty">كلمة المرور مطلوبة</string>
+    <string name="error_password_invalid">كلمة المرور غير صحيحة</string>
+    <string name="error_invalid_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
+    <string name="lock">قفل</string>
+    <string name="background_pattern">نمط الخلفية</string>
+    <string name="arrow_left">سهم لليسار</string>
+    <string name="forget_your_password">نسيت كلمة المرور</string>
+    <string name="enter_your_email_to_reset_password">أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين</string>
+    <string name="money">المال</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="Email_text">البريد الإلكتروني</string>
+    <string name="send_reset_link">إرسال رابط إعادة التعيين</string>
 </resources>

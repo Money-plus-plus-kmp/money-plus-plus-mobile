@@ -136,7 +136,6 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 turbine-v100 = { module = "app.cash.turbine:turbine", version.ref = "turbineVersion" }
 ui-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler" }
-androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiToolingVersion" }
 
 
 [plugins]
