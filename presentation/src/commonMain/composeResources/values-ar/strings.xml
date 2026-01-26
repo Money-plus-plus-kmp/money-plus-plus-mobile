@@ -24,4 +24,5 @@
     <string name="email">البريد الإلكتروني</string>
     <string name="Email_text">البريد الإلكتروني</string>
     <string name="send_reset_link">إرسال رابط إعادة التعيين</string>
+    <string name="error_generic">حصل خطأ غير متوقع. حاول مرة أخرى.</string>
 </resources>

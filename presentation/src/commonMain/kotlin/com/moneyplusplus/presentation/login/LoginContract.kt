@@ -11,9 +11,16 @@ data class LoginState(
     val password: String = "",
     val emailError: StringResource? = null,
     val passwordError: StringResource? = null,
-    val canSubmit: Boolean = false,
     val isPasswordVisible: Boolean = false,
-    ) : UiState
+    ) : UiState {
+    val canSubmit: Boolean
+        get() = email.isNotBlank() &&
+                password.isNotBlank() &&
+                emailError == null &&
+                passwordError == null &&
+                !isLoading
+}
+
 
 sealed interface LoginIntent : UiIntent {
     data class EmailChanged(val newEmail: String) : LoginIntent

@@ -8,17 +8,17 @@ import com.moneyplusplus.presentation.base.BaseViewModel
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.error_email_empty
 import money.presentation.generated.resources.error_email_invalid
+import money.presentation.generated.resources.error_generic
 import money.presentation.generated.resources.error_invalid_credentials
 import money.presentation.generated.resources.error_password_empty
 import money.presentation.generated.resources.error_password_invalid
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Provided
 import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
 
 @KoinViewModel
 class LoginViewModel(
-   @Provided val authRepository: AuthRepository
+    @Provided val authRepository: AuthRepository
 ) : BaseViewModel<LoginState, LoginIntent, LoginEffect>(LoginState()) {
     override fun handleIntent(intent: LoginIntent) {
         when (intent) {
@@ -34,19 +34,12 @@ class LoginViewModel(
     }
 
     private fun onPasswordChanged(newPassword: String) {
-        updateState { copy(password = newPassword) }
-        clearErrors()
-        updateCanSubmit()
+        updateState { copy(password = newPassword, emailError = null, passwordError = null) }
+
     }
 
     private fun onEmailChanged(newEmail: String) {
-        updateState { copy(email = newEmail) }
-        clearErrors()
-        updateCanSubmit()
-    }
-
-    private fun clearErrors() {
-        updateState { copy(emailError = null, passwordError = null) }
+        updateState { copy(email = newEmail, emailError = null, passwordError = null) }
     }
 
     private fun onLoginClicked() {
@@ -66,9 +59,14 @@ class LoginViewModel(
     }
 
     private fun handleLoginSuccess(user: User) {
-        updateState { copy(isLoading = false) }
+        updateState { copy(
+            isLoading = false,
+            email = "",
+            password = "",
+            emailError = null,
+            passwordError = null
+        ) }
         sendEffect(LoginEffect.NavigateToHome)
-        updateCanSubmit()
     }
 
     private fun handleLoginError(error: Throwable) {
@@ -76,8 +74,15 @@ class LoginViewModel(
         when (error) {
             is ValidationException -> handleValidationError(error)
             is AuthenticationException -> handleAuthenticationError(error)
+            else -> {
+                updateState {
+                    copy(
+                        emailError = Res.string.error_generic,
+                        passwordError = Res.string.error_generic
+                    )
+                }
+            }
         }
-        updateCanSubmit()
     }
 
     private fun handleValidationError(error: ValidationException) {
@@ -122,10 +127,10 @@ class LoginViewModel(
         updateState { copy(isPasswordVisible = !isPasswordVisible) }
     }
 
-    private  fun forgetPassword() {
+    private fun forgetPassword() {
     }
 
-    private  fun continueWithGoogle() {
+    private fun continueWithGoogle() {
     }
 
     private fun createNewAccount() {
@@ -133,17 +138,7 @@ class LoginViewModel(
     }
 
     private fun setLoadingState() {
-        updateState { copy(isLoading = true, canSubmit = false) }
-    }
-
-    private fun updateCanSubmit() {
-        val canSubmit = currentState.email.isNotBlank() &&
-                currentState.password.isNotBlank() &&
-                currentState.emailError == null &&
-                currentState.passwordError == null &&
-                !currentState.isLoading
-
-        updateState { copy(canSubmit = canSubmit) }
+        updateState { copy(isLoading = true) }
     }
 
 }

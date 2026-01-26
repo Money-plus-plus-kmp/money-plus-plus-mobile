@@ -24,4 +24,5 @@
     <string name="email">email</string>
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
 </resources>
