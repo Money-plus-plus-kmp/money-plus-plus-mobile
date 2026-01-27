@@ -9,4 +9,13 @@
     <string name="email">email</string>
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
+    <string name="arrow_down">arrow down</string>
+    <string name="filter">filter</string>
+    <string name="all">All</string>
+    <string name="incomes">Incomes</string>
+    <string name="expenses">Expenses</string>
+    <string name="transaction">Transaction</string>
+
+
+
 </resources>
