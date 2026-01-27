@@ -14,7 +14,6 @@ import money.presentation.generated.resources.error_password_empty
 import money.presentation.generated.resources.error_password_invalid
 import org.koin.android.annotation.KoinViewModel
 import org.koin.core.annotation.Provided
-import kotlin.uuid.ExperimentalUuidApi
 
 @KoinViewModel
 class LoginViewModel(
@@ -51,7 +50,6 @@ class LoginViewModel(
         )
     }
 
-    @OptIn(ExperimentalUuidApi::class)
     private suspend fun loginUser(): User {
         val email = currentState.email
         val password = currentState.password
