@@ -39,6 +39,7 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.ktor.ktor.client.android.v340)
         }
         commonMain.dependencies {
             implementation(compose.runtime)
