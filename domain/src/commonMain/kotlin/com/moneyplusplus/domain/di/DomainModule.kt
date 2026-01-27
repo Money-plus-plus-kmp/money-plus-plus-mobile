@@ -1,5 +1,6 @@
 package com.moneyplusplus.domain.di
 
+import com.moneyplusplus.domain.usecase.transaction.GetTransactionsUseCase
 import com.moneyplusplus.domain.usecase.validation.EmailValidator
 import com.moneyplusplus.domain.usecase.validation.NameValidator
 import com.moneyplusplus.domain.usecase.validation.PasswordValidator
@@ -10,4 +11,5 @@ val domainModule = module {
     singleOf(::EmailValidator)
     singleOf(::NameValidator)
     singleOf(::PasswordValidator)
+    singleOf(::GetTransactionsUseCase)
 }
