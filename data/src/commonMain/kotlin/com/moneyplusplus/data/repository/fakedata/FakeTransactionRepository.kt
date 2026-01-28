@@ -28,10 +28,12 @@ class FakeTransactionRepository : TransactionRepository {
             }
         }
 
-        filteredList = filteredList.filter { transaction ->
-            transaction.date.date == transactionFilter.date
+        transactionFilter.date.let { filterDate ->
+            filteredList = filteredList.filter { transaction ->
+                transaction.date.year == filterDate.year &&
+                        transaction.date.month == filterDate.month
+            }
         }
-
         return if (filteredList.isNotEmpty()) {
             Result.success(filteredList)
         } else {

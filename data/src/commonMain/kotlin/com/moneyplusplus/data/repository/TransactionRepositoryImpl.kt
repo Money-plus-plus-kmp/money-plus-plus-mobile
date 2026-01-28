@@ -9,6 +9,7 @@ import com.moneyplusplus.domain.repository.TransactionRepository
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.parameter
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
@@ -22,17 +23,17 @@ class TransactionRepositoryImpl(
 
     private suspend fun callTransactions(transactionFilter: TransactionFilter): List<Transaction> {
         val response = client.get("transactions") {
-            url {
-                transactionFilter.type?.let { type ->
-                    parameters.append("type", type.name)
-                }
-                parameters.append("date", transactionFilter.date.toString())
 
-                transactionFilter.categoriesIds.forEach { categoryId ->
-                    parameters.append("category_ids", categoryId.toString())
-                }
-
+            transactionFilter.type?.let { type ->
+                parameter("type", type.name)
             }
+            parameter("date", transactionFilter.date.toString())
+
+            transactionFilter.categoriesIds.forEach { categoryId ->
+                parameter("category_ids", categoryId.toString())
+            }
+
+
         }.body<List<TransactionResponse>>()
         return response.map { it.toDomain() }
     }
