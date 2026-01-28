@@ -96,7 +96,6 @@ fun Chip(
                 painter = iconPainter,
                 modifier = Modifier.size(iconSize),
                 contentDescription = null,
-                tint = contentColor
             )
         }
     }
@@ -161,7 +160,6 @@ fun Chip(
                 painter = icon,
                 modifier = Modifier.size(iconSize),
                 contentDescription = null,
-                tint = contentColor
             )
         }
     }
