@@ -51,9 +51,10 @@ coreVersion = "1.7.0"
 composeHotReload="1.0.0"
 resources = "0.25.2"
 androidx-datastore = "1.2.0"
-uiToolingVersion = "1.10.0"
+uiToolingVersion = "1.10.1"
 
 [libraries]
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }

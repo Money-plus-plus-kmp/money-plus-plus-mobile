@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="login_welcome">مرحبًا بعودتك!</string>
+    <string name="login_subtitle">أدخل بياناتك للوصول إلى حسابك</string>
+    <string name="email_hint">البريد الإلكتروني</string>
+    <string name="password">كلمة المرور</string>
+    <string name="forget_password">نسيت كلمة المرور؟</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="or">أو</string>
+    <string name="continue_with_google">المتابعة باستخدام جوجل</string>
     <string name="create_new_account">إنشاء حساب جديد</string>
+    <string name="logo_plus">++</string>
+    <string name="logo_money">Money</string>
+    <string name="error_email_empty">البريد الإلكتروني مطلوب</string>
+    <string name="error_email_invalid">عنوان البريد الإلكتروني غير صالح</string>
+    <string name="error_password_empty">كلمة المرور مطلوبة</string>
+    <string name="error_password_invalid">كلمة المرور غير صحيحة</string>
+    <string name="error_invalid_credentials">البريد الإلكتروني أو كلمة المرور غير صحيحة</string>
+    <string name="error_email_already_exists">الحساب الإلكتروني موجود بالفعل</string>
+    <string name="lock">قفل</string>
+    <string name="background_pattern">نمط الخلفية</string>
+    <string name="arrow_left">سهم لليسار</string>
+    <string name="forget_your_password">نسيت كلمة المرور</string>
+    <string name="enter_your_email_to_reset_password">أدخل بريدك الإلكتروني وسنرسل لك رابط إعادة التعيين</string>
+    <string name="money">المال</string>
     <string name="create_account">إنشاء حساب</string>
     <string name="start_control_money">إبدأ التحكم بأموالك</string>
     <string name="email">البريد الإلكتروني</string>
+    <string name="Email_text">البريد الإلكتروني</string>
+    <string name="send_reset_link">إرسال رابط إعادة التعيين</string>
+    <string name="error_generic">حصل خطأ غير متوقع. حاول مرة أخرى.</string>
     <string name="name">الاسم</string>
-    <string name="password">الرقم السري</string>
     <string name="password_hint">* استخدم 8 أحرف على الأقل، يحتوي على حرف كبير واحد ورمز واحد على الأقل.</string>
     <string name="back_button">زر الرجوع</string>
     <string name="money_logo">شعار المال</string>
     <string name="error_username_empty">يجب إدخال اسم المستخدم</string>
-    <string name="error_email_empty">يجب إدخال البريد الإلكتروني</string>
-    <string name="error_email_invalid">الحساب الإلكتروني غير صالح</string>
-    <string name="error_password_empty">يجب إدخال كلمة المرور</string>
-    <string name="error_password_invalid">كلمة مرور غير صالحة</string>
-    <string name="error_email_already_exists">الحساب الإلكتروني موجود بالفعل</string>
-    <string name="error_invalid_credentials">الإسم، الحساب الإلكتروني، او كلمة المرور غير صالح</string>
 </resources>
