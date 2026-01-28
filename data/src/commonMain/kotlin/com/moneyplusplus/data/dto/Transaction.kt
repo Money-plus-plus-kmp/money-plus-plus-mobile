@@ -20,7 +20,7 @@ data class TransactionResponse(
     @SerialName("amount")
     val amount: Double,
     @SerialName("categories")
-    val categories: List<CategoryResponse>,
+    val categoryResponse: CategoryResponse,
     @SerialName("currency")
     val currency: CurrencyDto,
     @SerialName("created_at")
@@ -40,5 +40,5 @@ fun TransactionResponse.toDomain() = Transaction(
         name = currency.name,
         country = currency.country
     ),
-    categories = categories.map { it.toDomain() },
+    category = categoryResponse.toDomain()
 )

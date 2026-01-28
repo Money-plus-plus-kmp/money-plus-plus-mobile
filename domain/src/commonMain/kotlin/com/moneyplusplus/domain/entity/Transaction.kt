@@ -10,8 +10,7 @@ data class Transaction (
     val currency: Currency,
     val date: LocalDateTime,
     val type: TransactionType,
-    val categories: List<Category>,
-
+    val category: Category,
     )
 
 enum class TransactionType {
