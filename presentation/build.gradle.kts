@@ -55,29 +55,6 @@ kotlin {
             dependencies {
             }
         }
-
-        sourceSets.named("commonMain").configure {
-            kotlin.srcDir("build/generated/ksp/metadata/commonMain/kotlin")
-        }
-    }
-}
-
-ksp {
-    arg("KOIN_USE_COMPOSE_VIEWMODEL", "true")
-    arg("KOIN_CONFIG_CHECK", "true")
-}
-
-dependencies {
-    // Debug
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
-    // Koin KSP
-    add("kspCommonMainMetadata", libs.koin.ksp.compiler)
-}
-
-project.tasks.withType(KotlinCompilationTask::class.java).configureEach {
-    if (name != "kspCommonMainKotlinMetadata") {
-        dependsOn("kspCommonMainKotlinMetadata")
     }
 }
 
