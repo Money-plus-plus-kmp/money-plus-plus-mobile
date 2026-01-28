@@ -28,8 +28,8 @@ class TransactionRepositoryImpl(
                 }
                 parameters.append("date", transactionFilter.date.toString())
 
-                transactionFilter.categories.forEach { category ->
-                    parameters.append("category_ids", category.id.toString())
+                transactionFilter.categoriesIds.forEach { categoryId ->
+                    parameters.append("category_ids", categoryId.toString())
                 }
 
             }
