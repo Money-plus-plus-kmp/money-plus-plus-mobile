@@ -1,13 +1,4 @@
-package com.moneyplusplus.presentation.util
-
-import kotlinx.datetime.LocalDateTime
-
-fun LocalDateTime.formatDate(): String {
-    val monthName = this.month.name.take(3).lowercase().replaceFirstChar {
-        if (it.isLowerCase()) it.titlecase() else it.toString()
-    }
-    return "$day $monthName ${this.year}"
-}
+package com.moneyplusplus.presentation.formater
 
 fun Double.formatAmount(): String {
     val isInteger = this % 1.0 == 0.0
