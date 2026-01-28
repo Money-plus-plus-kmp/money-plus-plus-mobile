@@ -16,6 +16,7 @@ kotlin {
             dependencies {
                 // Compose
                 implementation(compose.runtime)
+                implementation(projects.designSystem)
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -26,6 +27,8 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
             }
         }
 
@@ -36,6 +39,7 @@ kotlin {
         }
         androidMain {
             dependencies {
+                implementation(libs.androidx.ui.tooling)
             }
         }
         iosMain {
