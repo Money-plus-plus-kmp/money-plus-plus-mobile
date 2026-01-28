@@ -2,8 +2,8 @@ package com.moneyplusplus.presentation.model
 
 import com.moneyplusplus.domain.entity.Transaction
 import com.moneyplusplus.domain.entity.TransactionType
-import com.moneyplusplus.presentation.util.formatAmount
-import com.moneyplusplus.presentation.util.formatDate
+import com.moneyplusplus.presentation.formater.formatAmount
+import com.moneyplusplus.presentation.formater.formatDate
 
 data class TransactionUiModel(
     val id: String,

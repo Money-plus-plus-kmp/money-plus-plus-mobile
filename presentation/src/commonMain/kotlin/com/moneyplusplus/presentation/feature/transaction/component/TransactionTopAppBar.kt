@@ -16,7 +16,7 @@ import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
-import com.moneyplusplus.presentation.util.formatToMonthYearString
+import com.moneyplusplus.presentation.formater.formatToMonthYearString
 import kotlinx.datetime.LocalDate
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_down

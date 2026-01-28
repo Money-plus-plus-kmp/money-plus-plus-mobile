@@ -7,7 +7,6 @@ import com.moneyplusplus.domain.usecase.transaction.GetTransactionsUseCase
 import com.moneyplusplus.presentation.base.BaseViewModel
 import com.moneyplusplus.presentation.model.toUiModel
 import kotlinx.coroutines.launch
-import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
@@ -51,11 +50,16 @@ class TransactionViewModel(
             }
 
             is TransactionIntent.OnDateClick -> {
-                updateState { copy(showDatePicker = true) }
+                updateState { copy(showDatePickerDialog = true) }
             }
 
+            is TransactionIntent.OnDatePickerDialogDismiss -> {
+                updateState { copy(showDatePickerDialog = false) }
+            }
+
+
             is TransactionIntent.OnDateSelected -> {
-                updateState { copy(date = intent.date.toString(), showDatePicker = false) }
+                updateState { copy(date = intent.date, showDatePickerDialog = false) }
                 loadTransactions()
             }
 
@@ -73,7 +77,7 @@ class TransactionViewModel(
 
     private fun initDateThenLoadTransactions() {
         val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-        updateState { copy(date = today.toString()) }
+        updateState { copy(date = today) }
         loadTransactions()
     }
 
@@ -81,11 +85,8 @@ class TransactionViewModel(
         viewModelScope.launch {
 
             val filter = TransactionFilter(
-                date = if (currentState.date.isEmpty()) {
-                    Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-                } else {
-                    LocalDate.parse(currentState.date)
-                },
+                date = currentState.date ?: Clock.System.now()
+                    .toLocalDateTime(TimeZone.currentSystemDefault()).date,
                 type = currentState.typeFilter.toDomainTransactionType(),
                 categoriesIds = currentState.selectedCategoryIds.map { Uuid.parse(it) }
             )
