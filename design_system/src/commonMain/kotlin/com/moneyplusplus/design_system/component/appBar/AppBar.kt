@@ -47,7 +47,8 @@ fun AppBar(
         trailingContent?.let {
             Row(
                 modifier = Modifier.padding(start = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 trailingContent()
             }
