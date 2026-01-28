@@ -76,7 +76,7 @@ fun ScaffoldScope.BottomSheet(
     paddingFromTop: Dp = 64.dp,
     skipPartiallyExpanded: Boolean = false,
     stickyFooterContent: @Composable BoxScope.() -> Unit = {},
-    sheetContent: @Composable ColumnScope.() -> Unit
+    sheetContent: @Composable ColumnScope.(closeSheet: () -> Unit) -> Unit
 ) {
 
     if (!isVisible)
@@ -89,6 +89,15 @@ fun ScaffoldScope.BottomSheet(
     var referenceHeight by remember { mutableStateOf(0) }
     val sheetCollapsedHeightPx = with(density) { 340.dp.toPx() }
     val dragState = rememberDragState()
+    val animatedDismiss: () -> Unit = {
+        scope.launch {
+            dragState.animateTo(
+                BottomSheetValue.HIDDEN,
+                tween(250)
+            )
+            onDismissRequest()
+        }
+    }
 
     LaunchedEffect(sheetSize) {
         if (sheetSize != IntSize.Zero) {
@@ -192,7 +201,7 @@ fun ScaffoldScope.BottomSheet(
                             shape = RoundedCornerShape(2.dp)
                         )
                 )
-                sheetContent()
+                sheetContent(animatedDismiss)
                 AnimatedVisibility(
                     visible = dragState.currentValue != BottomSheetValue.HIDDEN && sheetSize != IntSize.Zero,
                     enter = fadeIn() + slideInVertically(initialOffsetY = { it }),
