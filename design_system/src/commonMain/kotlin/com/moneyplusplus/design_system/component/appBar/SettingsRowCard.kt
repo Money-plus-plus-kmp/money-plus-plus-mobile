@@ -48,7 +48,7 @@ fun SettingsRowCard(
                 style = Theme.typography.title.medium,
                 color = Theme.colorScheme.title,
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
                     .padding(start = if (leadingContent != null) 12.dp else 0.dp)
             )
         }
