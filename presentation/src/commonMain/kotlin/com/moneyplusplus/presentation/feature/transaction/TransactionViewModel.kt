@@ -2,6 +2,7 @@ package com.moneyplusplus.presentation.feature.transaction
 
 import androidx.lifecycle.viewModelScope
 import com.moneyplusplus.domain.model.TransactionFilter
+import com.moneyplusplus.domain.repository.CategoryRepository
 import com.moneyplusplus.domain.usecase.transaction.GetTransactionsUseCase
 import com.moneyplusplus.presentation.base.BaseViewModel
 import com.moneyplusplus.presentation.model.toUiModel
@@ -10,9 +11,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
+import kotlin.uuid.Uuid
 
 
-class TransactionViewModel(private val getTransactionsUseCase: GetTransactionsUseCase) :
+class TransactionViewModel(
+    private val getTransactionsUseCase: GetTransactionsUseCase,
+    private val categoryRepository: CategoryRepository,
+) :
     BaseViewModel<
             TransactionUiState,
             TransactionIntent,
@@ -21,16 +26,22 @@ class TransactionViewModel(private val getTransactionsUseCase: GetTransactionsUs
     ) {
     init {
         initDateThenLoadTransactions()
+        loadCategories()
     }
 
     override fun handleIntent(intent: TransactionIntent) {
         when (intent) {
             is TransactionIntent.OnFilterClick -> {
-                updateState { copy(showFilterBottomSheet = true) }
+                updateState { copy(showCategoriesFilterBottomSheet = true) }
             }
 
             is TransactionIntent.OnFilterSheetDismissed -> {
-                updateState { copy(showFilterBottomSheet = false) }
+                updateState { copy(showCategoriesFilterBottomSheet = false) }
+            }
+
+            is TransactionIntent.OnApplyFilterClick -> {
+                updateState { copy(selectedCategoryIds = intent.selectedCategoryIds) }
+                loadTransactions()
             }
 
             is TransactionIntent.OnTransactionTypeClick -> {
@@ -40,14 +51,24 @@ class TransactionViewModel(private val getTransactionsUseCase: GetTransactionsUs
             }
 
             is TransactionIntent.OnDateClick -> {
-                sendEffect(TransactionEffect.ShowDatePicker(currentState.date))
+                updateState { copy(showDatePicker = true) }
             }
 
             is TransactionIntent.OnDateSelected -> {
-                updateState { copy(date = intent.date.toString()) }
+                updateState { copy(date = intent.date.toString(), showDatePicker = false) }
                 loadTransactions()
             }
+
+            is TransactionIntent.OnAddTransactionClick -> {
+                updateState { copy(showAddTransactionBottomSheet = true) }
+            }
+
+            is TransactionIntent.OnAddTransactionSheetDismissed -> {
+                updateState { copy(showAddTransactionBottomSheet = false) }
+            }
+
         }
+
     }
 
     private fun initDateThenLoadTransactions() {
@@ -66,7 +87,7 @@ class TransactionViewModel(private val getTransactionsUseCase: GetTransactionsUs
                     LocalDate.parse(currentState.date)
                 },
                 type = currentState.typeFilter.toDomainTransactionType(),
-                categories = emptyList()
+                categoriesIds = currentState.selectedCategoryIds.map { Uuid.parse(it) }
             )
 
             updateState { copy(isLoading = true, isError = false) }
@@ -86,10 +107,27 @@ class TransactionViewModel(private val getTransactionsUseCase: GetTransactionsUs
                     copy(
                         isLoading = false,
                         isError = true,
-                        errorMessage = it.message ?: "Unknown error"
+                        errorMessage = it.message
                     )
                 }
             }
         }
+    }
+
+    private fun loadCategories() {
+        viewModelScope.launch {
+            val result = categoryRepository.getCategories()
+            result.onSuccess { categories ->
+                updateState {
+                    copy(categories = categories.map { category ->
+                        category.toUiModel()
+                    })
+                }
+            }.onFailure {
+                updateState { copy(isError = true, errorMessage = it.message) }
+            }
+
+        }
+
     }
 }
