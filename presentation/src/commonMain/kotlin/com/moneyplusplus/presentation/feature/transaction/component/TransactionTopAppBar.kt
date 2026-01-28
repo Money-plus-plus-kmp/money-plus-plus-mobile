@@ -16,6 +16,8 @@ import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import com.moneyplusplus.presentation.util.formatToMonthYearString
+import kotlinx.datetime.LocalDate
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_down
 import money.presentation.generated.resources.filter
@@ -28,7 +30,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TransactionTopAppBar(
-    date: String,
+    date: LocalDate,
     modifier: Modifier = Modifier,
     onFilterClick: () -> Unit = {},
     onDateClick: () -> Unit = {},
@@ -59,7 +61,7 @@ fun TransactionTopAppBar(
 
 @Composable
 private fun DateSelector(
-    date: String,
+    date: LocalDate,
     modifier: Modifier = Modifier,
     onDateClick: () -> Unit = {},
 ) {
@@ -75,7 +77,7 @@ private fun DateSelector(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = date,
+            text = date.formatToMonthYearString(),
             style = Theme.typography.label.small,
             color = Theme.colorScheme.title
         )
@@ -91,6 +93,6 @@ private fun DateSelector(
 @Composable
 private fun TransactionTopAppBarPreview() {
     MoneyTheme {
-        TransactionTopAppBar(date = "27/01/2026")
+        TransactionTopAppBar(date = LocalDate(2026, 1, 1))
     }
 }

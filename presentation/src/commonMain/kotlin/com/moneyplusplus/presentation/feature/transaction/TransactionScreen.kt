@@ -24,11 +24,13 @@ import com.moneyplusplus.design_system.component.bottomSheet.BottomSheet
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.presentation.feature.transaction.component.CategoryFilterBottomSheet
 import com.moneyplusplus.presentation.feature.transaction.component.EmptyTransactionsView
+import com.moneyplusplus.presentation.feature.transaction.component.MonthYearPickerDialog
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionItem
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionTopAppBar
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionTypeFilterSection
 import com.moneyplusplus.presentation.model.CategoryUiModel
 import com.moneyplusplus.presentation.model.TransactionUiModel
+import kotlinx.datetime.LocalDate
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -46,11 +48,12 @@ fun TransactionScreen(
 
     TransactionScreenContent(
         transactions = state.transactions,
-        date = state.date,
+        date = state.date!!,
         selectedTransactionType = state.typeFilter,
         allCategories = state.categories,
         selectedCategoryIds = state.selectedCategoryIds,
         showCategoriesFilterBottomSheet = state.showCategoriesFilterBottomSheet,
+        showDatePickerDialog = state.showDatePickerDialog,
         onFilterClick = { viewModel.handleIntent(TransactionIntent.OnFilterClick) },
         onDateClick = { viewModel.handleIntent(TransactionIntent.OnDateClick) },
         onTransactionTypeClick = { transactionType ->
@@ -69,6 +72,13 @@ fun TransactionScreen(
         onDismissCategorySheet = {
             viewModel.handleIntent(TransactionIntent.OnFilterSheetDismissed)
         },
+        onDateSelected = { date ->
+            viewModel.handleIntent(TransactionIntent.OnDateSelected(date))
+        },
+        onDatePickerDialogDismiss = {
+            viewModel.handleIntent(TransactionIntent.OnAddTransactionSheetDismissed)
+        },
+        currentDate = state.date!!,
 
         modifier = modifier
     )
@@ -78,16 +88,20 @@ fun TransactionScreen(
 private fun TransactionScreenContent(
     transactions: List<TransactionUiModel>,
     selectedTransactionType: TransactionTypeFilter,
-    date: String,
+    date: LocalDate,
     onDateClick: () -> Unit,
     onFilterClick: () -> Unit,
     allCategories: List<CategoryUiModel>,
     selectedCategoryIds: List<String>,
     showCategoriesFilterBottomSheet: Boolean,
+    showDatePickerDialog: Boolean,
+    currentDate: LocalDate,
     onApplyFilterClick: (List<String>) -> Unit,
     onDismissCategorySheet: () -> Unit,
     onTransactionTypeClick: (TransactionTypeFilter) -> Unit,
     onAddTransactionClick: () -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
+    onDatePickerDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Scaffold(
@@ -121,6 +135,17 @@ private fun TransactionScreenContent(
                     )
                 }
             }
+            dialog(
+                isVisible = showDatePickerDialog,
+            ) {
+                MonthYearPickerDialog(
+                    visible = showDatePickerDialog,
+                    currentDate = currentDate,
+                    onDateSelected = onDateSelected,
+                    onDismiss = onDatePickerDialogDismiss
+                )
+            }
+
 
         }
     ) {
