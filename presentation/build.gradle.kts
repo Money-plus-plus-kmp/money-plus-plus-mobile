@@ -19,6 +19,7 @@ kotlin {
         commonMain {
             dependencies {
                 // Compose
+                implementation(compose.material3)
                 implementation(compose.runtime)
                 implementation(projects.designSystem)
                 implementation(compose.foundation)
@@ -68,4 +69,8 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }
