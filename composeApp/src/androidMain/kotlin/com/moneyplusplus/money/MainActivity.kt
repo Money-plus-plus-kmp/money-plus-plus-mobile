@@ -1,22 +1,24 @@
-package com.moneyplusplus.money
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.moneyplusplus.presentation.AccountScreen
-import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import com.moneyplusplus.money.App
 
 class MainActivity : ComponentActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        super.onCreate(savedInstanceState)
 
         setContent {
-            MoneyTheme {
-                AccountScreen()
-            }
+            App()
         }
     }
+}
+
+@Preview
+@Composable
+fun AppAndroidPreview() {
+    App()
 }
