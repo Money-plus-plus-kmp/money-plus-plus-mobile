@@ -42,7 +42,7 @@ import com.moneyplusplus.presentation.base.collectEffect
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.continue_with_google
 import money.presentation.generated.resources.create_new_account
-import money.presentation.generated.resources.email_hint
+import money.presentation.generated.resources.email
 import money.presentation.generated.resources.forget_password
 import money.presentation.generated.resources.google
 import money.presentation.generated.resources.heroicons_outline
@@ -55,7 +55,7 @@ import money.presentation.generated.resources.logo_plus
 import money.presentation.generated.resources.mail_02
 import money.presentation.generated.resources.money
 import money.presentation.generated.resources.or
-import money.presentation.generated.resources.password_hint
+import money.presentation.generated.resources.password
 import money.presentation.generated.resources.square_lock_02
 import money.presentation.generated.resources.white_money
 import org.jetbrains.compose.resources.painterResource
@@ -150,7 +150,7 @@ private fun LoginFormSection(
 
         TextField(
             value = state.email,
-            hint = stringResource(Res.string.email_hint),
+            hint = stringResource(Res.string.email),
             leadingIcon = painterResource(Res.drawable.mail_02),
             onValueChanged = { intent(LoginIntent.EmailChanged(it)) },
             modifier = Modifier.padding(bottom = 12.dp),
@@ -163,7 +163,7 @@ private fun LoginFormSection(
 
         TextField(
             value = state.password,
-            hint = stringResource(Res.string.password_hint),
+            hint = stringResource(Res.string.password),
             onValueChanged = { intent(LoginIntent.PasswordChanged(it)) },
             leadingIcon = painterResource(Res.drawable.square_lock_02),
             trailingIcon = if (state.isPasswordVisible)
