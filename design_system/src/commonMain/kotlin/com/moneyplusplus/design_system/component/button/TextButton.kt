@@ -20,6 +20,7 @@ fun TextButton(
     modifier: Modifier = Modifier,
     isEnabled: Boolean = true,
     isLoading: Boolean = false,
+    hasIndication: Boolean = true,
     contentColor: Color = Theme.colorScheme.primary.primary,
     disabledContentColor: Color = Theme.colorScheme.disable,
     contentPadding: PaddingValues = PaddingValues(0.dp),
@@ -35,6 +36,7 @@ fun TextButton(
         disabledContentColor = disabledContentColor,
         shape = RoundedCornerShape(2.dp),
         isLoading = isLoading,
+        hasIndication = hasIndication,
         modifier = modifier
     ){
         BaseButtonContent(

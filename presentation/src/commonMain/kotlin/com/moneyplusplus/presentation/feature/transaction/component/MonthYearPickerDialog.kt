@@ -32,8 +32,13 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.Month
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_left_04
+import money.presentation.generated.resources.cancel
 import money.presentation.generated.resources.ic_arrow_right
+import money.presentation.generated.resources.next
+import money.presentation.generated.resources.ok
+import money.presentation.generated.resources.previous
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -67,7 +72,7 @@ fun MonthYearPickerDialog(
                             }
                         },
                         painter = painterResource(Res.drawable.arrow_left_04),
-                        contentDescription = "previous"
+                        contentDescription = stringResource(Res.string.previous)
                     )
 
                     Text(
@@ -78,7 +83,7 @@ fun MonthYearPickerDialog(
                     Icon(
                         modifier = Modifier.clickable { selectedYear++ },
                         painter = painterResource(Res.drawable.ic_arrow_right),
-                        contentDescription = "Next"
+                        contentDescription = stringResource(Res.string.next)
                     )
                 }
 
@@ -106,14 +111,21 @@ fun MonthYearPickerDialog(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End
                 ) {
-                    TextButton(text = "Cancel", onClick = onDismiss)
+                    TextButton(
+                        text = stringResource(Res.string.cancel),
+                        hasIndication = false,
+                        onClick = onDismiss
+                    )
 
 
                     Spacer(modifier = Modifier.width(16.dp))
-                    TextButton(text = "OK", onClick = {
-                        val newDate = LocalDate(selectedYear, selectedMonth, 1)
-                        onDateSelected(newDate)
-                    })
+                    TextButton(
+                        text = stringResource(Res.string.ok),
+                        hasIndication = false,
+                        onClick = {
+                            val newDate = LocalDate(selectedYear, selectedMonth, 1)
+                            onDateSelected(newDate)
+                        })
                 }
             }
         }

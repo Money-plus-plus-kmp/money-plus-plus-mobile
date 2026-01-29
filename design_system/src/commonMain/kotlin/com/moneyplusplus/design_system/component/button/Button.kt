@@ -5,6 +5,7 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -52,6 +53,7 @@ fun Button(
     disabledContentColor: Color = Color.Transparent,
     borderStroke: BorderStroke? = null,
     innerShadow: Shadow? = null,
+    hasIndication: Boolean = true,
     content: @Composable RowScope.(contentColor: Color) -> Unit
 ) {
     val buttonBackgroundColor by animateColorAsState(
@@ -77,6 +79,7 @@ fun Button(
                 if (isEnabled && !isLoading) Modifier.clickable(
                     onClick = onClick,
                     interactionSource = remember { MutableInteractionSource() },
+                    indication = if (hasIndication) LocalIndication.current else null
                 )
                 else Modifier
             )

@@ -22,6 +22,11 @@
     <string name="close">close</string>
     <string name="clear">Clear</string>
     <string name="apply">Apply</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
 
 
 
