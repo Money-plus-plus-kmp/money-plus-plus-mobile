@@ -10,7 +10,8 @@ data class TransactionUiModel(
     val title: String,
     val amount: String,
     val dateFormated: String,
-    val isExpense: Boolean
+    val isExpense: Boolean,
+    val categoryId: String
 )
 
 fun Transaction.toUiModel() =
@@ -19,5 +20,6 @@ fun Transaction.toUiModel() =
         title = title,
         amount = "${amount.formatAmount()} ${currency.code}",
         isExpense = type == TransactionType.EXPENSE,
-        dateFormated = date.formatDate()
+        dateFormated = date.formatDate(),
+        categoryId = category.id.toString()
     )

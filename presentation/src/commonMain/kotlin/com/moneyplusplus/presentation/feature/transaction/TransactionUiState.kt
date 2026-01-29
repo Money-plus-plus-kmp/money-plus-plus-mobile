@@ -7,6 +7,7 @@ import kotlinx.datetime.LocalDate
 
 data class TransactionUiState(
     val transactions: List<TransactionUiModel> = emptyList(),
+    val allTransactions: List<TransactionUiModel> = emptyList(),
     val isLoading: Boolean = false,
     val isError: Boolean = false,
     val errorMessage: String? = null,
@@ -18,3 +19,9 @@ data class TransactionUiState(
     val selectedCategoryIds: List<String> = emptyList(),
     val showDatePickerDialog: Boolean = false
 ) : UiState
+
+enum class ContentState {
+    LOADING,
+    EMPTY,
+    CONTENT
+}

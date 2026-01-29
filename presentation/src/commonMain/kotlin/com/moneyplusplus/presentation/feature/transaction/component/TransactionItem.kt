@@ -91,7 +91,8 @@ private fun TransactionItemPreview() {
                     title = "Salary",
                     amount = "30,000 EGP",
                     isExpense = false,
-                    dateFormated = "27/01/2026"
+                    dateFormated = "27/01/2026",
+                    categoryId = "1"
                 )
             )
             TransactionItem(
@@ -100,7 +101,8 @@ private fun TransactionItemPreview() {
                     title = "Travel",
                     amount = "50,000 EGP",
                     isExpense = true,
-                    dateFormated = "27/01/2026"
+                    dateFormated = "27/01/2026",
+                    categoryId = "2"
                 )
             )
         }
