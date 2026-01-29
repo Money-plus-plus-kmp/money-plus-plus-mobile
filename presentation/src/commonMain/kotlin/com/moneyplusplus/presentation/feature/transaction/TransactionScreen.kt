@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.bottomSheet.BottomSheet
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
+import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.feature.transaction.component.CategoryFilterBottomSheet
 import com.moneyplusplus.presentation.feature.transaction.component.EmptyTransactionsView
 import com.moneyplusplus.presentation.feature.transaction.component.MonthYearPickerDialog
@@ -59,7 +60,7 @@ fun TransactionScreen(
             //todo handle effects here  whenever we needed
         }
     }
-    LaunchedEffect(state.typeFilter){
+    LaunchedEffect(state.typeFilter) {
         listState.animateScrollToItem(0)
     }
 
@@ -127,6 +128,7 @@ private fun TransactionScreenContent(
 ) {
     Scaffold(
         modifier = modifier,
+        statusBarColor = Theme.colorScheme.surface.surfaceLow,
         topBar = {
             TransactionTopAppBar(
                 date = date,
@@ -136,7 +138,7 @@ private fun TransactionScreenContent(
             TransactionTypeFilterSection(
                 onTransactionTypeClick = onTransactionTypeClick,
                 selectedTransactionType = selectedTransactionType,
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp, bottom = 4.dp)
             )
         },
         overlays = {
@@ -204,7 +206,7 @@ private fun TransactionScreenContent(
 
                 ContentState.EMPTY -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        EmptyTransactionsView()
+                        EmptyTransactionsView(onAddTransactionClick = onAddTransactionClick)
                     }
                 }
 

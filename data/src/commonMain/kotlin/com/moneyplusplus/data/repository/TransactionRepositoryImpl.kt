@@ -2,7 +2,7 @@ package com.moneyplusplus.data.repository
 
 import com.moneyplusplus.data.base.safeCall
 import com.moneyplusplus.data.dto.TransactionResponse
-import com.moneyplusplus.data.dto.toDomain
+import com.moneyplusplus.data.mapper.toDomain
 import com.moneyplusplus.domain.entity.Transaction
 import com.moneyplusplus.domain.model.TransactionFilter
 import com.moneyplusplus.domain.repository.TransactionRepository

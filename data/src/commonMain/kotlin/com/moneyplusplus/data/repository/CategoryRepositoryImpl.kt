@@ -2,7 +2,7 @@ package com.moneyplusplus.data.repository
 
 import com.moneyplusplus.data.base.safeCall
 import com.moneyplusplus.data.dto.CategoryResponse
-import com.moneyplusplus.data.dto.toDomain
+import com.moneyplusplus.data.mapper.toDomain
 import com.moneyplusplus.domain.entity.Category
 import com.moneyplusplus.domain.repository.CategoryRepository
 import io.ktor.client.HttpClient

@@ -93,19 +93,19 @@ fun MonthYearPickerDialog(
                     columns = GridCells.Fixed(3),
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.height(200.dp)
+                    modifier = Modifier.height(230.dp)
                 ) {
-                    items(Month.entries.toTypedArray()) { month ->
+                    items(Month.entries, key = { it.name }) { month ->
                         val isSelected = month == selectedMonth
                         Chip(
                             text = month.name.take(3),
                             isSelected = isSelected,
                             onClick = { selectedMonth = month },
+                            modifier = Modifier.height(48.dp)
                         )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
@@ -118,7 +118,7 @@ fun MonthYearPickerDialog(
                     )
 
 
-                    Spacer(modifier = Modifier.width(16.dp))
+                    Spacer(modifier = Modifier.width(24.dp))
                     TextButton(
                         text = stringResource(Res.string.ok),
                         hasIndication = false,
