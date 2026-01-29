@@ -1,18 +1,25 @@
 package com.moneyplusplus.presentation.feature.transaction
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.EaseInExpo
+import androidx.compose.animation.core.EaseOutExpo
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,12 +33,16 @@ import com.moneyplusplus.presentation.feature.transaction.component.CategoryFilt
 import com.moneyplusplus.presentation.feature.transaction.component.EmptyTransactionsView
 import com.moneyplusplus.presentation.feature.transaction.component.MonthYearPickerDialog
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionItem
+import com.moneyplusplus.presentation.feature.transaction.component.TransactionLoadingItem
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionTopAppBar
 import com.moneyplusplus.presentation.feature.transaction.component.TransactionTypeFilterSection
 import com.moneyplusplus.presentation.model.CategoryUiModel
 import com.moneyplusplus.presentation.model.TransactionUiModel
 import kotlinx.datetime.LocalDate
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.time.Clock
 
 @Composable
 fun TransactionScreen(
@@ -40,15 +51,23 @@ fun TransactionScreen(
 
     ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val listState = rememberLazyListState()
+    val displayedDate = state.date ?: currentDate
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             //todo handle effects here  whenever we needed
         }
     }
+    LaunchedEffect(state.typeFilter){
+        listState.animateScrollToItem(0)
+    }
 
     TransactionScreenContent(
+        isLoading = state.isLoading,
         transactions = state.transactions,
-        date = state.date!!,
+        date = displayedDate,
+        listState = listState,
         selectedTransactionType = state.typeFilter,
         allCategories = state.categories,
         selectedCategoryIds = state.selectedCategoryIds,
@@ -76,9 +95,9 @@ fun TransactionScreen(
             viewModel.handleIntent(TransactionIntent.OnDateSelected(date))
         },
         onDatePickerDialogDismiss = {
-            viewModel.handleIntent(TransactionIntent.OnAddTransactionSheetDismissed)
+            viewModel.handleIntent(TransactionIntent.OnDatePickerDialogDismiss)
         },
-        currentDate = state.date!!,
+        currentDate = displayedDate,
 
         modifier = modifier
     )
@@ -86,9 +105,11 @@ fun TransactionScreen(
 
 @Composable
 private fun TransactionScreenContent(
+    isLoading: Boolean,
     transactions: List<TransactionUiModel>,
     selectedTransactionType: TransactionTypeFilter,
     date: LocalDate,
+    listState: LazyListState,
     onDateClick: () -> Unit,
     onFilterClick: () -> Unit,
     allCategories: List<CategoryUiModel>,
@@ -111,7 +132,11 @@ private fun TransactionScreenContent(
                 date = date,
                 onFilterClick = onFilterClick,
                 onDateClick = onDateClick
-
+            )
+            TransactionTypeFilterSection(
+                onTransactionTypeClick = onTransactionTypeClick,
+                selectedTransactionType = selectedTransactionType,
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp)
             )
         },
         overlays = {
@@ -149,56 +174,68 @@ private fun TransactionScreenContent(
 
         }
     ) {
-
+        val currentState = when {
+            isLoading && transactions.isEmpty() -> ContentState.LOADING
+            transactions.isEmpty() -> ContentState.EMPTY
+            else -> ContentState.CONTENT
+        }
         AnimatedContent(
-            targetState = transactions.isNotEmpty(),
+            targetState = currentState,
             transitionSpec = {
-                (fadeIn() + slideInVertically { 50 }).togetherWith(fadeOut())
-            }
-        ) { hasData ->
-            if (hasData) {
-                LazyColumn(
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    item {
-                        TransactionTypeFilterSection(
-                            onTransactionTypeClick = onTransactionTypeClick,
-                            selectedTransactionType = selectedTransactionType
-                        )
-                    }
-                    if (transactions.isEmpty()) {
-                        item {
-                            EmptyTransactionsView(
-                                onAddTransactionClick = onAddTransactionClick,
+                (fadeIn(animationSpec = tween(300)) +
+                        slideInHorizontally(
+                            animationSpec = spring(
+                                stiffness = Spring.StiffnessMediumLow
                             )
+                        ) { 50 }
+                        )
+                    .togetherWith(fadeOut(animationSpec = tween(300)))
+            },
+            contentKey = { it },
+        ) { state ->
+            when (state) {
+                ContentState.LOADING -> {
+                    Column(Modifier.fillMaxSize().padding(16.dp)) {
+                        repeat(20) {
+                            TransactionLoadingItem()
                         }
-                    } else {
+                    }
+                }
+
+                ContentState.EMPTY -> {
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        EmptyTransactionsView()
+                    }
+                }
+
+                ContentState.CONTENT -> {
+                    LazyColumn(
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        state = listState
+                    )
+                    {
+
+
                         items(
                             items = transactions,
                             key = { it.id }) { transaction ->
                             TransactionItem(
                                 transaction = transaction,
                                 modifier = Modifier.animateItem(
+                                    fadeInSpec = tween(300, easing = EaseInExpo),
+                                    fadeOutSpec = tween(300, easing = EaseOutExpo),
                                     placementSpec = spring(
                                         dampingRatio = Spring.DampingRatioLowBouncy,
-                                        stiffness = Spring.StiffnessMediumLow
+                                        stiffness = Spring.StiffnessLow
                                     )
                                 )
                             )
                         }
                     }
-
-                }
-            } else {
-                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    EmptyTransactionsView()
                 }
             }
         }
+
     }
 }
-
-
-
-
