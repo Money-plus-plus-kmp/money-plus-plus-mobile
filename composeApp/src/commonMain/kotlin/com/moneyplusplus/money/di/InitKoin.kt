@@ -1,8 +1,7 @@
 package com.moneyplusplus.money.di
 
-import com.moneyplusplus.data.di.dataModule
-import com.moneyplusplus.domain.di.domainModule
-import com.moneyplusplus.presentation.di.presentationModule
+import com.moneyplusplus.data.di.moneyDataModule
+import com.moneyplusplus.presentation.di.moneyPresentationModule
 import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
@@ -19,6 +18,8 @@ fun doInitKoin() {
 }
 
 val appModule = module {
-    includes(presentationModule, domainModule, dataModule, platformModule)
+    includes(
+        moneyDataModule
+        moneyPresentationModule,
+    )
 }
-

@@ -4,6 +4,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
@@ -11,7 +15,9 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun TextField(
@@ -58,4 +64,35 @@ fun TextField(
         visualTransformation = visualTransformation,
         maxCharacters = maxCharacters
     )
+}
+
+
+@Preview
+@Composable
+private fun TextFieldPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("") }
+
+        TextField(
+            value = text,
+            hint = "Enter text",
+            onValueChanged = { text = it }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun TextFieldErrorPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("Wrong input") }
+
+        TextField(
+            value = text,
+            hint = "Email",
+            onValueChanged = { text = it },
+            isError = true,
+            errorMessage = "Invalid email address"
+        )
+    }
 }
