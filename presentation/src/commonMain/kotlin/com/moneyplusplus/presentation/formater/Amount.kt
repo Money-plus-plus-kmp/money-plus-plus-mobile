@@ -1,11 +1,14 @@
 package com.moneyplusplus.presentation.formater
 
+import kotlin.math.roundToInt
+
 fun Double.formatAmount(): String {
-    val isInteger = this % 1.0 == 0.0
+    val roundedAmount = (this * 100.0).roundToInt() / 100.0
+    val isInteger = roundedAmount % 1.0 == 0.0
     val text = if (isInteger) {
-        this.toLong().toString()
+        roundedAmount.toLong().toString()
     } else {
-        this.toString()
+        roundedAmount.toString()
     }
 
     val parts = text.split(".")

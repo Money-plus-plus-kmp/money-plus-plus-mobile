@@ -40,13 +40,13 @@ class TransactionViewModel(
 
             is TransactionIntent.OnApplyFilterClick -> {
                 updateState { copy(selectedCategoryIds = intent.selectedCategoryIds) }
-                loadTransactions()
+                applyLocalFilters()
             }
 
             is TransactionIntent.OnTransactionTypeClick -> {
                 if (currentState.typeFilter == intent.type) return
                 updateState { copy(typeFilter = intent.type) }
-                loadTransactions()
+                applyLocalFilters()
             }
 
             is TransactionIntent.OnDateClick -> {
@@ -97,12 +97,12 @@ class TransactionViewModel(
             result.onSuccess { transactions ->
                 updateState {
                     copy(
-                        transactions = transactions.map { it.toUiModel() },
+                        allTransactions = transactions.map { it.toUiModel() },
                         isLoading = false,
                         isError = false
                     )
                 }
-
+                applyLocalFilters()
             }.onFailure {
                 updateState {
                     copy(
@@ -130,5 +130,21 @@ class TransactionViewModel(
 
         }
 
+    }
+
+    private fun applyLocalFilters() {
+        val allTransactions = currentState.allTransactions
+        var filteredTransactions = when (currentState.typeFilter) {
+            TransactionTypeFilter.ALL -> allTransactions
+            TransactionTypeFilter.INCOMES -> allTransactions.filter { it.isExpense.not() }
+            TransactionTypeFilter.EXPENSES -> allTransactions.filter { it.isExpense }
+        }
+
+        if (currentState.selectedCategoryIds.isNotEmpty()) {
+            filteredTransactions = filteredTransactions.filter { transaction ->
+                transaction.categoryId in currentState.selectedCategoryIds
+            }
+        }
+        updateState { copy(transactions = filteredTransactions) }
     }
 }

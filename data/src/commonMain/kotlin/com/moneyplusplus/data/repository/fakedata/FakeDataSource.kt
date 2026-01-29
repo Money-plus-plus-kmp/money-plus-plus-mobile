@@ -14,23 +14,8 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 object FakeDataSource {
 
-    fun getFakeCategories(): List<Category> {
-        return listOf(
-            Category(id = Uuid.parse("550e8400-e29b-41d4-a716-446655440000"), name = "Food"),
-            Category(id = Uuid.parse("6ba7b810-9dad-11d1-80b4-00c04fd430c8"), name = "Transport"),
-            Category(id = Uuid.parse("6ba7b811-9dad-11d1-80b4-00c04fd430c8"), name = "Shopping"),
-            Category(id = Uuid.parse("6ba7b812-9dad-11d1-80b4-00c04fd430c8"), name = "Salary"),
-            Category(id = Uuid.parse("6ba7b813-9dad-11d1-80b4-00c04fd430c8"), name = "Investment"),
-            Category(id = Uuid.parse("6ba7b814-9dad-11d1-80b4-00c04fd430c8"), name = "Education"),
-            Category(id = Uuid.parse("6ba7b815-9dad-11d1-80b4-00c04fd430c8"), name = "Freelance"),
-            Category(id = Uuid.parse("6ba7b816-9dad-11d1-80b4-00c04fd430c8"), name = "Bills")
-        )
-    }
 
-    private val USD = Currency("USD", "US Dollar", "United States")
     private val EGP = Currency("EGP", "Egyptian Pound", "Egypt")
-
-
     private fun getTitlesForCategory(category: Category): List<String> {
         return when (category.name) {
             "Food" -> listOf(
@@ -71,7 +56,18 @@ object FakeDataSource {
             else -> listOf("Unknown Transaction")
         }
     }
-
+    fun getFakeCategories(): List<Category> {
+        return listOf(
+            Category(id = Uuid.parse("550e8400-e29b-41d4-a716-446655440000"), name = "Food"),
+            Category(id = Uuid.parse("6ba7b810-9dad-11d1-80b4-00c04fd430c8"), name = "Transport"),
+            Category(id = Uuid.parse("6ba7b811-9dad-11d1-80b4-00c04fd430c8"), name = "Shopping"),
+            Category(id = Uuid.parse("6ba7b812-9dad-11d1-80b4-00c04fd430c8"), name = "Salary"),
+            Category(id = Uuid.parse("6ba7b813-9dad-11d1-80b4-00c04fd430c8"), name = "Investment"),
+            Category(id = Uuid.parse("6ba7b814-9dad-11d1-80b4-00c04fd430c8"), name = "Education"),
+            Category(id = Uuid.parse("6ba7b815-9dad-11d1-80b4-00c04fd430c8"), name = "Freelance"),
+            Category(id = Uuid.parse("6ba7b816-9dad-11d1-80b4-00c04fd430c8"), name = "Bills")
+        )
+    }
     fun getFakeTransactions(count: Int = 50): List<Transaction> {
         val transactions = mutableListOf<Transaction>()
         val currentMoment = Clock.System.now()
@@ -104,7 +100,7 @@ object FakeDataSource {
                     id = Uuid.random(),
                     title = title,
                     amount = amount,
-                    currency = if (Random.nextBoolean()) USD else EGP,
+                    currency = EGP,
                     date = fakeDate,
                     type = type,
                     category = category

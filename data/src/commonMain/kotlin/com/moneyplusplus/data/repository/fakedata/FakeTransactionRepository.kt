@@ -19,9 +19,6 @@ class FakeTransactionRepository : TransactionRepository {
 
         var filteredList = allTransactions
 
-        transactionFilter.type?.let { type ->
-            filteredList = filteredList.filter { it.type == type }
-        }
         if (transactionFilter.categoriesIds.isNotEmpty()) {
             filteredList = filteredList.filter { transaction ->
                 transactionFilter.categoriesIds.contains(transaction.category.id)

@@ -24,9 +24,6 @@ class TransactionRepositoryImpl(
     private suspend fun callTransactions(transactionFilter: TransactionFilter): List<Transaction> {
         val response = client.get("transactions") {
 
-            transactionFilter.type?.let { type ->
-                parameter("type", type.name)
-            }
             parameter("date", transactionFilter.date.toString())
 
             transactionFilter.categoriesIds.forEach { categoryId ->
