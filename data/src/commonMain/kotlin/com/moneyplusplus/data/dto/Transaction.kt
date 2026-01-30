@@ -13,7 +13,7 @@ data class TransactionResponse(
     val type: String,
     @SerialName("amount")
     val amount: Double,
-    @SerialName("categories")
+    @SerialName("category")
     val categoryResponse: CategoryResponse,
     @SerialName("currency")
     val currency: CurrencyDto,
