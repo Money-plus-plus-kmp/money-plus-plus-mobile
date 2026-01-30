@@ -32,7 +32,9 @@ class AuthRepositoryImpl() : AuthRepository {
         )
     }
 
-    override suspend fun resetPassword(email: String) {}
+    override suspend fun resetPassword(email: String): String {
+        TODO("Not yet implemented")
+    }
 
     override suspend fun logout() {}
 }

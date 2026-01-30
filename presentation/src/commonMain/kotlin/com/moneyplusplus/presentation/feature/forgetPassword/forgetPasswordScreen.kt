@@ -28,6 +28,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ForgetPasswordScreen(
     viewModel: ForgetPasswordViewModel = koinViewModel(),
+    onNavigateBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
@@ -35,9 +36,11 @@ fun ForgetPasswordScreen(
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            is ForgetPasswordEffect.NavigateBack -> {} //TODO navigate back
-            is ForgetPasswordEffect.NavigateToLogin -> {} //TODO navigate to login
-            is ForgetPasswordEffect.ShowSnackbar -> {} //TODO show snackbar
+            is ForgetPasswordEffect.NavigateBack -> onNavigateBack()
+            is ForgetPasswordEffect.NavigateToLogin -> onNavigateBack()
+            is ForgetPasswordEffect.ShowSnackbar -> {
+               // TODO: Show snackbar
+            }
 
         }
 
@@ -109,6 +112,8 @@ fun Content(
 @Preview()
 fun ForgetPasswordPreview() {
     MoneyTheme {
-        ForgetPasswordScreen()
+        ForgetPasswordScreen(
+            onNavigateBack = {},
+        )
     }
 }

@@ -16,13 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.input.ImeAction
@@ -50,10 +48,7 @@ import money.presentation.generated.resources.login
 import money.presentation.generated.resources.login_background
 import money.presentation.generated.resources.login_subtitle
 import money.presentation.generated.resources.login_welcome
-import money.presentation.generated.resources.logo_money
-import money.presentation.generated.resources.logo_plus
 import money.presentation.generated.resources.mail_02
-import money.presentation.generated.resources.money
 import money.presentation.generated.resources.or
 import money.presentation.generated.resources.password
 import money.presentation.generated.resources.square_lock_02
@@ -66,12 +61,16 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel = koinViewModel(),
-    onNavigateHome: () -> Unit
+    onNavigateHome: () -> Unit,
+    onNavigateForgetPassword: () -> Unit,
+    onNavigateCreateAccount: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     viewModel.effect.collectEffect { effect ->
         when (effect) {
             LoginEffect.NavigateToHome -> onNavigateHome()
+            LoginEffect.NavigateToForgetPassword -> onNavigateForgetPassword()
+            LoginEffect.NavigateToCreateAccount -> onNavigateCreateAccount()
         }
     }
     LoginScreenContent(
