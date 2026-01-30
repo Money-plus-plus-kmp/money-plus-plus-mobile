@@ -34,4 +34,6 @@ sealed interface LoginIntent : UiIntent {
 
 sealed interface LoginEffect : UiEffect {
     data object NavigateToHome : LoginEffect
+    data object NavigateToForgetPassword : LoginEffect
+    data object NavigateToCreateAccount : LoginEffect
 }
