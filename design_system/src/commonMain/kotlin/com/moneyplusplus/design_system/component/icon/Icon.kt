@@ -12,12 +12,10 @@ fun Icon(
     painter: Painter,
     contentDescription: String?,
     modifier: Modifier = Modifier,
-    tint: Color = Color.Unspecified,
 ) {
     Image(
         modifier = modifier,
         painter = painter,
         contentDescription = contentDescription,
-        colorFilter = ColorFilter.tint(color = tint)
     )
 }

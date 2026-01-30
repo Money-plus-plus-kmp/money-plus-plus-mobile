@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
+import com.moneyplusplus.design_system.component.snackbar.MSnackbarProvider
 import com.moneyplusplus.design_system.theme.color.scheme.ColorScheme
 import com.moneyplusplus.design_system.theme.color.scheme.LightColorScheme
 import com.moneyplusplus.design_system.theme.color.scheme.LocalColorScheme
@@ -22,7 +23,9 @@ fun MoneyTheme(
         LocalColorScheme provides colorScheme,
         LocalTypography provides typography
     ) {
-        content()
+        MSnackbarProvider {
+            content()
+        }
     }
 }
 

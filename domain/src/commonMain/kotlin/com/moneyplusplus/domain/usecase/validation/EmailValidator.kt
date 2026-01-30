@@ -1,8 +1,7 @@
 package com.moneyplusplus.domain.usecase.validation
 
-import com.moneyplusplus.domain.exception.ValidationException
-import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidEmail
 import com.moneyplusplus.domain.exception.ValidationException.Email.Empty
+import com.moneyplusplus.domain.exception.ValidationException.Email.InvalidEmail
 
 class EmailValidator {
 

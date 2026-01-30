@@ -1,8 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 kotlin {
@@ -15,7 +19,9 @@ kotlin {
         commonMain {
             dependencies {
                 // Compose
+                implementation(compose.material3)
                 implementation(compose.runtime)
+                implementation(projects.designSystem)
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -26,6 +32,13 @@ kotlin {
                 implementation(libs.androidx.lifecycle.viewmodelCompose)
                 implementation(libs.androidx.lifecycle.runtimeCompose)
                 implementation(libs.kotlinx.coroutines.core)
+
+                // koin
+                implementation(libs.koin.core)
+                implementation(libs.koin.compose)
+                implementation(libs.koin.compose.viewmodel)
+                api(libs.koin.annotations)
+                implementation(libs.kotlinx.serialization.json)
             }
         }
 
@@ -36,6 +49,7 @@ kotlin {
         }
         androidMain {
             dependencies {
+                implementation(libs.androidx.ui.tooling)
             }
         }
         iosMain {
@@ -55,4 +69,8 @@ android {
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
+}
+
+dependencies {
+    debugImplementation(compose.uiTooling)
 }

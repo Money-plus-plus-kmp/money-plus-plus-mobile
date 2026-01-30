@@ -19,7 +19,9 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +36,9 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun BasicTextField(
@@ -158,7 +162,6 @@ private fun TextFieldContent(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .size(24.dp),
-                tint = animatedIconErrorColor
             )
         }
 
@@ -224,4 +227,35 @@ private fun VerticalDivider() {
             .size(1.dp, 21.dp)
             .background(Theme.colorScheme.stroke),
     )
+}
+
+
+@Preview
+@Composable
+private fun BasicTextFieldPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("") }
+
+        BasicTextField(
+            value = text,
+            hint = "Enter your name",
+            onValueChanged = { text = it }
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun BasicTextFieldErrorPreview() {
+    MoneyTheme {
+        var text by remember { mutableStateOf("Invalid value") }
+
+        BasicTextField(
+            value = text,
+            hint = "Email",
+            onValueChanged = { text = it },
+            isError = true,
+            errorMessage = "Invalid email address"
+        )
+    }
 }

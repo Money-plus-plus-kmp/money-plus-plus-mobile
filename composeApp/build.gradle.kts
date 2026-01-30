@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 val localProperties = Properties()
@@ -51,9 +52,14 @@ kotlin {
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
 
+            // Navigation
+            implementation(libs.androidx.navigation.compose)
+            implementation(libs.kotlinx.serialization.json)
+
             implementation(projects.data)
             implementation(projects.domain)
             implementation(projects.presentation)
+            implementation(projects.designSystem)
 
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
