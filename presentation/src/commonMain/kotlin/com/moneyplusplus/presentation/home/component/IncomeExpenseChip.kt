@@ -28,6 +28,7 @@ import money.presentation.generated.resources.income
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import kotlin.math.abs
 
 @Composable
 fun IncomeExpenseChip(
@@ -103,7 +104,7 @@ private fun MoneyAmount(
         )
 
         Text(
-            text = value.toString(),
+            text = formatBalance(value),
             color = colorScheme.title,
             style = typography.label.medium,
         )
@@ -114,6 +115,21 @@ private fun MoneyAmount(
             style = typography.label.medium,
         )
     }
+}
+
+private fun formatBalance(balance: Double): String {
+    val wholePart = balance.toLong()
+    val decimalPart = ((abs(balance) % 1) * 100).toLong()
+
+    val wholeString = wholePart.toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(",")
+        .reversed()
+
+    val decimalString = decimalPart.toString().padStart(2, '0')
+
+    return "$wholeString.$decimalString"
 }
 
 @Composable
