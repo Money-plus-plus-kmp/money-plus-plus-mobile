@@ -43,7 +43,6 @@ import org.koin.compose.viewmodel.koinViewModel
 fun CreateAccountScreen(
     viewModel: CreateAccountViewModel = koinViewModel(),
     onBackClick: () -> Unit,
-    intent: (CreateAccountIntent) -> Unit,
     onNavigateToAccountSetup: () -> Unit,
 
     ) {
@@ -62,7 +61,7 @@ fun CreateAccountScreen(
             AppBar(
                 leadingContent = {
                     AppBarOptionContainer(
-                        onClick = { intent(CreateAccountIntent.OnBackClicked) },
+                        onClick = { viewModel.handleIntent(CreateAccountIntent.OnBackClicked) },
                         isBadgeVisible = true,
                         content = {
                             Icon(

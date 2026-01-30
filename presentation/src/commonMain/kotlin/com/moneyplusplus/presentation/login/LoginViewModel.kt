@@ -126,13 +126,14 @@ class LoginViewModel(
     }
 
     private fun forgetPassword() {
+        sendEffect(LoginEffect.NavigateToForgetPassword)
     }
 
     private fun continueWithGoogle() {
     }
 
     private fun createNewAccount() {
-        //navigate to createNewAccount screen
+        sendEffect(LoginEffect.NavigateToCreateAccount)
     }
 
     private fun setLoadingState() {
