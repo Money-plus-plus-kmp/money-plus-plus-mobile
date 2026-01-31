@@ -5,10 +5,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import com.moneyplusplus.design_system.generated.resources.Res
-import com.moneyplusplus.design_system.generated.resources.Rubik_Medium
-import com.moneyplusplus.design_system.generated.resources.Rubik_Regular
-import com.moneyplusplus.design_system.generated.resources.Rubik_SemiBold
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.Rubik_Medium
+import money.design_system.generated.resources.Rubik_Regular
+import money.design_system.generated.resources.Rubik_SemiBold
 import org.jetbrains.compose.resources.Font
 
 @Composable

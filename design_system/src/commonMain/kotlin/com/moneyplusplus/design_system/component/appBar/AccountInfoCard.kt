@@ -2,10 +2,8 @@ package com.moneyplusplus.design_system.component.appBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,11 +19,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.icon.Icon
-import com.moneyplusplus.design_system.generated.resources.Res
-import com.moneyplusplus.design_system.generated.resources.ic_edit
-import org.jetbrains.compose.resources.painterResource
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.Theme
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.ic_edit
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AccountInfoCard(

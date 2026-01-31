@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation
+package com.moneyplusplus.design_system.component.appBar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.image.Image
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.background_pattern
-import money.presentation.generated.resources.ic_background_pattern
+import money.presentation.generated.resources.ic_background_acc
 import money.presentation.generated.resources.lock
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
@@ -28,7 +28,7 @@ internal fun ForgetPasswordHeader(
         contentAlignment = Alignment.TopCenter
     ) {
         Image(
-            painter = painterResource(Res.drawable.ic_background_pattern),
+            painter = painterResource(Res.drawable.ic_background_acc),
             contentDescription = stringResource(Res.string.background_pattern),
         )
 

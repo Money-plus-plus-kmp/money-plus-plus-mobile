@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -9,8 +10,18 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
+compose.resources {
+    publicResClass = false
+    packageOfResClass = "money.presentation.generated.resources"
+    generateResClass = always
+}
+
 kotlin {
-    androidTarget()
+    androidTarget {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
+        }
+    }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -66,6 +77,12 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
