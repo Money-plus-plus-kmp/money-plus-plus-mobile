@@ -13,7 +13,6 @@ import com.moneyplusplus.presentation.login.LoginScreen
 
 @Composable
 fun AppNavHost(
-    appVersion: String = "",
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
@@ -43,7 +42,7 @@ fun AppNavHost(
         }
 
         composable<NavigationRoute.Account> {
-            AccountScreen(appVersion = appVersion)
+            AccountScreen()
         }
 
         composable<NavigationRoute.ForgetPassword> {

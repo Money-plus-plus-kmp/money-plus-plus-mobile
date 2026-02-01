@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            App(appVersion = BuildConfig.VERSION_NAME)
+            App()
         }
     }
 }

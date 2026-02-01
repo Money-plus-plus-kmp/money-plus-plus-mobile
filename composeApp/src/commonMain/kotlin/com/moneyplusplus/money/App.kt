@@ -7,8 +7,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
-fun App(appVersion: String = "") {
+fun App() {
     MoneyTheme {
-        AppNavHost(appVersion = appVersion)
+        AppNavHost()
     }
 }

@@ -7,7 +7,7 @@ import org.koin.android.ext.koin.androidContext
 class MoneyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        initKoin {
+        initKoin(appVersion = BuildConfig.VERSION_NAME) {
             androidContext(this@MoneyApplication)
         }
     }

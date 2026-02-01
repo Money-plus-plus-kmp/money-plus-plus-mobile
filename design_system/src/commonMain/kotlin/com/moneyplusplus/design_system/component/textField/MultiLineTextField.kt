@@ -54,10 +54,7 @@ fun MultiLineTextField(
     )
 }
 
-@Preview(
-    name = "MultiLineTextField - Default",
-    showBackground = true
-)
+@Preview
 @Composable
 private fun MultiLineTextFieldPreview() {
     MoneyTheme {
@@ -71,10 +68,7 @@ private fun MultiLineTextFieldPreview() {
     }
 }
 
-@Preview(
-    name = "MultiLineTextField - With Error",
-    showBackground = true
-)
+@Preview
 @Composable
 private fun MultiLineTextFieldErrorPreview() {
     MoneyTheme {

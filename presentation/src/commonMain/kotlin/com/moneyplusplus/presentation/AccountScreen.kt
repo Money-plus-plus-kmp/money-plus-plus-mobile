@@ -1,18 +1,14 @@
 package com.moneyplusplus.presentation
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,9 +21,8 @@ import com.moneyplusplus.design_system.component.appBar.AccountInfoCard
 import com.moneyplusplus.design_system.component.appBar.AppBar
 import com.moneyplusplus.design_system.component.appBar.SettingsRowCard
 import com.moneyplusplus.design_system.component.icon.Icon
+import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.text.Text
-import money.presentation.generated.resources.Res
-import money.presentation.generated.resources.*
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.account.AccountIntent
 import com.moneyplusplus.presentation.account.AccountViewModel
@@ -35,34 +30,27 @@ import com.moneyplusplus.presentation.account.SettingsType
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.*
 
 @Composable
 fun AccountScreen(
-    appVersion: String = "",
     viewModel: AccountViewModel = koinViewModel()
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(Theme.colorScheme.surface.surfaceLow)
-                    .statusBarsPadding()
-            ) {
-                AppBar(
-                    title = stringResource(Res.string.account_title),
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
-                )
-            }
+            AppBar(
+                title = stringResource(Res.string.account_title),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+            )
         },
-        containerColor = Theme.colorScheme.surface.surface
-    ) { paddingValues ->
+        backgroundColor = Theme.colorScheme.surface.surface
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues)
         ) {
             Image(
                 painter = painterResource(Res.drawable.ic_background_acc),
@@ -210,18 +198,7 @@ fun AccountScreen(
                     )
                 }
 
-                item {
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stringResource(Res.string.app_version, appVersion ?: "1.0"),
-                            style = Theme.typography.body.medium,
-                            color = Theme.colorScheme.body
-                        )
-                    }
-                }
+
             }
         }
     }
