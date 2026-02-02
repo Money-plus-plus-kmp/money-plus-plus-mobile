@@ -7,5 +7,6 @@ data class LineParameters(
     val data: List<Double>,
     val lineColor: Color,
     val lineShadow: Boolean,
-    val tooltipConfig: TooltipConfig = TooltipConfig(),
+    val tooltipConfig: TooltipConfig = TooltipConfig()
+    // Removed valueSuffix from here
 )
