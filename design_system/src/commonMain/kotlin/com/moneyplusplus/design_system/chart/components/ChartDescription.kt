@@ -1,10 +1,8 @@
 package com.moneyplusplus.design_system.chart.components
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.text.Text
 
 @Composable

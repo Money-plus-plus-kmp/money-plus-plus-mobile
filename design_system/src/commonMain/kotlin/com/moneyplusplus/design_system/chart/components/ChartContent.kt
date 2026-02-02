@@ -5,7 +5,12 @@ import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
@@ -17,21 +22,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.moneyplusplus.design_system.chart.drawing.baseChartContainer
-import com.moneyplusplus.design_system.chart.drawing.drawQuarticLineWithShadow
-import com.moneyplusplus.design_system.chart.models.LineParameters
+import com.moneyplusplus.design_system.chart.models.ChartColors
 import com.moneyplusplus.design_system.chart.utils.checkIfDataValid
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
 internal fun ChartContent(
     modifier: Modifier,
-    linesParameters: List<LineParameters>,
-    gridColor: Color,
+    data: List<Double>,
+    title: String,
+    chartColors: ChartColors,
+    valueSuffix: String,
+    tooltipBackgroundColor: Color, // Explicit params
+    tooltipTextColor: Color,     // Explicit params
     xAxisData: List<String>,
     barWidthPx: Dp,
     animateChart: Boolean,
@@ -42,82 +51,100 @@ internal fun ChartContent(
     onChartClick: (Float, Float) -> Unit,
     clickedPoints: MutableList<Pair<Float, Float>>,
 ) {
-
     val textMeasure = rememberTextMeasurer()
+    val scrollState = rememberScrollState()
 
     val animatedProgress = remember {
         if (animateChart) Animatable(0f) else Animatable(1f)
     }
     var upperValue by rememberSaveable {
-        mutableStateOf(linesParameters.getUpperValue())
+        mutableStateOf(data.getUpperValue())
     }
     var lowerValue by rememberSaveable {
-        mutableStateOf(linesParameters.getLowerValue())
+        mutableStateOf(data.getLowerValue())
     }
-    checkIfDataValid(xAxisData = xAxisData, linesParameters = linesParameters)
+    checkIfDataValid(xAxisData = xAxisData, data = data)
 
-    Canvas(
-        modifier = modifier
-            .fillMaxSize()
-            .pointerInput(Unit) {
-                detectTapGestures { offset ->
-                    onChartClick(offset.x, offset.y)
-                }
-            }
-    ) {
+    BoxWithConstraints(modifier = modifier) {
+        val screenWidth = maxWidth
+        val pointWidth = 35.dp 
         val yMaxTextWidth = textMeasure.measure(
             text = AnnotatedString(upperValue.toFloat().formatToThousandsMillionsBillions()),
         ).size.width
+        val density = androidx.compose.ui.platform.LocalDensity.current
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
-        val startOffset = textSpace.toDp() + 10.dp
-        val spacingX = (size.width / 50.dp.toPx()).dp
-        val spacingY = 40.dp // Increased spacing for X-Axis labels
+        val startOffset = with(density) { textSpace.toDp() } + 10.dp
 
-        val xRegionWidth = if (xAxisData.size > 1) {
-            (size.width.toDp() - startOffset) / (xAxisData.size - 1)
-        } else {
-            size.width.toDp()
-        }
+        val calculatedWidth = (pointWidth * data.size) + startOffset + 20.dp
+        val finalWidth = max(screenWidth, calculatedWidth)
 
-        baseChartContainer(
-            xAxisData = xAxisData,
-            textMeasure = textMeasure,
-            upperValue = upperValue.toFloat(),
-            lowerValue = lowerValue.toFloat(),
-            backgroundLineWidth = barWidthPx.toPx(),
-            gridColor = gridColor,
-            showGridWithSpacer = showGridWithSpacer,
-            spacingY = spacingY,
-            yAxisStyle = yAxisStyle,
-            xAxisStyle = xAxisStyle,
-            yAxisRange = yAxisRange,
-            xRegionWidth = xRegionWidth
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .horizontalScroll(scrollState)
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .width(finalWidth)
+                    .fillMaxSize() 
+                    .pointerInput(Unit) {
+                        detectTapGestures { offset ->
+                            onChartClick(offset.x, offset.y)
+                        }
+                    }
+            ) {
+                val spacingX = (size.width / 50.dp.toPx()).dp
+                val spacingY = 50.dp 
 
-        linesParameters.forEach { line ->
-            drawQuarticLineWithShadow(
-                line = line,
-                lowerValue = lowerValue.toFloat(),
-                upperValue = upperValue.toFloat(),
-                animatedProgress = animatedProgress,
-                spacingX = spacingX,
-                spacingY = spacingY,
-                clickedPoints = clickedPoints,
-                xRegionWidth = xRegionWidth,
-                textMeasurer = textMeasure,
-                xAxisData = xAxisData
-            )
+                val xRegionWidth = if (xAxisData.size > 1) {
+                    (size.width.toDp() - startOffset) / (xAxisData.size - 1)
+                } else {
+                    size.width.toDp()
+                }
+
+                baseChartContainer(
+                    xAxisData = xAxisData,
+                    textMeasure = textMeasure,
+                    upperValue = upperValue.toFloat(),
+                    lowerValue = lowerValue.toFloat(),
+                    backgroundLineWidth = barWidthPx.toPx(),
+                    gridColor = chartColors.gridColor,
+                    showGridWithSpacer = showGridWithSpacer,
+                    spacingY = spacingY,
+                    yAxisStyle = yAxisStyle,
+                    xAxisStyle = xAxisStyle,
+                    yAxisRange = yAxisRange,
+                    xRegionWidth = xRegionWidth
+                )
+
+                drawQuarticLineWithShadow(
+                    data = data,
+                    lineColor = chartColors.lineColor,
+                    lineShadow = true,
+                    lineLabel = title,
+                    valueSuffix = valueSuffix,
+                    tooltipBackgroundColor = tooltipBackgroundColor,
+                    tooltipTextColor = tooltipTextColor,
+                    lowerValue = lowerValue.toFloat(),
+                    upperValue = upperValue.toFloat(),
+                    animatedProgress = animatedProgress,
+                    spacingX = spacingX,
+                    spacingY = spacingY,
+                    clickedPoints = clickedPoints,
+                    xRegionWidth = xRegionWidth,
+                    textMeasurer = textMeasure,
+                    xAxisData = xAxisData
+                )
+            }
         }
     }
 
-    LaunchedEffect(linesParameters, animateChart) {
+    LaunchedEffect(data, animateChart) {
         if (animateChart) {
-
-            collectToSnapShotFlow(linesParameters) {
+            collectToSnapShotFlow(data) {
                 upperValue = it.getUpperValue()
                 lowerValue = it.getLowerValue()
             }
-
             delay(400)
             animatedProgress.animateTo(
                 targetValue = 1f,
@@ -127,21 +154,21 @@ internal fun ChartContent(
     }
 }
 
-private fun List<LineParameters>.getUpperValue(): Double {
-    return this.flatMap { item -> item.data }.maxOrNull()?.plus(1.0) ?: 0.0
+private fun List<Double>.getUpperValue(): Double {
+    return this.maxOrNull()?.plus(1.0) ?: 0.0
 }
 
-private fun List<LineParameters>.getLowerValue(): Double {
-    return this.flatMap { item -> item.data }.minOrNull() ?: 0.0
+private fun List<Double>.getLowerValue(): Double {
+    return this.minOrNull() ?: 0.0
 }
 
 private fun CoroutineScope.collectToSnapShotFlow(
-    linesParameters: List<LineParameters>,
-    makeUpdateData: (List<LineParameters>) -> Unit,
+    data: List<Double>,
+    makeUpdateData: (List<Double>) -> Unit,
 ) {
     this.launch {
         snapshotFlow {
-            linesParameters
+            data
         }.collect {
             makeUpdateData(it)
         }

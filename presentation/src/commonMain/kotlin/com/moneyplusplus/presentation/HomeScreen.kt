@@ -1,32 +1,41 @@
 package com.moneyplusplus.presentation
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.moneyplusplus.design_system.component.button.Button
-import com.moneyplusplus.design_system.component.snackbar.LocalMSnackbarState
-import com.moneyplusplus.design_system.component.text.Text
-import com.moneyplusplus.design_system.theme.theme.Theme
+import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.chart.components.SpendingTrendChart
+import com.moneyplusplus.design_system.chart.data.ChartPoint
+import com.moneyplusplus.design_system.component.scaffold.Scaffold
+import kotlinx.datetime.LocalDate
 
 @Composable
 fun HomeScreen() {
-    val snackbar = LocalMSnackbarState.current
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+    Scaffold(
+        modifier = Modifier.padding(16.dp)
     ) {
-        Button(onClick = { snackbar.showSuccess("Profile updated!") }) {
-            Text("Save", style = Theme.typography.title.medium)
-        }
 
-        Button(onClick = { snackbar.showError("Connection failed") }) {
-            Text("Delete", style = Theme.typography.title.medium)
-        }
+        Spacer(
+            modifier = Modifier.height(50.dp)
+        )
 
+        SpendingTrendChart(
+            title = "Spending Trend",
+            points = listOf(
+                ChartPoint(LocalDate(2024, 12, 1), 50000.0),
+                ChartPoint(LocalDate(2024, 12, 2), 75000.0),
+                ChartPoint(LocalDate(2024, 12, 3), 60000.0),
+                ChartPoint(LocalDate(2024, 12, 4), 85000.0),
+                ChartPoint(LocalDate(2024, 12, 5), 90000.0),
+                ChartPoint(LocalDate(2024, 12, 6), 150000.0),
+                ChartPoint(LocalDate(2024, 12, 7), 200000.0),
+                ChartPoint(LocalDate(2024, 12, 8), 180000.0),
+                ChartPoint(LocalDate(2024, 12, 9), 120000.0),
+                ChartPoint(LocalDate(2024, 12, 10), 100000.0),
+            ),
+            valueSuffix = "EG"
+        )
     }
 }

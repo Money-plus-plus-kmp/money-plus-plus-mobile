@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.config
+package com.moneyplusplus.design_system.chart.models
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
@@ -18,11 +18,5 @@ data class ChartDimensions(
 ) {
     companion object {
         val Default = ChartDimensions()
-
-        val Large = ChartDimensions(
-            lineWidth = 4f,
-            pointRadius = 8f,
-            chartHeight = 300.dp
-        )
     }
 }

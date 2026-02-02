@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.drawing
+package com.moneyplusplus.design_system.chart.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -13,18 +13,20 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.moneyplusplus.design_system.chart.models.LineParameters
 import com.moneyplusplus.design_system.chart.utils.clickedOnThisPoint
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
-// State var? It was in file scope. Using same approach or improved?
-// File scope state in Drawing function is Bad for multiple charts.
-// But refactoring that is out of scope. I'll preserve it to allow click handling.
 private var lastClickedPoint: Pair<Float, Float>? = null
 
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.drawQuarticLineWithShadow(
-    line: LineParameters,
+    data: List<Double>,
+    lineColor: Color,
+    lineShadow: Boolean,
+    lineLabel: String,
+    valueSuffix: String,
+    tooltipBackgroundColor: Color,
+    tooltipTextColor: Color,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
@@ -36,7 +38,11 @@ internal fun DrawScope.drawQuarticLineWithShadow(
     xAxisData: List<String> = emptyList(),
 ) {
     val strokePathOfQuadraticLine = drawLineAsQuadratic(
-        line = line,
+        data = data,
+        lineColor = lineColor,
+        valueSuffix = valueSuffix,
+        tooltipBackgroundColor = tooltipBackgroundColor,
+        tooltipTextColor = tooltipTextColor,
         lowerValue = lowerValue,
         upperValue = upperValue,
         animatedProgress = animatedProgress,
@@ -47,7 +53,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
         xAxisData = xAxisData
     )
 
-    if (line.lineShadow) {
+    if (lineShadow) {
         val fillPath = strokePathOfQuadraticLine.apply {
             lineTo(size.width - xRegionWidth.toPx() + 40.dp.toPx(), size.height * 40)
             lineTo(spacingX.toPx() * 2, size.height * 40)
@@ -57,7 +63,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
             drawPath(
                 path = fillPath, brush = Brush.verticalGradient(
                     colors = listOf(
-                        line.lineColor.copy(alpha = .32f), Color.Transparent
+                        lineColor.copy(alpha = .32f), Color.Transparent
                     ), endY = (size.height.toDp() - spacingY).toPx()
                 )
             )
@@ -67,7 +73,11 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 
 @OptIn(ExperimentalTextApi::class)
 fun DrawScope.drawLineAsQuadratic(
-    line: LineParameters,
+    data: List<Double>,
+    lineColor: Color,
+    valueSuffix: String,
+    tooltipBackgroundColor: Color,
+    tooltipTextColor: Color,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
@@ -81,25 +91,26 @@ fun DrawScope.drawLineAsQuadratic(
     val height = size.height.toDp()
 
     drawPathLineWrapper(
-        lineParameter = line,
+        data = data,
+        lineColor = lineColor,
         strokePath = this,
         animatedProgress = animatedProgress,
-    ) { lineParameter, index ->
+    ) { index ->
 
         val yMaxTextWidth = textMeasurer.measure(
             text = AnnotatedString(upperValue.formatToThousandsMillionsBillions()),
         ).size.width
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
 
-        val info = lineParameter.data[index]
-        val nextInfo = lineParameter.data.getOrNull(index + 1) ?: lineParameter.data.last()
+        val info = data[index]
+        val nextInfo = data.getOrNull(index + 1) ?: data.last()
         val firstRatio = (info - lowerValue) / (upperValue - lowerValue)
         val secondRatio = (nextInfo - lowerValue) / (upperValue - lowerValue)
 
         val xFirstPoint = (textSpace.toDp() + 10.dp) + index * xRegionWidth
         val xSecondPoint =
             (textSpace.toDp() + 10.dp) + (index + checkLastIndex(
-                lineParameter.data,
+                data,
                 index
             )) * xRegionWidth
 
@@ -129,8 +140,10 @@ fun DrawScope.drawLineAsQuadratic(
                     textMeasurer = textMeasurer,
                     xIndex = index,
                     yValue = info,
-                    line = line,
-                    animatedProgress = animatedProgress,
+                    lineColor = lineColor,
+                    valueSuffix = valueSuffix,
+                    tooltipBackgroundColor = tooltipBackgroundColor,
+                    tooltipTextColor = tooltipTextColor,
                     xAxisData = xAxisData
                 )
             }

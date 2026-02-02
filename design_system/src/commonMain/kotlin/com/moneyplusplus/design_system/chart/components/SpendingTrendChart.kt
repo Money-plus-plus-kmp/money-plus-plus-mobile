@@ -12,9 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.models.LineParameters
-import com.moneyplusplus.design_system.chart.models.TooltipConfig
-import com.moneyplusplus.design_system.chart.config.ChartConfig
+import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.chart.data.ChartPoint
 import com.moneyplusplus.design_system.chart.models.ChartColors
 import com.moneyplusplus.design_system.theme.theme.Theme
@@ -46,29 +44,16 @@ fun SpendingTrendChart(
             lineColor = Theme.colorScheme.primary.primary,
             gridColor = Theme.colorScheme.stroke,
             axisLabelColor = Theme.colorScheme.hint,
-            tooltipBackground = Theme.colorScheme.surface.surfaceHigh,
+            tooltipBackground = Theme.colorScheme.surface.surface,
             tooltipTextColor = Theme.colorScheme.title
-        )
-
-        val lineParameters = listOf(
-            LineParameters(
-                label = title,
-                data = points.map { it.value },
-                lineColor = chartColors.lineColor,
-                lineShadow = true,
-                tooltipConfig = TooltipConfig(
-                    enabled = true,
-                    backgroundColor = chartColors.tooltipBackground,
-                    textColor = chartColors.tooltipTextColor,
-                    valueSuffix = valueSuffix
-                )
-            )
         )
 
         LineChart(
             modifier = Modifier.fillMaxSize(),
-            linesParameters = lineParameters,
-            gridColor = chartColors.gridColor,
+            data = points.map { it.value },
+            title = title,
+            chartColors = chartColors,
+            valueSuffix = valueSuffix,
             xAxisData = xAxisData,
             animateChart = config.animationEnabled,
             yAxisStyle = TextStyle(
@@ -81,7 +66,7 @@ fun SpendingTrendChart(
             ),
             chartRatio = 0f,
             descriptionStyle = Theme.typography.label.medium.copy(color = chartColors.axisLabelColor),
-            yAxisRange = 4 // Reduced range for more spacing
+            yAxisRange = 6 
         )
     }
 }

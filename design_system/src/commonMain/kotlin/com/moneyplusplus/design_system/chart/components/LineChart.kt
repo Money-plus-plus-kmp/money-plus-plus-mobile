@@ -1,25 +1,24 @@
 package com.moneyplusplus.design_system.chart.components
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.models.LineParameters
+import com.moneyplusplus.design_system.chart.models.ChartColors
 import com.moneyplusplus.design_system.chart.utils.ChartDefaultValues
 
 
 @Composable
 fun LineChart(
     modifier: Modifier = Modifier,
-    linesParameters: List<LineParameters> = ChartDefaultValues.lineParameters,
-    gridColor: Color = ChartDefaultValues.gridColor,
+    data: List<Double>,
+    title: String,
+    chartColors: ChartColors,
+    valueSuffix: String = "",
     xAxisData: List<String> = emptyList(),
     barWidthPx: Dp = ChartDefaultValues.backgroundLineWidth,
     animateChart: Boolean = ChartDefaultValues.ANIMATED_CHART,
@@ -28,33 +27,29 @@ fun LineChart(
     yAxisStyle: TextStyle = ChartDefaultValues.axesStyle,
     xAxisStyle: TextStyle = ChartDefaultValues.axesStyle,
     chartRatio: Float = ChartDefaultValues.chartRatio,
-    horizontalArrangement: Arrangement.Horizontal = ChartDefaultValues.headerArrangement,
     yAxisRange: Int = ChartDefaultValues.yAxisRange,
 ) {
     val clickedPoints = remember { mutableStateListOf<Pair<Float, Float>>() }
 
     Box(modifier.wrapContentHeight()) {
         Column() {
-            LazyRow(
-                horizontalArrangement = horizontalArrangement,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ) {
-
-                items(linesParameters) { details ->
-                    ChartDescription(
-                        chartName = details.label,
-                        descriptionStyle = descriptionStyle,
-                    )
-                }
+            // Title
+            Box(Modifier.padding(bottom = 16.dp)) {
+                ChartDescription(
+                    chartName = title,
+                    descriptionStyle = descriptionStyle,
+                )
             }
 
             ChartContent(
-                modifier = if (chartRatio == 0f) Modifier.padding(top = 16.dp).wrapContentSize()
-                else Modifier.padding(top = 16.dp).aspectRatio(chartRatio)
-                    .fillMaxSize(),
-                linesParameters = linesParameters,
-                gridColor = gridColor,
+                modifier = if (chartRatio == 0f) Modifier.wrapContentSize()
+                else Modifier.aspectRatio(chartRatio).fillMaxSize(),
+                data = data,
+                title = title,
+                chartColors = chartColors,
+                valueSuffix = valueSuffix,
+                tooltipBackgroundColor = chartColors.tooltipBackground,
+                tooltipTextColor = chartColors.tooltipTextColor,
                 xAxisData = xAxisData,
                 barWidthPx = barWidthPx,
                 animateChart = animateChart,

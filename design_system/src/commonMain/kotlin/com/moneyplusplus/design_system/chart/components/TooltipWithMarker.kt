@@ -1,10 +1,9 @@
-package com.moneyplusplus.design_system.chart.drawing
+package com.moneyplusplus.design_system.chart.components
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.AnnotatedString
@@ -15,41 +14,34 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.moneyplusplus.design_system.chart.models.LineParameters
-import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.chart.utils.formatWithCommas
 
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.drawTooltipWithMarker(
-    animatedProgress: Animatable<Float, AnimationVector1D>,
     textMeasurer: TextMeasurer,
     xIndex: Int,
     yValue: Double,
-    line: LineParameters,
     x: Dp,
     y: Double,
     xAxisData: List<String> = emptyList(),
+    lineColor: Color,
+    valueSuffix: String,
+    tooltipBackgroundColor: Color,
+    tooltipTextColor: Color
 ) {
-    val config = line.tooltipConfig
-    if (!config.enabled) return
-
-    // Draw solid marker circle
     drawCircle(
-        color = line.lineColor,
+        color = lineColor,
         radius = 4.dp.toPx(),
         center = Offset(x.toPx(), y.toFloat())
     )
 
-    // Generate text:
-    // Line 1: X Label (e.g., Oct 12)
-    // Line 2: Value Suffix (e.g., 1.2M SAR)
-    // Removed Line Label prefix as requested
     val xLabel = xAxisData.getOrNull(xIndex) ?: xIndex.toString()
-    val formattedValue = yValue.toFloat().formatToThousandsMillionsBillions()
-    val tooltipText = "$xLabel\n$formattedValue ${config.valueSuffix}"
+    val formattedValue = yValue.toFloat().formatWithCommas()
+    val tooltipText = "$xLabel\n$formattedValue $valueSuffix"
 
     val textStyle = TextStyle(
         fontSize = 12.sp,
-        color = config.textColor
+        color = tooltipTextColor
     )
 
     val textLayoutResult = textMeasurer.measure(
@@ -69,7 +61,7 @@ internal fun DrawScope.drawTooltipWithMarker(
 
     // Draw Box
     drawRoundRect(
-        color = config.backgroundColor,
+        color = tooltipBackgroundColor,
         topLeft = Offset(tooltipX, tooltipY),
         size = Size(boxWidth, boxHeight),
         cornerRadius = CornerRadius(8.dp.toPx()),

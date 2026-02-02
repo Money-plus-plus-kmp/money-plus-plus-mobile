@@ -20,7 +20,7 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Login
+        startDestination = NavigationRoute.Home
     ) {
         composable<NavigationRoute.Login> {
             LoginScreen(

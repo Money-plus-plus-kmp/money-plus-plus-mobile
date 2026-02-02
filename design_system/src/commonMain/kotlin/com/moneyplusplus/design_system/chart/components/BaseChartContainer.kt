@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.drawing
+package com.moneyplusplus.design_system.chart.components
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope

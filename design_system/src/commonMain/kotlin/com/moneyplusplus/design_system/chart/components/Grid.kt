@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.drawing
+package com.moneyplusplus.design_system.chart.components
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -9,7 +9,6 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
 @OptIn(ExperimentalTextApi::class)
