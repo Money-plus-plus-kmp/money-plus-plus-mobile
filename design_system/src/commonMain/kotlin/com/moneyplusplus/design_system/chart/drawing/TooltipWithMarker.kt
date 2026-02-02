@@ -4,9 +4,7 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.text.AnnotatedString
@@ -18,7 +16,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.moneyplusplus.design_system.chart.models.LineParameters
-import com.moneyplusplus.design_system.chart.models.TooltipConfig
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
 @OptIn(ExperimentalTextApi::class)
@@ -42,12 +39,16 @@ internal fun DrawScope.drawTooltipWithMarker(
         center = Offset(x.toPx(), y.toFloat())
     )
 
-    // Generate text: "Label: Value" or just "Value"
+    // Generate text:
+    // Line 1: X Label (e.g., Oct 12)
+    // Line 2: Value Suffix (e.g., 1.2M SAR)
+    // Removed Line Label prefix as requested
     val xLabel = xAxisData.getOrNull(xIndex) ?: xIndex.toString()
-    val tooltipText = "${line.label}\n$xLabel: ${yValue.toFloat().formatToThousandsMillionsBillions()}"
+    val formattedValue = yValue.toFloat().formatToThousandsMillionsBillions()
+    val tooltipText = "$xLabel\n$formattedValue ${config.valueSuffix}"
 
     val textStyle = TextStyle(
-        fontSize = 12.sp, // Hardcoded size
+        fontSize = 12.sp,
         color = config.textColor
     )
 
