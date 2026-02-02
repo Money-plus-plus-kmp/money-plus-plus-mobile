@@ -5,9 +5,6 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-/**
- * Dimension configuration for the chart
- */
 data class ChartDimensions(
     val lineWidth: Float = 2f,
     val pointRadius: Float = 6f,
@@ -21,12 +18,6 @@ data class ChartDimensions(
 ) {
     companion object {
         val Default = ChartDimensions()
-
-        val Compact = ChartDimensions(
-            lineWidth = 2f,
-            pointRadius = 4f,
-            chartHeight = 150.dp
-        )
 
         val Large = ChartDimensions(
             lineWidth = 4f,
