@@ -71,7 +71,7 @@ internal fun ChartContent(
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
         val startOffset = textSpace.toDp() + 10.dp
         val spacingX = (size.width / 50.dp.toPx()).dp
-        val spacingY = (size.height / 8.dp.toPx()).dp
+        val spacingY = 40.dp // Increased spacing for X-Axis labels
 
         val xRegionWidth = if (xAxisData.size > 1) {
             (size.width.toDp() - startOffset) / (xAxisData.size - 1)
