@@ -14,7 +14,7 @@ internal fun ChartDescription(
 ) {
     Text(
         text = chartName,
-        modifier = Modifier.padding(start = 10.dp),
+        modifier = Modifier,
         style = descriptionStyle
     )
 }
