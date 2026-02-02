@@ -37,7 +37,7 @@ internal fun <T> DrawScope.xAxisDrawing(
             overflow = TextOverflow.Ellipsis,
             topLeft = Offset(
                 xLength.coerceAtMost(size.width.toDp()).toPx(),
-                size.height / 1.07f
+                size.height - 20.dp.toPx() // Explicit bottom padding
             )
         )
     }
