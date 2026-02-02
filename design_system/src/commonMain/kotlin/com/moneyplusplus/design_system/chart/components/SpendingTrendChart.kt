@@ -12,17 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.aay.LineChart
-import com.moneyplusplus.design_system.chart.aay.model.LineParameters
-import com.moneyplusplus.design_system.chart.aay.model.LineType
-import com.moneyplusplus.design_system.chart.aay.model.MarkerStyle
-import com.moneyplusplus.design_system.chart.aay.model.TooltipCornerRadii
-import com.moneyplusplus.design_system.chart.aay.model.TooltipPosition
+import com.moneyplusplus.design_system.chart.components.LineChart
+import com.moneyplusplus.design_system.chart.models.LineParameters
+import com.moneyplusplus.design_system.chart.models.TooltipConfig
 import com.moneyplusplus.design_system.chart.config.ChartConfig
 import com.moneyplusplus.design_system.chart.data.ChartData
-import com.moneyplusplus.design_system.chart.aay.model.TooltipConfig as AayTooltipConfig
 import com.moneyplusplus.design_system.theme.theme.Theme
-
 
 @Composable
 fun SpendingTrendChart(
@@ -37,34 +32,30 @@ fun SpendingTrendChart(
         "${it.date.day} ${monthName.replaceFirstChar { char -> char.titlecase() }}"
     }
 
-
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(238.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(Theme.colorScheme.surface.surfaceLow) // Theme integration
+            .background(Theme.colorScheme.surface.surfaceLow)
             .padding(16.dp)
     ) {
+        val lineColor = Theme.colorScheme.primary.primary
+        val gridColor = Theme.colorScheme.stroke
+        val axisLabelColor = Theme.colorScheme.hint
+        val tooltipBackground = Theme.colorScheme.surface.surfaceHigh
+        val tooltipTextColor = Theme.colorScheme.title
+
         val lineParameters = listOf(
             LineParameters(
                 label = data.title,
                 data = data.points.map { it.value },
-                lineColor = config.colors.lineColor,
-                lineType = LineType.CURVED_LINE, // Enforced
+                lineColor = lineColor,
                 lineShadow = true,
-                tooltipConfig = AayTooltipConfig(
+                tooltipConfig = TooltipConfig(
                     enabled = true,
-                    backgroundColor = config.colors.tooltipBackground,
-                    textColor = config.colors.axisLabelColor,
-                    markerStyle = MarkerStyle.Solid,
-                    position = TooltipPosition.Left,
-                    cornerRadii = TooltipCornerRadii(
-                        topLeft = 8.dp,
-                        topRight = 8.dp,
-                        bottomLeft = 8.dp,
-                        bottomRight = 2.dp
-                    )
+                    backgroundColor = tooltipBackground,
+                    textColor = tooltipTextColor
                 )
             )
         )
@@ -72,19 +63,19 @@ fun SpendingTrendChart(
         LineChart(
             modifier = Modifier.fillMaxSize(),
             linesParameters = lineParameters,
-            gridColor = config.colors.gridColor,
+            gridColor = gridColor,
             xAxisData = xAxisData,
             animateChart = config.animationEnabled,
             yAxisStyle = TextStyle(
-                color = config.colors.axisLabelColor,
+                color = axisLabelColor,
                 fontSize = config.dimensions.axisLabelSize
             ),
             xAxisStyle = TextStyle(
-                color = config.colors.axisLabelColor,
+                color = axisLabelColor,
                 fontSize = config.dimensions.axisLabelSize
             ),
             chartRatio = 0f,
-            descriptionStyle = Theme.typography.label.medium.copy(color = config.colors.axisLabelColor) // Theme integration
+            descriptionStyle = Theme.typography.label.medium.copy(color = axisLabelColor)
         )
     }
 }
