@@ -1,12 +1,26 @@
 package com.moneyplusplus.presentation.feature.income.screens.addincome
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.button.Button
+import com.moneyplusplus.design_system.component.button.PrimaryButton
 import com.moneyplusplus.design_system.component.datetime.DatePicker
+import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.presentation.base.ObserveAsEffect
+import com.moneyplusplus.presentation.feature.income.components.AddIncomeForm
+import com.moneyplusplus.presentation.feature.income.components.AddIncomeTopBar
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -27,7 +41,8 @@ fun AddIncomeScreen(
 
     AddIncomeContent(
         state = state,
-        onIntent = viewModel::handleIntent
+        onIntent = viewModel::handleIntent,
+        modifier = modifier
     )
 
 }
@@ -35,13 +50,49 @@ fun AddIncomeScreen(
 @Composable
 private fun AddIncomeContent(
     state: AddIncomeState,
-    onIntent: (AddIncomeIntent) -> Unit
+    onIntent: (AddIncomeIntent) -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    Scaffold(
+        modifier = modifier.fillMaxSize(),
+        fullScreen = true,
+        topBar = { AddIncomeTopBar(onBackClick = { onIntent(AddIncomeIntent.OnBackClick) }) }
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 16.dp, vertical = 24.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                AddIncomeForm(
+                    amount = state.amount,
+                    currency = state.currencyCode,
+                    date = state.date,
+                    note = state.note,
+                    setAmount = { onIntent(AddIncomeIntent.SetAmount(it)) },
+                    setCurrency = { onIntent(AddIncomeIntent.SetCurrency(it)) },
+                    setNote = { onIntent(AddIncomeIntent.SetNote(it)) },
+                    onDateClick = { onIntent(AddIncomeIntent.OnDateClick) }
+                )
 
-    DatePicker(
-        onDateSelected = { onIntent(AddIncomeIntent.SetDate(it)) },
-        onDismissRequest = { onIntent(AddIncomeIntent.OnDatePickerDismiss) }
-    )
+                PrimaryButton(
+                    text = "Add",
+                    isEnabled = state.isAddEnabled,
+                    onClick = { onIntent(AddIncomeIntent.OnAddIncomeClick) },
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
+
+            AnimatedVisibility(state.isDatePickerVisible) {
+                DatePicker(
+                    onDateSelected = { onIntent(AddIncomeIntent.SetDate(it)) },
+                    onDismissRequest = { onIntent(AddIncomeIntent.OnDatePickerDismiss) }
+                )
+            }
+        }
+
+    }
+
 }
 
 @Composable

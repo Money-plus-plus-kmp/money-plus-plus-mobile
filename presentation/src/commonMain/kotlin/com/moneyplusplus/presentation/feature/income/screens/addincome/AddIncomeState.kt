@@ -7,7 +7,7 @@ import com.moneyplusplus.presentation.utils.currentDate
 import kotlinx.datetime.LocalDate
 
 data class AddIncomeState(
-    val amount: Int = 0,
+    val amount: Int? = null,
     val currencyCode: String = "IQD", // temp until get default currency from settings
     val date: LocalDate = LocalDate.currentDate(),
     val note: String = "",
@@ -15,7 +15,8 @@ data class AddIncomeState(
     val isDatePickerVisible: Boolean = false
 ): UiState
 
-fun AddIncomeState.toIncome(): Income {
+fun AddIncomeState.toIncome(): Income? {
+    if (amount == null) return null
     val currency = Currency( // temp until fetching currencies
         code = currencyCode,
         name = "Iraqi Dinar",
