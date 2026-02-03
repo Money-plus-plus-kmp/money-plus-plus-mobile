@@ -21,7 +21,7 @@ fun SpendingTrendChart(
     points: List<ChartPoint>,
     title: String,
     modifier: Modifier = Modifier,
-    valueSuffix: String = "EG" 
+    valueSuffix: String?
 ) {
     if (points.isEmpty()) return
 

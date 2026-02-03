@@ -16,7 +16,7 @@ fun LineChart(
     modifier: Modifier = Modifier,
     data: List<Double>,
     title: String,
-    valueSuffix: String = "",
+    valueSuffix: String?,
     xAxisData: List<String> = emptyList(),
     config: ChartConfig = ChartConfig.defaults(),
 ) {

@@ -38,7 +38,7 @@ internal fun ChartContent(
     modifier: Modifier,
     data: List<Double>,
     config: ChartConfig,
-    valueSuffix: String,
+    valueSuffix: String?,
     xAxisData: List<String>,
     onChartClick: (Float, Float) -> Unit,
     clickedPoints: MutableList<Pair<Float, Float>>,

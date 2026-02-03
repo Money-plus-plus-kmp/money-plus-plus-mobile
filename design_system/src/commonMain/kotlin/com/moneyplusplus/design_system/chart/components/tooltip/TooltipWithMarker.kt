@@ -1,8 +1,6 @@
 package com.moneyplusplus.design_system.chart.components.tooltip
 
 import com.moneyplusplus.design_system.chart.models.ChartTooltipConfig
-
-import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -28,7 +26,7 @@ internal fun DrawScope.drawTooltipWithMarker(
     y: Double,
     xAxisData: List<String> = emptyList(),
     lineColor: Color,
-    valueSuffix: String,
+    valueSuffix: String?,
     tooltipConfig: ChartTooltipConfig,
 ) {
     val xLabel = xAxisData.getOrNull(xIndex) ?: xIndex.toString()
