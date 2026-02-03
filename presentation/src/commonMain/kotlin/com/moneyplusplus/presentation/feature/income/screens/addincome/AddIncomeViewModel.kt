@@ -1,6 +1,5 @@
 package com.moneyplusplus.presentation.feature.income.screens.addincome
 
-import com.moneyplusplus.domain.entity.Currency
 import com.moneyplusplus.domain.usecase.validation.AddIncomeUseCase
 import com.moneyplusplus.presentation.base.BaseViewModel
 import kotlinx.datetime.LocalDate

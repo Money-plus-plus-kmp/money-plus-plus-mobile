@@ -14,7 +14,7 @@ import kotlinx.datetime.LocalDate
 @Composable
 fun AddIncomeForm(
     modifier: Modifier = Modifier,
-    amount: Int,
+    amount: Int?,
     currency: String,
     date: LocalDate,
     note: String,
