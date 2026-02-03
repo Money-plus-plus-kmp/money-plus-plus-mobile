@@ -2,6 +2,7 @@ package com.moneyplusplus.design_system.chart.components.grid
 
 import com.moneyplusplus.design_system.chart.components.axis.xAxisDrawing
 import com.moneyplusplus.design_system.chart.components.axis.yAxisDrawing
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 
 
 
@@ -24,7 +25,7 @@ internal fun <T> DrawScope.baseChartContainer(
     yAxisRange: Int,
     xRegionWidth: Dp
 ) {
-    val spacingY = 50.dp
+    val spacingY = ChartConstants.spacingY
     xAxisDrawing(
         xAxisData = xAxisData,
         textMeasure = textMeasure,
@@ -44,7 +45,7 @@ internal fun <T> DrawScope.baseChartContainer(
 
     grid(
         gridColor = gridColor,
-        backgroundLineWidth = 1.dp.toPx(),
+        backgroundLineWidth = ChartConstants.backgroundLineWidth.toPx(),
         showGridWithSpacer = true,
         spacingY = spacingY,
         yAxisRange = yAxisRange,

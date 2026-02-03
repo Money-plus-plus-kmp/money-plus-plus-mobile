@@ -29,6 +29,7 @@ import com.moneyplusplus.design_system.chart.components.line.drawQuarticLineWith
 import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.chart.utils.checkIfDataValid
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 
 
 @OptIn(ExperimentalTextApi::class)
@@ -58,13 +59,13 @@ internal fun ChartContent(
 
     BoxWithConstraints(modifier = modifier) {
         val screenWidth = maxWidth
-        val pointWidth = 35.dp 
+        val pointWidth = ChartConstants.pointWidth 
         val yMaxTextWidth = textMeasure.measure(
             text = AnnotatedString(upperValue.toFloat().formatToThousandsMillionsBillions()),
         ).size.width
         val density = LocalDensity.current
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
-        val startOffset = with(density) { textSpace.toDp() } + 10.dp
+        val startOffset = with(density) { textSpace.toDp() } + ChartConstants.textSpacing
 
         val calculatedWidth = (pointWidth * data.size) + startOffset + 20.dp
         val finalWidth = max(screenWidth, calculatedWidth)
@@ -84,8 +85,8 @@ internal fun ChartContent(
                         }
                     }
             ) {
-                val spacingX = (size.width / 50.dp.toPx()).dp
-                val spacingY = 50.dp 
+                val spacingX = (size.width / ChartConstants.spacingY.toPx()).dp
+                val spacingY = ChartConstants.spacingY 
 
                 val xRegionWidth = if (xAxisData.size > 1) {
                     (size.width.toDp() - startOffset) / (xAxisData.size - 1)
@@ -107,13 +108,12 @@ internal fun ChartContent(
                 drawQuarticLineWithShadow(
                     data = data,
                     colors = config.colors,
+                    tooltip = config.tooltip,
                     lineShadow = true,
                     valueSuffix = valueSuffix,
                     lowerValue = lowerValue.toFloat(),
                     upperValue = upperValue.toFloat(),
                     animatedProgress = animatedProgress,
-                    spacingX = spacingX,
-                    spacingY = spacingY,
                     clickedPoints = clickedPoints,
                     xRegionWidth = xRegionWidth,
                     textMeasurer = textMeasure,

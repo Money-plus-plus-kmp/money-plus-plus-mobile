@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
 import com.moneyplusplus.design_system.chart.models.ChartColors
+import com.moneyplusplus.design_system.chart.models.ChartTooltipConfig
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 import com.moneyplusplus.design_system.chart.utils.clickedOnThisPoint
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
@@ -24,13 +26,12 @@ private var lastClickedPoint: Pair<Float, Float>? = null
 internal fun DrawScope.drawQuarticLineWithShadow(
     data: List<Double>,
     colors: ChartColors,
+    tooltip: ChartTooltipConfig,
     lineShadow: Boolean = true,
     valueSuffix: String,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
-    spacingX: Dp,
-    spacingY: Dp,
     clickedPoints: MutableList<Pair<Float, Float>>,
     xRegionWidth: Dp,
     textMeasurer: TextMeasurer,
@@ -39,11 +40,11 @@ internal fun DrawScope.drawQuarticLineWithShadow(
     val strokePathOfQuadraticLine = drawLineAsQuadratic(
         data = data,
         colors = colors,
+        tooltip = tooltip,
         valueSuffix = valueSuffix,
         lowerValue = lowerValue,
         upperValue = upperValue,
         animatedProgress = animatedProgress,
-        spacingY = spacingY,
         clickedPoints = clickedPoints,
         textMeasurer = textMeasurer,
         xRegionWidth = xRegionWidth,
@@ -52,8 +53,8 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 
     if (lineShadow) {
         val fillPath = strokePathOfQuadraticLine.apply {
-            lineTo(size.width - xRegionWidth.toPx() + 40.dp.toPx(), size.height * 40)
-            lineTo(spacingX.toPx() * 2, size.height * 40)
+            lineTo(size.width - xRegionWidth.toPx() + ChartConstants.shadowOffset.toPx(), size.height * 40)
+            lineTo(ChartConstants.pointWidth.toPx() * 2, size.height * 40)
             close()
         }
         clipRect(right = size.width * animatedProgress.value) {
@@ -61,7 +62,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
                 path = fillPath, brush = Brush.verticalGradient(
                     colors = listOf(
                         colors.lineColor.copy(alpha = .32f), Color.Transparent
-                    ), endY = (size.height.toDp() - spacingY).toPx()
+                    ), endY = (size.height.toDp() - ChartConstants.spacingY).toPx()
                 )
             )
         }
@@ -72,11 +73,11 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 fun DrawScope.drawLineAsQuadratic(
     data: List<Double>,
     colors: ChartColors,
+    tooltip: ChartTooltipConfig,
     valueSuffix: String,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
-    spacingY: Dp,
     clickedPoints: MutableList<Pair<Float, Float>>,
     textMeasurer: TextMeasurer,
     xRegionWidth: Dp,
@@ -102,25 +103,25 @@ fun DrawScope.drawLineAsQuadratic(
         val firstRatio = (info - lowerValue) / (upperValue - lowerValue)
         val secondRatio = (nextInfo - lowerValue) / (upperValue - lowerValue)
 
-        val xFirstPoint = (textSpace.toDp() + 10.dp) + index * xRegionWidth
+        val xFirstPoint = (textSpace.toDp() + ChartConstants.textSpacing) + index * xRegionWidth
         val xSecondPoint =
-            (textSpace.toDp() + 10.dp) + (index + checkLastIndex(
+            (textSpace.toDp() + ChartConstants.textSpacing) + (index + checkLastIndex(
                 data,
                 index
             )) * xRegionWidth
 
         val yFirstPoint = (height.toPx()
                 + 11.dp.toPx()
-                - spacingY.toPx()
-                - (firstRatio * (size.height.toDp() - spacingY).toPx())
+                - ChartConstants.spacingY.toPx()
+                - (firstRatio * (size.height.toDp() - ChartConstants.spacingY).toPx())
                 )
         val ySecondPoint = (height.toPx()
                 + 11.dp.toPx()
-                - spacingY.toPx()
-                - (secondRatio * (size.height.toDp() - spacingY).toPx())
+                - ChartConstants.spacingY.toPx()
+                - (secondRatio * (size.height.toDp() - ChartConstants.spacingY).toPx())
                 )
 
-        val tolerance = 20.dp.toPx()
+        val tolerance = ChartConstants.tolerance.toPx()
         val savedClicks =
             clickedOnThisPoint(clickedPoints, xFirstPoint.toPx(), yFirstPoint, tolerance)
         if (savedClicks) {
@@ -137,8 +138,7 @@ fun DrawScope.drawLineAsQuadratic(
                     yValue = info,
                     lineColor = colors.lineColor,
                     valueSuffix = valueSuffix,
-                    tooltipBackgroundColor = colors.tooltipBackground,
-                    tooltipTextColor = colors.tooltipTextColor,
+                    tooltipConfig = tooltip,
                     xAxisData = xAxisData
                 )
             }

@@ -1,5 +1,7 @@
 package com.moneyplusplus.design_system.chart.components.tooltip
 
+import com.moneyplusplus.design_system.chart.models.ChartTooltipConfig
+
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
@@ -26,22 +28,16 @@ internal fun DrawScope.drawTooltipWithMarker(
     xAxisData: List<String> = emptyList(),
     lineColor: Color,
     valueSuffix: String,
-    tooltipBackgroundColor: Color,
-    tooltipTextColor: Color
+    tooltipConfig: ChartTooltipConfig,
 ) {
-    drawCircle(
-        color = lineColor,
-        radius = 4.dp.toPx(),
-        center = Offset(x.toPx(), y.toFloat())
-    )
-
+    val radius = 4.dp
     val xLabel = xAxisData.getOrNull(xIndex) ?: xIndex.toString()
     val formattedValue = yValue.toFloat().formatWithCommas()
     val tooltipText = "$xLabel\n$formattedValue $valueSuffix"
 
     val textStyle = TextStyle(
         fontSize = 12.sp,
-        color = tooltipTextColor
+        color = tooltipConfig.textColor
     )
 
     val textLayoutResult = textMeasurer.measure(
@@ -61,7 +57,7 @@ internal fun DrawScope.drawTooltipWithMarker(
 
     // Draw Box
     drawRoundRect(
-        color = tooltipBackgroundColor,
+        color = tooltipConfig.backgroundColor,
         topLeft = Offset(tooltipX, tooltipY),
         size = Size(boxWidth, boxHeight),
         cornerRadius = CornerRadius(8.dp.toPx()),
@@ -74,5 +70,16 @@ internal fun DrawScope.drawTooltipWithMarker(
         text = tooltipText,
         style = textStyle,
         topLeft = Offset(tooltipX + padding.toPx(), tooltipY + padding.toPx())
+    )
+    
+    drawCircle(
+        color = lineColor,
+        radius = 4.dp.toPx(),
+        center = Offset(x.toPx(), y.toFloat())
+    )
+    drawCircle(
+        color = Color.White,
+        radius = 2.dp.toPx(),
+        center = Offset(x.toPx(), y.toFloat())
     )
 }
