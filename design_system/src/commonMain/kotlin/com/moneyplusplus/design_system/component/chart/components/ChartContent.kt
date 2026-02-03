@@ -19,17 +19,17 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import com.moneyplusplus.design_system.component.chart.components.grid.baseChartContainer
 import com.moneyplusplus.design_system.component.chart.components.line.drawQuarticLineWithShadow
 import com.moneyplusplus.design_system.component.chart.models.ChartConfig
 import com.moneyplusplus.design_system.component.chart.utils.checkIfDataValid
 import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
 import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
+import com.moneyplusplus.design_system.component.chart.utils.getUpperValue
+import com.moneyplusplus.design_system.component.chart.utils.getLowerValue
+import com.moneyplusplus.design_system.component.chart.utils.collectToSnapShotFlow
 
 
 @OptIn(ExperimentalTextApi::class)
@@ -70,7 +70,7 @@ internal fun ChartContent(
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
         val startOffset = with(density) { textSpace.toDp() } + ChartConstants.textSpacing
 
-        val calculatedWidth = (pointWidth * data.size) + startOffset + 20.dp
+        val calculatedWidth = (pointWidth * data.size) + startOffset + ChartConstants.minWidthPadding
         val finalWidth = max(screenWidth, calculatedWidth)
 
         Box(
@@ -127,32 +127,11 @@ internal fun ChartContent(
                 upperValue = it.getUpperValue()
                 lowerValue = it.getLowerValue()
             }
-            delay(400)
+            delay(ChartConstants.animationDelay)
             animatedProgress.animateTo(
                 targetValue = 1f,
-                animationSpec = tween(durationMillis = 1000, easing = LinearEasing)
+                animationSpec = tween(durationMillis = ChartConstants.animationDuration, easing = LinearEasing)
             )
-        }
-    }
-}
-
-private fun List<Double>.getUpperValue(): Double {
-    return this.maxOrNull()?.plus(1.0) ?: 0.0
-}
-
-private fun List<Double>.getLowerValue(): Double {
-    return this.minOrNull() ?: 0.0
-}
-
-private fun CoroutineScope.collectToSnapShotFlow(
-    data: List<Double>,
-    makeUpdateData: (List<Double>) -> Unit,
-) {
-    this.launch {
-        snapshotFlow {
-            data
-        }.collect {
-            makeUpdateData(it)
         }
     }
 }

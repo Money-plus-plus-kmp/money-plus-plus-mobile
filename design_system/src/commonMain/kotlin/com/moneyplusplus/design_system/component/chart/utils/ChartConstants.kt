@@ -17,4 +17,7 @@ internal object ChartConstants {
     val chartHeight = 200.dp
     val gradientFillBottomFactor = 40f
     val verticalOffset = 11.dp
+    val animationDuration = 1000
+    val animationDelay = 400L
+    val minWidthPadding = 20.dp
 }
