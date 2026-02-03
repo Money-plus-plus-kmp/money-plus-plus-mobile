@@ -49,7 +49,6 @@ fun LineChart(
                 modifier = if (chartRatio == 0f) Modifier.wrapContentSize()
                 else Modifier.aspectRatio(chartRatio).fillMaxSize(),
                 data = data,
-                // title parameter removed
                 chartColors = chartColors,
                 valueSuffix = valueSuffix,
                 tooltipBackgroundColor = chartColors.tooltipBackground, 

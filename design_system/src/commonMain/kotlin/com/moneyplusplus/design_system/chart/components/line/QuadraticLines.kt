@@ -1,7 +1,6 @@
 package com.moneyplusplus.design_system.chart.components.line
 
 import com.moneyplusplus.design_system.chart.components.tooltip.drawTooltipWithMarker
-
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.ui.graphics.Brush

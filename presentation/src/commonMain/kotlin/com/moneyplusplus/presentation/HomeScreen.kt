@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.components.SpendingTrendChart
+import com.moneyplusplus.design_system.chart.SpendingTrendChart
 import com.moneyplusplus.design_system.chart.data.ChartPoint
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import kotlinx.datetime.LocalDate

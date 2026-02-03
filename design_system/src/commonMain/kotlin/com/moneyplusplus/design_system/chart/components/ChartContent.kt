@@ -16,6 +16,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextStyle
@@ -73,7 +74,7 @@ internal fun ChartContent(
         val yMaxTextWidth = textMeasure.measure(
             text = AnnotatedString(upperValue.toFloat().formatToThousandsMillionsBillions()),
         ).size.width
-        val density = androidx.compose.ui.platform.LocalDensity.current
+        val density = LocalDensity.current
         val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
         val startOffset = with(density) { textSpace.toDp() } + 10.dp
 
