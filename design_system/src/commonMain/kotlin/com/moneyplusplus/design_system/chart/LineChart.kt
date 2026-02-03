@@ -24,15 +24,14 @@ fun LineChart(
 
     Box(modifier.wrapContentHeight()) {
         Column {
-            // Title
+
             if (title.isNotEmpty()) {
-                Box(Modifier.padding(bottom = 16.dp)) {
-                    Text(
-                        text = title,
-                        style = config.styles.title,
-                        color = config.colors.axisLabelColor
-                    )
-                }
+                Text(
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    text = title,
+                    style = config.styles.title,
+                    color = config.colors.axisLabelColor
+                )
             }
 
             ChartContent(
@@ -46,6 +45,7 @@ fun LineChart(
                 },
                 clickedPoints = clickedPoints,
             )
+
         }
     }
 }
