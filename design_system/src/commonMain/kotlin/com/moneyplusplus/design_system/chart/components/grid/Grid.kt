@@ -9,6 +9,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
 @OptIn(ExperimentalTextApi::class)
@@ -28,10 +29,10 @@ internal fun DrawScope.grid(
     val xAxisMaxValue = size.width
 
     (0..yAxisRange).forEach { i ->
-        val y = size.height.toDp().toPx() - (spacingY.toPx()) - i * (size.height.toDp() - spacingY).toPx() / yAxisRange
-        val yAlignmentValue = y + 9.dp.toPx()
+        val y = size.height.toDp().toPx() - (ChartConstants.spacingY.toPx()) - i * (size.height.toDp() - ChartConstants.spacingY).toPx() / yAxisRange
+        val yAlignmentValue = y + ChartConstants.gridYAlignment.toPx()
 
-        val xStart = (textSpace.toDp() + 10.dp).toPx()
+        val xStart = (textSpace.toDp() + ChartConstants.textSpacing).toPx()
         val xEnd = xAxisMaxValue - (textSpace/0.9.toFloat().toDp().toPx())
 
         drawLine(
@@ -40,7 +41,7 @@ internal fun DrawScope.grid(
             end = Offset(xEnd, yAlignmentValue),
             strokeWidth = backgroundLineWidth,
             pathEffect = PathEffect.dashPathEffect(
-                if (showGridWithSpacer) floatArrayOf(16f, 16f)
+                if (showGridWithSpacer) floatArrayOf(ChartConstants.gridDashInterval, ChartConstants.gridDashInterval)
                 else floatArrayOf(1f, 1f),
                 0f
             )

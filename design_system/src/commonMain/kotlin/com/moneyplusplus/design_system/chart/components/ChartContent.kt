@@ -85,8 +85,6 @@ internal fun ChartContent(
                         }
                     }
             ) {
-                val spacingX = (size.width / ChartConstants.spacingY.toPx()).dp
-                val spacingY = ChartConstants.spacingY 
 
                 val xRegionWidth = if (xAxisData.size > 1) {
                     (size.width.toDp() - startOffset) / (xAxisData.size - 1)

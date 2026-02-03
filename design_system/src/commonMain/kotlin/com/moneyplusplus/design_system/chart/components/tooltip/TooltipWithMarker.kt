@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.moneyplusplus.design_system.chart.utils.formatWithCommas
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.drawTooltipWithMarker(
@@ -30,7 +31,6 @@ internal fun DrawScope.drawTooltipWithMarker(
     valueSuffix: String,
     tooltipConfig: ChartTooltipConfig,
 ) {
-    val radius = 4.dp
     val xLabel = xAxisData.getOrNull(xIndex) ?: xIndex.toString()
     val formattedValue = yValue.toFloat().formatWithCommas()
     val tooltipText = "$xLabel\n$formattedValue $valueSuffix"
@@ -46,21 +46,35 @@ internal fun DrawScope.drawTooltipWithMarker(
     )
 
     // Layout
-    val padding = 8.dp
+    val padding = ChartConstants.tooltipPadding
     val textWidth = textLayoutResult.size.width
     val textHeight = textLayoutResult.size.height
     val boxWidth = textWidth + (padding.toPx() * 2)
     val boxHeight = textHeight + (padding.toPx() * 2)
 
-    val tooltipX = x.toPx() - (boxWidth / 2f)
-    val tooltipY = y.toFloat() - boxHeight - 10.dp.toPx()
+    val tooltipX = x.toPx() - boxWidth
+    val tooltipY = y.toFloat() - (boxHeight) - 2.dp.toPx() - ChartConstants.markerRadius.toPx()
 
     // Draw Box
-    drawRoundRect(
+    // Draw Box
+    val path = androidx.compose.ui.graphics.Path().apply {
+        addRoundRect(
+            androidx.compose.ui.geometry.RoundRect(
+                rect = androidx.compose.ui.geometry.Rect(
+                    offset = Offset(tooltipX, tooltipY),
+                    size = Size(boxWidth, boxHeight)
+                ),
+                topLeft = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                topRight = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                bottomLeft = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                bottomRight = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx(), 2.dp.toPx())
+            )
+        )
+    }
+
+    drawPath(
+        path = path,
         color = tooltipConfig.backgroundColor,
-        topLeft = Offset(tooltipX, tooltipY),
-        size = Size(boxWidth, boxHeight),
-        cornerRadius = CornerRadius(8.dp.toPx()),
         style = Fill
     )
 
@@ -74,12 +88,7 @@ internal fun DrawScope.drawTooltipWithMarker(
     
     drawCircle(
         color = lineColor,
-        radius = 4.dp.toPx(),
-        center = Offset(x.toPx(), y.toFloat())
-    )
-    drawCircle(
-        color = Color.White,
-        radius = 2.dp.toPx(),
+        radius = ChartConstants.markerRadius.toPx(),
         center = Offset(x.toPx(), y.toFloat())
     )
 }

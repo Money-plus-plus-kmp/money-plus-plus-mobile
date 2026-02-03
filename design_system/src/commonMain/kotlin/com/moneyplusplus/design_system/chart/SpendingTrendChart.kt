@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.chart.data.ChartPoint
 import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.theme.theme.Theme
+import com.moneyplusplus.design_system.chart.utils.calculateXAxisData
 
 @Composable
 fun SpendingTrendChart(
@@ -24,10 +25,7 @@ fun SpendingTrendChart(
 ) {
     if (points.isEmpty()) return
 
-    val xAxisData = points.map {
-        val monthName = it.date.month.name.take(3).lowercase()
-        "${it.date.day} ${monthName.replaceFirstChar { char -> char.titlecase() }}"
-    }
+    val xAxisData = points.calculateXAxisData()
 
     Box(
         modifier = modifier

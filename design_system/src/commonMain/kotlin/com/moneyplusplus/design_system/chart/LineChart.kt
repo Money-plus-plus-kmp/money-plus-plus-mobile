@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.chart.components.ChartContent
 import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.chart.utils.ChartConstants
 
 @Composable
 fun LineChart(
@@ -35,7 +36,7 @@ fun LineChart(
             }
 
             ChartContent(
-                modifier = Modifier.fillMaxWidth().height(config.dimensions.chartHeight),
+                modifier = Modifier.fillMaxWidth().height(ChartConstants.chartHeight),
                 data = data,
                 config = config,
                 valueSuffix = valueSuffix,
