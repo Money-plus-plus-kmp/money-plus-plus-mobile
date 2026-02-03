@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.line
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D

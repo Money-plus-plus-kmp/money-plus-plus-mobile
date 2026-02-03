@@ -1,4 +1,6 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.line
+
+import com.moneyplusplus.design_system.chart.components.tooltip.drawTooltipWithMarker
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
@@ -23,7 +25,6 @@ internal fun DrawScope.drawQuarticLineWithShadow(
     data: List<Double>,
     lineColor: Color,
     lineShadow: Boolean,
-    lineLabel: String,
     valueSuffix: String,
     tooltipBackgroundColor: Color,
     tooltipTextColor: Color,
@@ -100,7 +101,7 @@ fun DrawScope.drawLineAsQuadratic(
         val yMaxTextWidth = textMeasurer.measure(
             text = AnnotatedString(upperValue.formatToThousandsMillionsBillions()),
         ).size.width
-        val textSpace = yMaxTextWidth - (yMaxTextWidth/4)
+        val textSpace = yMaxTextWidth - (yMaxTextWidth / 4)
 
         val info = data[index]
         val nextInfo = data.getOrNull(index + 1) ?: data.last()

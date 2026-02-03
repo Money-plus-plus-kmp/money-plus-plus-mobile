@@ -26,6 +26,9 @@ import androidx.compose.ui.unit.max
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import com.moneyplusplus.design_system.chart.components.grid.baseChartContainer
+import com.moneyplusplus.design_system.chart.components.line.drawQuarticLineWithShadow
+
 import com.moneyplusplus.design_system.chart.models.ChartColors
 import com.moneyplusplus.design_system.chart.utils.checkIfDataValid
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
@@ -36,11 +39,10 @@ import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBill
 internal fun ChartContent(
     modifier: Modifier,
     data: List<Double>,
-    title: String,
     chartColors: ChartColors,
     valueSuffix: String,
-    tooltipBackgroundColor: Color, // Explicit params
-    tooltipTextColor: Color,     // Explicit params
+    tooltipBackgroundColor: Color,
+    tooltipTextColor: Color,
     xAxisData: List<String>,
     barWidthPx: Dp,
     animateChart: Boolean,
@@ -121,7 +123,6 @@ internal fun ChartContent(
                     data = data,
                     lineColor = chartColors.lineColor,
                     lineShadow = true,
-                    lineLabel = title,
                     valueSuffix = valueSuffix,
                     tooltipBackgroundColor = tooltipBackgroundColor,
                     tooltipTextColor = tooltipTextColor,

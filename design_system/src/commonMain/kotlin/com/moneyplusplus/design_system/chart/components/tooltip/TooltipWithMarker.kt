@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.tooltip
 
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset

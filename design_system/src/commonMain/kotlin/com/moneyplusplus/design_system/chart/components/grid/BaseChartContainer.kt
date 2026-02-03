@@ -1,4 +1,9 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.grid
+
+import com.moneyplusplus.design_system.chart.components.axis.xAxisDrawing
+import com.moneyplusplus.design_system.chart.components.axis.yAxisDrawing
+
+
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope

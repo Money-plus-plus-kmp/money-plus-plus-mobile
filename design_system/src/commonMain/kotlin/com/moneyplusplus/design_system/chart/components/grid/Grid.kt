@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.grid
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color

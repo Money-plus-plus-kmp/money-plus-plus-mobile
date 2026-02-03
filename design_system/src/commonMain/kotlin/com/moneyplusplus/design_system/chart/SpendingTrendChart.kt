@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+// LineChart in same package
 import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.chart.data.ChartPoint
 import com.moneyplusplus.design_system.chart.models.ChartColors
@@ -23,7 +24,7 @@ fun SpendingTrendChart(
     title: String,
     modifier: Modifier = Modifier,
     config: ChartConfig = ChartConfig.Default,
-    valueSuffix: String = ""
+    valueSuffix: String = "EG" 
 ) {
     if (points.isEmpty()) return
 

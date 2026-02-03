@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.chart.components.axis
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -37,7 +37,7 @@ internal fun <T> DrawScope.xAxisDrawing(
             overflow = TextOverflow.Ellipsis,
             topLeft = Offset(
                 xLength.coerceAtMost(size.width.toDp()).toPx(),
-                size.height - 20.dp.toPx() // Explicit bottom padding
+                size.height - 20.dp.toPx()
             )
         )
     }
