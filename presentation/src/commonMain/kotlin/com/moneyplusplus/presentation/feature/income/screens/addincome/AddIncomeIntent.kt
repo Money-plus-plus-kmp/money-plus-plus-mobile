@@ -5,7 +5,12 @@ import kotlinx.datetime.LocalDate
 
 sealed interface AddIncomeIntent: UiIntent {
     data class SetAmount(val amount: Int): AddIncomeIntent
-    data class SetDate(val date: LocalDate): AddIncomeIntent
     data class SetNote(val note: String): AddIncomeIntent
-    data object AddIncome: AddIncomeIntent
+    data class SetDate(val date: LocalDate): AddIncomeIntent
+
+    data object OnDateClick: AddIncomeIntent
+    data object OnAddIncomeClick: AddIncomeIntent
+    data object OnBackClick: AddIncomeIntent
+
+    data object OnDatePickerDismiss: AddIncomeIntent
 }

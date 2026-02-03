@@ -7,12 +7,16 @@ import kotlinx.datetime.LocalDate
 class AddIncomeViewModel(
     private val addIncomeUseCase: AddIncomeUseCase
 ) : BaseViewModel<AddIncomeState, AddIncomeIntent, AddIncomeEffect>(AddIncomeState()) {
+
     override fun handleIntent(intent: AddIncomeIntent) {
         when (intent) {
-            AddIncomeIntent.AddIncome -> addIncome()
+            AddIncomeIntent.OnAddIncomeClick -> addIncome()
             is AddIncomeIntent.SetAmount -> setAmount(intent.amount)
             is AddIncomeIntent.SetDate -> setDate(intent.date)
             is AddIncomeIntent.SetNote -> setNote(intent.note)
+            is AddIncomeIntent.OnDateClick -> showDatePicker()
+            is AddIncomeIntent.OnBackClick -> navigateBack()
+            is AddIncomeIntent.OnDatePickerDismiss -> dismissDatePicker()
         }
     }
 
@@ -26,13 +30,19 @@ class AddIncomeViewModel(
 
     private fun setAmount(amount: Int) {
         updateState {
-            copy(amount = amount)
+            copy(
+                amount = amount,
+                isAddEnabled = isAddEnabled(this)
+            )
         }
     }
 
     private fun setDate(date: LocalDate) {
         updateState {
-            copy(date = date)
+            copy(
+                date = date,
+                isDatePickerVisible = false
+            )
         }
     }
 
@@ -40,6 +50,24 @@ class AddIncomeViewModel(
         updateState {
             copy(note = note)
         }
+    }
+
+    private fun showDatePicker() {
+        updateState { copy(isDatePickerVisible = true) }
+    }
+
+    private fun dismissDatePicker() {
+        updateState {
+            copy(isDatePickerVisible = false)
+        }
+    }
+
+    private fun navigateBack() {
+        sendEffect(AddIncomeEffect.NavigateBack)
+    }
+
+    private fun isAddEnabled(state: AddIncomeState): Boolean {
+        return state.amount > 0
     }
 
 }

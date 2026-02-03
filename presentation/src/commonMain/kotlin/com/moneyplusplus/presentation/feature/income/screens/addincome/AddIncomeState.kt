@@ -10,7 +10,9 @@ data class AddIncomeState(
     val amount: Int = 0,
     val currencyCode: String = "IQD", // temp until get default currency from settings
     val date: LocalDate = LocalDate.currentDate(),
-    val note: String = ""
+    val note: String = "",
+    val isAddEnabled: Boolean = false,
+    val isDatePickerVisible: Boolean = false
 ): UiState
 
 fun AddIncomeState.toIncome(): Income {
