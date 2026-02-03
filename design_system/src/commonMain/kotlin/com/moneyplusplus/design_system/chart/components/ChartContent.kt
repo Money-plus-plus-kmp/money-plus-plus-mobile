@@ -14,14 +14,11 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import kotlinx.coroutines.CoroutineScope
@@ -29,8 +26,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import com.moneyplusplus.design_system.chart.components.grid.baseChartContainer
 import com.moneyplusplus.design_system.chart.components.line.drawQuarticLineWithShadow
-
-import com.moneyplusplus.design_system.chart.models.ChartColors
+import com.moneyplusplus.design_system.chart.models.ChartConfig
 import com.moneyplusplus.design_system.chart.utils.checkIfDataValid
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
@@ -40,17 +36,9 @@ import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBill
 internal fun ChartContent(
     modifier: Modifier,
     data: List<Double>,
-    chartColors: ChartColors,
+    config: ChartConfig,
     valueSuffix: String,
-    tooltipBackgroundColor: Color,
-    tooltipTextColor: Color,
     xAxisData: List<String>,
-    barWidthPx: Dp,
-    animateChart: Boolean,
-    showGridWithSpacer: Boolean,
-    yAxisStyle: TextStyle,
-    xAxisStyle: TextStyle,
-    yAxisRange: Int,
     onChartClick: (Float, Float) -> Unit,
     clickedPoints: MutableList<Pair<Float, Float>>,
 ) {
@@ -58,7 +46,7 @@ internal fun ChartContent(
     val scrollState = rememberScrollState()
 
     val animatedProgress = remember {
-        if (animateChart) Animatable(0f) else Animatable(1f)
+        if (config.animationEnabled) Animatable(0f) else Animatable(1f)
     }
     var upperValue by rememberSaveable {
         mutableStateOf(data.getUpperValue())
@@ -110,23 +98,23 @@ internal fun ChartContent(
                     textMeasure = textMeasure,
                     upperValue = upperValue.toFloat(),
                     lowerValue = lowerValue.toFloat(),
-                    backgroundLineWidth = barWidthPx.toPx(),
-                    gridColor = chartColors.gridColor,
-                    showGridWithSpacer = showGridWithSpacer,
+                    backgroundLineWidth = 1.dp.toPx(), 
+                    gridColor = config.colors.gridColor,
+                    showGridWithSpacer = true,
                     spacingY = spacingY,
-                    yAxisStyle = yAxisStyle,
-                    xAxisStyle = xAxisStyle,
-                    yAxisRange = yAxisRange,
+                    yAxisStyle = config.styles.axisLabel,
+                    xAxisStyle = config.styles.axisLabel,
+                    yAxisRange = config.yAxisRange,
                     xRegionWidth = xRegionWidth
                 )
 
                 drawQuarticLineWithShadow(
                     data = data,
-                    lineColor = chartColors.lineColor,
+                    lineColor = config.colors.lineColor,
                     lineShadow = true,
                     valueSuffix = valueSuffix,
-                    tooltipBackgroundColor = tooltipBackgroundColor,
-                    tooltipTextColor = tooltipTextColor,
+                    tooltipBackgroundColor = config.colors.tooltipBackground,
+                    tooltipTextColor = config.colors.tooltipTextColor,
                     lowerValue = lowerValue.toFloat(),
                     upperValue = upperValue.toFloat(),
                     animatedProgress = animatedProgress,
@@ -141,8 +129,8 @@ internal fun ChartContent(
         }
     }
 
-    LaunchedEffect(data, animateChart) {
-        if (animateChart) {
+    LaunchedEffect(data, config.animationEnabled) {
+        if (config.animationEnabled) {
             collectToSnapShotFlow(data) {
                 upperValue = it.getUpperValue()
                 lowerValue = it.getLowerValue()
