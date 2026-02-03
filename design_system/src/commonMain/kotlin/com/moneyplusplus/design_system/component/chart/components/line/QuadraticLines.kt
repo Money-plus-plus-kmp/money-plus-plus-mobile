@@ -14,8 +14,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.moneyplusplus.design_system.component.chart.models.ChartColors
-import com.moneyplusplus.design_system.component.chart.models.ChartTooltipConfig
+import com.moneyplusplus.design_system.component.chart.models.ChartConfig
 import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 import com.moneyplusplus.design_system.component.chart.utils.clickedOnThisPoint
 import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
@@ -25,8 +24,7 @@ private var lastClickedPoint: Pair<Float, Float>? = null
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.drawQuarticLineWithShadow(
     data: List<Double>,
-    colors: ChartColors,
-    tooltip: ChartTooltipConfig,
+    config: ChartConfig,
     lineShadow: Boolean = true,
     valueSuffix: String?,
     lowerValue: Float,
@@ -39,8 +37,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 ) {
     val strokePathOfQuadraticLine = drawLineAsQuadratic(
         data = data,
-        colors = colors,
-        tooltip = tooltip,
+        config = config,
         valueSuffix = valueSuffix,
         lowerValue = lowerValue,
         upperValue = upperValue,
@@ -53,15 +50,18 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 
     if (lineShadow) {
         val fillPath = strokePathOfQuadraticLine.apply {
-            lineTo(size.width - xRegionWidth.toPx() + ChartConstants.shadowOffset.toPx(), size.height * 40)
-            lineTo(ChartConstants.pointWidth.toPx() * 2, size.height * 40)
+            lineTo(
+                size.width - xRegionWidth.toPx() + ChartConstants.shadowOffset.toPx(),
+                size.height * ChartConstants.gradientFillBottomFactor
+            )
+            lineTo(ChartConstants.pointWidth.toPx() * 2, size.height * ChartConstants.gradientFillBottomFactor)
             close()
         }
         clipRect(right = size.width * animatedProgress.value) {
             drawPath(
                 path = fillPath, brush = Brush.verticalGradient(
                     colors = listOf(
-                        colors.lineColor.copy(alpha = .32f), Color.Transparent
+                        config.colors.lineColor.copy(alpha = .32f), Color.Transparent
                     ), endY = (size.height.toDp() - ChartConstants.spacingY).toPx()
                 )
             )
@@ -72,8 +72,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 @OptIn(ExperimentalTextApi::class)
 fun DrawScope.drawLineAsQuadratic(
     data: List<Double>,
-    colors: ChartColors,
-    tooltip: ChartTooltipConfig,
+    config: ChartConfig,
     valueSuffix: String?,
     lowerValue: Float,
     upperValue: Float,
@@ -88,7 +87,7 @@ fun DrawScope.drawLineAsQuadratic(
 
     drawPathLineWrapper(
         data = data,
-        lineColor = colors.lineColor,
+        lineColor = config.colors.lineColor,
         strokePath = this,
         animatedProgress = animatedProgress,
     ) { index ->
@@ -111,12 +110,12 @@ fun DrawScope.drawLineAsQuadratic(
             )) * xRegionWidth
 
         val yFirstPoint = (height.toPx()
-                + 11.dp.toPx()
+                + ChartConstants.verticalOffset.toPx()
                 - ChartConstants.spacingY.toPx()
                 - (firstRatio * (size.height.toDp() - ChartConstants.spacingY).toPx())
                 )
         val ySecondPoint = (height.toPx()
-                + 11.dp.toPx()
+                + ChartConstants.verticalOffset.toPx()
                 - ChartConstants.spacingY.toPx()
                 - (secondRatio * (size.height.toDp() - ChartConstants.spacingY).toPx())
                 )
@@ -141,9 +140,9 @@ fun DrawScope.drawLineAsQuadratic(
                     textMeasurer = textMeasurer,
                     xIndex = index,
                     yValue = info,
-                    lineColor = colors.lineColor,
+                    lineColor = config.colors.lineColor,
                     valueSuffix = valueSuffix,
-                    tooltipConfig = tooltip,
+                    tooltipConfig = config.tooltip,
                     xAxisData = xAxisData
                 )
             }

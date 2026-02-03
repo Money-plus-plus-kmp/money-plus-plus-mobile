@@ -13,5 +13,8 @@ internal object ChartConstants {
     val gridDashInterval = 16f
     val markerRadius = 4.dp
     val tooltipPadding = 8.dp
+    val tooltipOffset = 10.dp
     val chartHeight = 200.dp
+    val gradientFillBottomFactor = 40f
+    val verticalOffset = 11.dp
 }

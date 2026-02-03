@@ -1,7 +1,10 @@
 package com.moneyplusplus.design_system.component.chart.components.tooltip
 
+import androidx.compose.ui.geometry.CornerRadius
 import com.moneyplusplus.design_system.component.chart.models.ChartTooltipConfig
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.RoundRect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -56,15 +59,15 @@ internal fun DrawScope.drawTooltipWithMarker(
     // Draw Box
     val path = androidx.compose.ui.graphics.Path().apply {
         addRoundRect(
-            androidx.compose.ui.geometry.RoundRect(
-                rect = androidx.compose.ui.geometry.Rect(
+            RoundRect(
+                rect = Rect(
                     offset = Offset(tooltipX, tooltipY),
                     size = Size(boxWidth, boxHeight)
                 ),
-                topLeft = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
-                topRight = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
-                bottomLeft = androidx.compose.ui.geometry.CornerRadius(8.dp.toPx(), 8.dp.toPx()),
-                bottomRight = androidx.compose.ui.geometry.CornerRadius(2.dp.toPx(), 2.dp.toPx())
+                topLeft = CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                topRight = CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                bottomLeft = CornerRadius(8.dp.toPx(), 8.dp.toPx()),
+                bottomRight = CornerRadius(2.dp.toPx(), 2.dp.toPx())
             )
         )
     }

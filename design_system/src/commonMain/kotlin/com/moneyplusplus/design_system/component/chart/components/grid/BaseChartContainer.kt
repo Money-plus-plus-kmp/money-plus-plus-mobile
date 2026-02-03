@@ -2,6 +2,7 @@ package com.moneyplusplus.design_system.component.chart.components.grid
 
 import com.moneyplusplus.design_system.component.chart.components.axis.xAxisDrawing
 import com.moneyplusplus.design_system.component.chart.components.axis.yAxisDrawing
+import com.moneyplusplus.design_system.component.chart.models.ChartConfig
 import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -16,16 +17,14 @@ internal fun <T> DrawScope.baseChartContainer(
     textMeasure: TextMeasurer,
     upperValue: Float,
     lowerValue: Float,
-    gridColor: Color,
-    axisLabelStyle: TextStyle,
-    yAxisRange: Int,
+    config: ChartConfig,
     xRegionWidth: Dp
 ) {
     val spacingY = ChartConstants.spacingY
     xAxisDrawing(
         xAxisData = xAxisData,
         textMeasure = textMeasure,
-        xAxisStyle = axisLabelStyle,
+        xAxisStyle = config.styles.axisLabel,
         upperValue = upperValue,
         xRegionWidth = xRegionWidth
     )
@@ -35,15 +34,15 @@ internal fun <T> DrawScope.baseChartContainer(
         lowerValue = lowerValue,
         textMeasure = textMeasure,
         spacing = spacingY,
-        yAxisStyle = axisLabelStyle,
-        yAxisRange = yAxisRange
+        yAxisStyle = config.styles.axisLabel,
+        yAxisRange = config.yAxisRange
     )
 
     grid(
-        gridColor = gridColor,
+        gridColor = config.colors.gridColor,
         backgroundLineWidth = ChartConstants.backgroundLineWidth.toPx(),
         showGridWithSpacer = true,
-        yAxisRange = yAxisRange,
+        yAxisRange = config.yAxisRange,
         upperValue = upperValue,
         textMeasurer = textMeasure
     )

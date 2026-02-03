@@ -23,10 +23,9 @@ internal fun Float.formatToThousandsMillionsBillions(): String {
 
 // for Tooltip
 internal fun Float.formatWithCommas(): String {
-    val intValue = this.toInt()
-    val str = intValue.toString()
-    val reversed = str.reversed()
-    val chunked = reversed.chunked(3)
-    val joined = chunked.joinToString(",")
-    return joined.reversed()
+    return this.toInt().toString()
+        .reversed()
+        .chunked(3)
+        .joinToString(",")
+        .reversed()
 }
