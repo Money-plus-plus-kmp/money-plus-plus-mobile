@@ -98,23 +98,17 @@ internal fun ChartContent(
                     textMeasure = textMeasure,
                     upperValue = upperValue.toFloat(),
                     lowerValue = lowerValue.toFloat(),
-                    backgroundLineWidth = 1.dp.toPx(), 
                     gridColor = config.colors.gridColor,
-                    showGridWithSpacer = true,
-                    spacingY = spacingY,
-                    yAxisStyle = config.styles.axisLabel,
-                    xAxisStyle = config.styles.axisLabel,
+                    axisLabelStyle = config.styles.axisLabel,
                     yAxisRange = config.yAxisRange,
                     xRegionWidth = xRegionWidth
                 )
 
                 drawQuarticLineWithShadow(
                     data = data,
-                    lineColor = config.colors.lineColor,
+                    colors = config.colors,
                     lineShadow = true,
                     valueSuffix = valueSuffix,
-                    tooltipBackgroundColor = config.colors.tooltipBackground,
-                    tooltipTextColor = config.colors.tooltipTextColor,
                     lowerValue = lowerValue.toFloat(),
                     upperValue = upperValue.toFloat(),
                     animatedProgress = animatedProgress,

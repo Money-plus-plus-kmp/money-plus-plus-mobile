@@ -28,7 +28,7 @@ fun LineChart(
                 Box(Modifier.padding(bottom = 16.dp)) {
                     Text(
                         text = title,
-                        style = config.styles.description,
+                        style = config.styles.title,
                         color = config.colors.axisLabelColor
                     )
                 }

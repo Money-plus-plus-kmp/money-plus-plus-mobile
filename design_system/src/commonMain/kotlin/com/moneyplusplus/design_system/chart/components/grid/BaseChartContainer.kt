@@ -11,6 +11,7 @@ import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalTextApi::class)
 internal fun <T> DrawScope.baseChartContainer(
@@ -19,18 +20,15 @@ internal fun <T> DrawScope.baseChartContainer(
     upperValue: Float,
     lowerValue: Float,
     gridColor: Color,
-    backgroundLineWidth: Float,
-    showGridWithSpacer: Boolean,
-    spacingY: Dp,
-    yAxisStyle: TextStyle,
-    xAxisStyle: TextStyle,
+    axisLabelStyle: TextStyle,
     yAxisRange: Int,
     xRegionWidth: Dp
 ) {
+    val spacingY = 50.dp
     xAxisDrawing(
         xAxisData = xAxisData,
         textMeasure = textMeasure,
-        xAxisStyle = xAxisStyle,
+        xAxisStyle = axisLabelStyle,
         upperValue = upperValue,
         xRegionWidth = xRegionWidth
     )
@@ -40,14 +38,14 @@ internal fun <T> DrawScope.baseChartContainer(
         lowerValue = lowerValue,
         textMeasure = textMeasure,
         spacing = spacingY,
-        yAxisStyle = yAxisStyle,
+        yAxisStyle = axisLabelStyle,
         yAxisRange = yAxisRange
     )
 
     grid(
         gridColor = gridColor,
-        backgroundLineWidth = backgroundLineWidth,
-        showGridWithSpacer = showGridWithSpacer,
+        backgroundLineWidth = 1.dp.toPx(),
+        showGridWithSpacer = true,
         spacingY = spacingY,
         yAxisRange = yAxisRange,
         upperValue = upperValue,

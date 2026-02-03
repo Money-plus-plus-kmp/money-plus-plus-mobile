@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
+import com.moneyplusplus.design_system.chart.models.ChartColors
 import com.moneyplusplus.design_system.chart.utils.clickedOnThisPoint
 import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
 
@@ -22,11 +23,9 @@ private var lastClickedPoint: Pair<Float, Float>? = null
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.drawQuarticLineWithShadow(
     data: List<Double>,
-    lineColor: Color,
-    lineShadow: Boolean,
+    colors: ChartColors,
+    lineShadow: Boolean = true,
     valueSuffix: String,
-    tooltipBackgroundColor: Color,
-    tooltipTextColor: Color,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
@@ -39,10 +38,8 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 ) {
     val strokePathOfQuadraticLine = drawLineAsQuadratic(
         data = data,
-        lineColor = lineColor,
+        colors = colors,
         valueSuffix = valueSuffix,
-        tooltipBackgroundColor = tooltipBackgroundColor,
-        tooltipTextColor = tooltipTextColor,
         lowerValue = lowerValue,
         upperValue = upperValue,
         animatedProgress = animatedProgress,
@@ -63,7 +60,7 @@ internal fun DrawScope.drawQuarticLineWithShadow(
             drawPath(
                 path = fillPath, brush = Brush.verticalGradient(
                     colors = listOf(
-                        lineColor.copy(alpha = .32f), Color.Transparent
+                        colors.lineColor.copy(alpha = .32f), Color.Transparent
                     ), endY = (size.height.toDp() - spacingY).toPx()
                 )
             )
@@ -74,10 +71,8 @@ internal fun DrawScope.drawQuarticLineWithShadow(
 @OptIn(ExperimentalTextApi::class)
 fun DrawScope.drawLineAsQuadratic(
     data: List<Double>,
-    lineColor: Color,
+    colors: ChartColors,
     valueSuffix: String,
-    tooltipBackgroundColor: Color,
-    tooltipTextColor: Color,
     lowerValue: Float,
     upperValue: Float,
     animatedProgress: Animatable<Float, AnimationVector1D>,
@@ -92,7 +87,7 @@ fun DrawScope.drawLineAsQuadratic(
 
     drawPathLineWrapper(
         data = data,
-        lineColor = lineColor,
+        lineColor = colors.lineColor,
         strokePath = this,
         animatedProgress = animatedProgress,
     ) { index ->
@@ -140,10 +135,10 @@ fun DrawScope.drawLineAsQuadratic(
                     textMeasurer = textMeasurer,
                     xIndex = index,
                     yValue = info,
-                    lineColor = lineColor,
+                    lineColor = colors.lineColor,
                     valueSuffix = valueSuffix,
-                    tooltipBackgroundColor = tooltipBackgroundColor,
-                    tooltipTextColor = tooltipTextColor,
+                    tooltipBackgroundColor = colors.tooltipBackground,
+                    tooltipTextColor = colors.tooltipTextColor,
                     xAxisData = xAxisData
                 )
             }
