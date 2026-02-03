@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components
+package com.moneyplusplus.design_system.component.chart.components
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.LinearEasing
@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.max
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import com.moneyplusplus.design_system.chart.components.grid.baseChartContainer
-import com.moneyplusplus.design_system.chart.components.line.drawQuarticLineWithShadow
-import com.moneyplusplus.design_system.chart.models.ChartConfig
-import com.moneyplusplus.design_system.chart.utils.checkIfDataValid
-import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
-import com.moneyplusplus.design_system.chart.utils.ChartConstants
+import com.moneyplusplus.design_system.component.chart.components.grid.baseChartContainer
+import com.moneyplusplus.design_system.component.chart.components.line.drawQuarticLineWithShadow
+import com.moneyplusplus.design_system.component.chart.models.ChartConfig
+import com.moneyplusplus.design_system.component.chart.utils.checkIfDataValid
+import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 
 
 @OptIn(ExperimentalTextApi::class)
@@ -55,7 +55,10 @@ internal fun ChartContent(
     var lowerValue by rememberSaveable {
         mutableStateOf(data.getLowerValue())
     }
-    checkIfDataValid(xAxisData = xAxisData, data = data)
+    checkIfDataValid(
+        xAxisData = xAxisData,
+        data = data
+    )
 
     BoxWithConstraints(modifier = modifier) {
         val screenWidth = maxWidth

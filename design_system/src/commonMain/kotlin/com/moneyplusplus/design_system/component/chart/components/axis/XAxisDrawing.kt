@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components.axis
+package com.moneyplusplus.design_system.component.chart.components.axis
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -11,7 +11,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
 
 @OptIn(ExperimentalTextApi::class)
 internal fun <T> DrawScope.xAxisDrawing(

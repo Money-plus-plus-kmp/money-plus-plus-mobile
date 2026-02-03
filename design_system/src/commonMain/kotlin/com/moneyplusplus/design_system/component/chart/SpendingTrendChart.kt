@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart
+package com.moneyplusplus.design_system.component.chart
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -11,10 +11,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.data.ChartPoint
-import com.moneyplusplus.design_system.chart.models.ChartConfig
+import com.moneyplusplus.design_system.component.chart.data.ChartPoint
+import com.moneyplusplus.design_system.component.chart.models.ChartConfig
 import com.moneyplusplus.design_system.theme.theme.Theme
-import com.moneyplusplus.design_system.chart.utils.calculateXAxisData
+import com.moneyplusplus.design_system.component.chart.utils.calculateXAxisData
 
 @Composable
 fun SpendingTrendChart(
@@ -37,7 +37,7 @@ fun SpendingTrendChart(
     ) {
         val config = ChartConfig.defaults()
 
-        LineChart(
+       LineChart(
             modifier = Modifier.fillMaxSize(),
             data = points.map { it.value },
             title = title,

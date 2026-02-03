@@ -1,6 +1,6 @@
-package com.moneyplusplus.design_system.chart.utils
+package com.moneyplusplus.design_system.component.chart.utils
 
-import com.moneyplusplus.design_system.chart.data.ChartPoint
+import com.moneyplusplus.design_system.component.chart.data.ChartPoint
 
 fun List<ChartPoint>.calculateXAxisData(): List<String> {
     return this.map {

@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.models
+package com.moneyplusplus.design_system.component.chart.models
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color

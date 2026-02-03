@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.utils
+package com.moneyplusplus.design_system.component.chart.utils
 
 import androidx.compose.ui.unit.dp
 

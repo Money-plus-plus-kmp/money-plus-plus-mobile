@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.components.grid
+package com.moneyplusplus.design_system.component.chart.components.grid
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -7,17 +7,14 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.utils.ChartConstants
-import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
+import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
 
 @OptIn(ExperimentalTextApi::class)
 internal fun DrawScope.grid(
     gridColor: Color,
     backgroundLineWidth: Float,
     showGridWithSpacer: Boolean,
-    spacingY: Dp,
     yAxisRange: Int,
     upperValue: Float,
     textMeasurer: TextMeasurer,

@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.models
+package com.moneyplusplus.design_system.component.chart.models
 
 import androidx.compose.runtime.Composable
 
@@ -17,12 +17,13 @@ data class ChartConfig(
             tooltip: ChartTooltipConfig = ChartTooltipConfig.defaults(),
             animationEnabled: Boolean = true,
             yAxisRange: Int = 6
-        ): ChartConfig = ChartConfig(
-            colors = colors,
-            styles = styles,
-            tooltip = tooltip,
-            animationEnabled = animationEnabled,
-            yAxisRange = yAxisRange
-        )
+        ): ChartConfig =
+            ChartConfig(
+                colors = colors,
+                styles = styles,
+                tooltip = tooltip,
+                animationEnabled = animationEnabled,
+                yAxisRange = yAxisRange
+            )
     }
 }

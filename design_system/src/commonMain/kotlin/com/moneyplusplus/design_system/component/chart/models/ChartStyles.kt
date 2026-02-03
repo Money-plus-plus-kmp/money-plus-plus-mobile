@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.models
+package com.moneyplusplus.design_system.component.chart.models
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -13,9 +13,10 @@ data class ChartStyles(
         fun defaults(
             axisLabel: TextStyle = Theme.typography.label.xSmall.copy(color = Theme.colorScheme.hint),
             title: TextStyle = Theme.typography.label.medium.copy(color = Theme.colorScheme.hint)
-        ): ChartStyles = ChartStyles(
-            axisLabel = axisLabel,
-            title = title
-        )
+        ): ChartStyles =
+            ChartStyles(
+                axisLabel = axisLabel,
+                title = title
+            )
     }
 }

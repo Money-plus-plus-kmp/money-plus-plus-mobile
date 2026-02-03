@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.utils
+package com.moneyplusplus.design_system.component.chart.utils
 
 internal fun checkIfDataValid(
     xAxisData: List<String>,

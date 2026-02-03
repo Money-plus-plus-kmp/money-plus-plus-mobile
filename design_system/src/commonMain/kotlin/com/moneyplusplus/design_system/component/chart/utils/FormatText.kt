@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.utils
+package com.moneyplusplus.design_system.component.chart.utils
 
 import kotlin.math.abs
 
@@ -21,7 +21,7 @@ internal fun Float.formatToThousandsMillionsBillions(): String {
     }
 }
 
-// New for Tooltip
+// for Tooltip
 internal fun Float.formatWithCommas(): String {
     val intValue = this.toInt()
     val str = intValue.toString()

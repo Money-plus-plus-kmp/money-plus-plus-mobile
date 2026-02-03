@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart.data
+package com.moneyplusplus.design_system.component.chart.data
 
 import kotlinx.datetime.LocalDate
 

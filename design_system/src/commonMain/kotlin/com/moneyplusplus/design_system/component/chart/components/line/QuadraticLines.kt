@@ -1,6 +1,6 @@
-package com.moneyplusplus.design_system.chart.components.line
+package com.moneyplusplus.design_system.component.chart.components.line
 
-import com.moneyplusplus.design_system.chart.components.tooltip.drawTooltipWithMarker
+import com.moneyplusplus.design_system.component.chart.components.tooltip.drawTooltipWithMarker
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.ui.graphics.Brush
@@ -14,11 +14,11 @@ import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.times
-import com.moneyplusplus.design_system.chart.models.ChartColors
-import com.moneyplusplus.design_system.chart.models.ChartTooltipConfig
-import com.moneyplusplus.design_system.chart.utils.ChartConstants
-import com.moneyplusplus.design_system.chart.utils.clickedOnThisPoint
-import com.moneyplusplus.design_system.chart.utils.formatToThousandsMillionsBillions
+import com.moneyplusplus.design_system.component.chart.models.ChartColors
+import com.moneyplusplus.design_system.component.chart.models.ChartTooltipConfig
+import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
+import com.moneyplusplus.design_system.component.chart.utils.clickedOnThisPoint
+import com.moneyplusplus.design_system.component.chart.utils.formatToThousandsMillionsBillions
 
 private var lastClickedPoint: Pair<Float, Float>? = null
 
@@ -123,7 +123,12 @@ fun DrawScope.drawLineAsQuadratic(
 
         val tolerance = ChartConstants.tolerance.toPx()
         val savedClicks =
-            clickedOnThisPoint(clickedPoints, xFirstPoint.toPx(), yFirstPoint, tolerance)
+            clickedOnThisPoint(
+                clickedPoints,
+                xFirstPoint.toPx(),
+                yFirstPoint,
+                tolerance
+            )
         if (savedClicks) {
             if (lastClickedPoint != null) {
                 clickedPoints.clear()

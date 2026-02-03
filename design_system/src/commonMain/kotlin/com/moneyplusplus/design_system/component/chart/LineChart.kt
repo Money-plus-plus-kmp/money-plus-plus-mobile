@@ -1,4 +1,4 @@
-package com.moneyplusplus.design_system.chart
+package com.moneyplusplus.design_system.component.chart
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.chart.components.ChartContent
-import com.moneyplusplus.design_system.chart.models.ChartConfig
+import com.moneyplusplus.design_system.component.chart.components.ChartContent
+import com.moneyplusplus.design_system.component.chart.models.ChartConfig
 import com.moneyplusplus.design_system.component.text.Text
-import com.moneyplusplus.design_system.chart.utils.ChartConstants
+import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 
 @Composable
 fun LineChart(

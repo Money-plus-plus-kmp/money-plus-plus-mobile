@@ -1,18 +1,14 @@
-package com.moneyplusplus.design_system.chart.components.grid
+package com.moneyplusplus.design_system.component.chart.components.grid
 
-import com.moneyplusplus.design_system.chart.components.axis.xAxisDrawing
-import com.moneyplusplus.design_system.chart.components.axis.yAxisDrawing
-import com.moneyplusplus.design_system.chart.utils.ChartConstants
-
-
-
+import com.moneyplusplus.design_system.component.chart.components.axis.xAxisDrawing
+import com.moneyplusplus.design_system.component.chart.components.axis.yAxisDrawing
+import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalTextApi::class)
 internal fun <T> DrawScope.baseChartContainer(
@@ -47,7 +43,6 @@ internal fun <T> DrawScope.baseChartContainer(
         gridColor = gridColor,
         backgroundLineWidth = ChartConstants.backgroundLineWidth.toPx(),
         showGridWithSpacer = true,
-        spacingY = spacingY,
         yAxisRange = yAxisRange,
         upperValue = upperValue,
         textMeasurer = textMeasure
