@@ -11,6 +11,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
                     // Core multiplatform test
