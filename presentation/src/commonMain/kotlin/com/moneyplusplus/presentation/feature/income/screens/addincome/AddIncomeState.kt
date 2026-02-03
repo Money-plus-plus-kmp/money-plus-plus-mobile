@@ -1,0 +1,29 @@
+package com.moneyplusplus.presentation.feature.income.screens.addincome
+
+import com.moneyplusplus.domain.entity.Currency
+import com.moneyplusplus.domain.entity.Income
+import com.moneyplusplus.presentation.base.UiState
+import com.moneyplusplus.presentation.utils.currentDate
+import kotlinx.datetime.LocalDate
+
+data class AddIncomeState(
+    val amount: Int = 0,
+    val currencyCode: String = "IQD", // temp until get default currency from settings
+    val date: LocalDate = LocalDate.currentDate(),
+    val note: String = ""
+): UiState
+
+fun AddIncomeState.toIncome(): Income {
+    val currency = Currency( // temp until fetching currencies
+        code = currencyCode,
+        name = "Iraqi Dinar",
+        country = "Iraq"
+    )
+
+    return Income(
+        amount = amount,
+        currency = currency,
+        date = date,
+        note = note
+    )
+}
