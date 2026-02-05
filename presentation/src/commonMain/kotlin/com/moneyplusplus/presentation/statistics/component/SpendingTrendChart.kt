@@ -14,8 +14,8 @@ import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.chart.LineChart
 import com.moneyplusplus.design_system.component.chart.config.ChartConfig
 import com.moneyplusplus.design_system.component.chart.data.ChartPoint
-import com.moneyplusplus.presentation.statistics.util.DateFormatter.formatAsXAxisLabels
 import com.moneyplusplus.design_system.theme.theme.Theme
+import com.moneyplusplus.presentation.statistics.util.formatAsXAxisLabels
 
 @Composable
 fun SpendingTrendChart(
