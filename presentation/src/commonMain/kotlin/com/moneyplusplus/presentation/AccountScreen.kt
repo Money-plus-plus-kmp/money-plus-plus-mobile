@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -79,7 +78,7 @@ fun AccountScreen(
                     AccountInfoCard(
                         name = profile?.name ?: "",
                         email = profile?.email ?: "",
-                        initials = profile?.initials ?: "",
+                        initials = profile?.name ?: "",
                         onEditClick = { viewModel.handleIntent(AccountIntent.EditProfile) }
                     )
                 }
