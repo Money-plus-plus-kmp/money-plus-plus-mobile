@@ -7,20 +7,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.moneyplusplus.presentation.auth.create_account.CreateAccountScreen
 import com.moneyplusplus.presentation.feature.forgetPassword.ForgetPasswordScreen
-import com.moneyplusplus.presentation.HomeScreen
 import com.moneyplusplus.presentation.login.LoginScreen
+import com.moneyplusplus.presentation.statistics.StatisticsScreen
 
-/**
- * Main navigation host for the app.
- * Defines all navigation destinations and their composable content.
- */
 @Composable
 fun AppNavHost(
     navController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Home
+        startDestination = NavigationRoute.Statistics
     ) {
         composable<NavigationRoute.Login> {
             LoginScreen(
@@ -39,7 +35,10 @@ fun AppNavHost(
         }
 
         composable<NavigationRoute.Home> {
-            HomeScreen()
+            // HomeScreen()
+        }
+        composable<NavigationRoute.Statistics> {
+            StatisticsScreen()
         }
 
         composable<NavigationRoute.ForgetPassword> {

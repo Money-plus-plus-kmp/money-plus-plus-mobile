@@ -1,49 +1,66 @@
 package com.moneyplusplus.design_system.component.chart
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.component.chart.components.ChartContent
-import com.moneyplusplus.design_system.component.chart.models.ChartConfig
+import com.moneyplusplus.design_system.component.chart.config.ChartConfig
+import com.moneyplusplus.design_system.component.chart.constants.ChartDimensions
+import com.moneyplusplus.design_system.component.chart.core.ChartContainer
 import com.moneyplusplus.design_system.component.text.Text
-import com.moneyplusplus.design_system.component.chart.utils.ChartConstants
 
+/**
+ * A line chart component for displaying data trends.
+ *
+ * Features:
+ * - Smooth curved line between data points
+ * - Animated line drawing
+ * - Interactive tooltips on tap
+ * - Horizontal scrolling for large datasets
+ * - Customizable colors and styles
+ *
+ * @param modifier Modifier for the chart container
+ * @param data List of Y-axis values to plot
+ * @param title Title displayed above the chart
+ * @param valueSuffix Suffix to append to values in tooltips (e.g., "$", "units")
+ * @param xAxisLabels Labels for the X-axis (must match data size)
+ * @param config Configuration for colors, styles, and behavior
+ */
 @Composable
 fun LineChart(
     modifier: Modifier = Modifier,
     data: List<Double>,
     title: String,
     valueSuffix: String?,
-    xAxisData: List<String> = emptyList(),
-    config: ChartConfig = ChartConfig.defaults(),
+    xAxisLabels: List<String> = emptyList(),
+    config: ChartConfig = ChartConfig.defaults()
 ) {
-    val clickedPoints = remember { mutableStateListOf<Pair<Float, Float>>() }
-
     Box(modifier.wrapContentHeight()) {
+
         Column {
 
             if (title.isNotEmpty()) {
                 Text(
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier.padding(bottom = ChartDimensions.TITLE_BOTTOM_PADDING),
                     text = title,
                     style = config.styles.title,
                     color = config.colors.axisLabelColor
                 )
             }
 
-            ChartContent(
-                modifier = Modifier.fillMaxWidth().height(ChartConstants.chartHeight),
+            ChartContainer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(ChartDimensions.CHART_HEIGHT),
                 data = data,
                 config = config,
                 valueSuffix = valueSuffix,
-                xAxisData = xAxisData,
-                onChartClick = { x, y ->
-                    clickedPoints.add(x to y)
-                },
-                clickedPoints = clickedPoints,
+                xAxisLabels = xAxisLabels
             )
 
         }
