@@ -29,7 +29,6 @@ fun LineChart(
                     modifier = Modifier.padding(bottom = TITLE_BOTTOM_PADDING),
                     text = title,
                     style = config.styles.title,
-                    color = config.colors.axisLabelColor
                 )
             }
             ChartContainer(

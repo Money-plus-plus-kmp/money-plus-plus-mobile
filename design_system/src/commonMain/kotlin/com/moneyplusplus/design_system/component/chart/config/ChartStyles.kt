@@ -11,8 +11,8 @@ data class ChartStyles(
     companion object {
         @Composable
         fun defaults(
-            axisLabel: TextStyle = Theme.typography.label.xSmall.copy(color = Theme.colorScheme.hint),
-            title: TextStyle = Theme.typography.label.medium.copy(color = Theme.colorScheme.hint)
+            axisLabel: TextStyle = Theme.typography.label.xSmall.copy(color = Theme.colorScheme.body),
+            title: TextStyle = Theme.typography.label.medium.copy(color = Theme.colorScheme.title)
         ): ChartStyles = ChartStyles(
             axisLabel = axisLabel,
             title = title
