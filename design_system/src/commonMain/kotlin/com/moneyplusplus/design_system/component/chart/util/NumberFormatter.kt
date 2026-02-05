@@ -4,6 +4,14 @@ import kotlin.math.abs
 
 internal object NumberFormatter {
 
+    fun formatWithCommas(value: Float): String {
+        return value.toInt().toString()
+            .reversed()
+            .chunked(3)
+            .joinToString(",")
+            .reversed()
+    }
+
     fun formatCompactNumber(value: Float): String {
         val absValue = abs(value)
         return when {
@@ -20,8 +28,9 @@ internal object NumberFormatter {
         return if (value == intValue.toFloat()) {
             intValue.toString()
         } else {
-            val formatted = String.format("%.1f", value)
-            if (formatted.endsWith(".0")) formatted.dropLast(2) else formatted
+            val rounded = kotlin.math.round(value * 10) / 10
+            val text = rounded.toString()
+            text.dropLast(2)
         }
     }
 
@@ -33,13 +42,5 @@ internal object NumberFormatter {
         } else {
             "$intValue.$decimalPart$suffix"
         }
-    }
-
-    fun formatWithCommas(value: Float): String {
-        return value.toInt().toString()
-            .reversed()
-            .chunked(3)
-            .joinToString(",")
-            .reversed()
     }
 }
