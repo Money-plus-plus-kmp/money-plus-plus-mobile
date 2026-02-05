@@ -9,15 +9,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
-import com.moneyplusplus.design_system.component.chart.constants.TooltipConstants
+import androidx.compose.ui.unit.dp
 
 internal fun DrawScope.drawTooltipBox(
     position: Offset,
     size: Size,
     backgroundColor: Color
 ) {
-    val cornerRadiusPx = TooltipConstants.CORNER_RADIUS.toPx()
-    val bottomRightRadiusPx = TooltipConstants.BOTTOM_RIGHT_CORNER_RADIUS.toPx()
+    val cornerRadiusPx = CORNER_RADIUS.toPx()
+    val bottomRightRadiusPx = BOTTOM_RIGHT_CORNER_RADIUS.toPx()
     
     val path = Path().apply {
         addRoundRect(
@@ -37,3 +37,7 @@ internal fun DrawScope.drawTooltipBox(
         style = Fill
     )
 }
+
+private val CORNER_RADIUS = 8.dp
+private val BOTTOM_RIGHT_CORNER_RADIUS = 2.dp
+
