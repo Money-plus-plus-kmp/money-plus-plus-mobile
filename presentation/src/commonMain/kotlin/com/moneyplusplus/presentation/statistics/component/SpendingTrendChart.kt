@@ -17,10 +17,6 @@ import com.moneyplusplus.design_system.component.chart.data.ChartPoint
 import com.moneyplusplus.presentation.statistics.util.DateFormatter.formatAsXAxisLabels
 import com.moneyplusplus.design_system.theme.theme.Theme
 
-private val SPENDING_CHART_HEIGHT = 238.dp
-private val CONTAINER_CORNER_RADIUS = 12.dp
-private val CONTAINER_PADDING = 16.dp
-
 @Composable
 fun SpendingTrendChart(
     points: List<ChartPoint>,
@@ -52,3 +48,7 @@ fun SpendingTrendChart(
         )
     }
 }
+
+private val SPENDING_CHART_HEIGHT = 238.dp
+private val CONTAINER_CORNER_RADIUS = 12.dp
+private val CONTAINER_PADDING = 16.dp
