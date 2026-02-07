@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.auth.login
 
 import com.moneyplusplus.domain.entity.User
 import com.moneyplusplus.domain.exception.AuthenticationException

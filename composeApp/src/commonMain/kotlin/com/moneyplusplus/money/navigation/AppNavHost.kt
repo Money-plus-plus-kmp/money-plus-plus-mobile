@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.moneyplusplus.presentation.auth.create_account.CreateAccountScreen
 import com.moneyplusplus.presentation.feature.forgetPassword.ForgetPasswordScreen
 import com.moneyplusplus.presentation.HomeScreen
-import com.moneyplusplus.presentation.login.LoginScreen
+import com.moneyplusplus.presentation.auth.login.LoginScreen
 
 /**
  * Main navigation host for the app.

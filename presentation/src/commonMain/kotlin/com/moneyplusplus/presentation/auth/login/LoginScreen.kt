@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.auth.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
