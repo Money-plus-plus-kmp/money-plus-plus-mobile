@@ -1,10 +1,14 @@
 package com.moneyplusplus.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.appBar.AccountInfoCard
@@ -26,11 +30,11 @@ import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.account.AccountIntent
 import com.moneyplusplus.presentation.account.AccountViewModel
 import com.moneyplusplus.presentation.account.SettingsType
-import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.*
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun AccountScreen(
@@ -42,7 +46,7 @@ fun AccountScreen(
         topBar = {
             AppBar(
                 title = stringResource(Res.string.account_title),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 24.dp)
             )
         },
         backgroundColor = Theme.colorScheme.surface.surface
@@ -51,36 +55,37 @@ fun AccountScreen(
             modifier = Modifier
                 .fillMaxSize()
         ) {
+            // Decorative background pattern at bottom
             Image(
                 painter = painterResource(Res.drawable.ic_background_acc),
                 contentDescription = null,
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .padding(bottom = 16.dp)
-                    .size(width = 251.3.dp, height = 150.dp),
-                contentScale = ContentScale.FillBounds,
-                colorFilter = ColorFilter.tint(Theme.colorScheme.primary.primary)
+                    .size(width = 251.dp, height = 150.dp),
+                alpha = 0.02f
             )
 
             LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(16.dp),
                 contentPadding = PaddingValues(
-                    start = 16.dp,
-                    end = 16.dp,
-                    top = 16.dp,
-                    bottom = 16.dp
+                    horizontal = 16.dp,
+                    vertical = 16.dp
                 ),
                 modifier = Modifier.fillMaxSize()
             ) {
 
                 item {
                     val profile = state.userProfile
+                    val initials = profile?.name?.filter { it.isUpperCase() }?.run {
+                        if (length >= 2) "${this[0]} ${this[1]}" else this
+                    } ?: ""
+                    
                     AccountInfoCard(
                         name = profile?.name ?: "",
                         email = profile?.email ?: "",
-                        initials = profile?.name ?: "",
+                        initials = initials,
                         onEditClick = { viewModel.handleIntent(AccountIntent.EditProfile) }
                     )
+                    Spacer(Modifier.height(32.dp))
                 }
 
                 item {
@@ -197,7 +202,19 @@ fun AccountScreen(
                     )
                 }
 
-
+                item {
+                    Spacer(Modifier.height(64.dp))
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.app_version).replace("%s", "1.0"),
+                            style = Theme.typography.body.medium,
+                            color = Theme.colorScheme.body
+                        )
+                    }
+                }
             }
         }
     }
