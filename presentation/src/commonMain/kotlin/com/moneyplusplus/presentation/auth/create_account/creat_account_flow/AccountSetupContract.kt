@@ -6,6 +6,7 @@ import com.moneyplusplus.presentation.base.UiState
 
 data class AccountSetupState(
     val loading: Boolean = false,
+    val isCurrencyBottomSheetVisible: Boolean = false,
     val salary: String = "",
 ): UiState
 sealed interface AccountSetupIntent: UiIntent{}

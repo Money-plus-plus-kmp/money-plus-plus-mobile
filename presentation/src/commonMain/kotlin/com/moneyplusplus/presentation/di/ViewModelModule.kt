@@ -1,6 +1,7 @@
 package com.moneyplusplus.presentation.di
 
 import com.moneyplusplus.presentation.auth.create_account.CreateAccountViewModel
+import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.AccountSetupViewModel
 import com.moneyplusplus.presentation.feature.forgetPassword.ForgetPasswordViewModel
 import com.moneyplusplus.presentation.auth.login.LoginViewModel
 import com.moneyplusplus.presentation.feature.home.HomeViewModel
@@ -12,4 +13,5 @@ val viewModelModule = module {
     viewModelOf(::LoginViewModel)
     viewModelOf(::HomeViewModel)
     viewModelOf(::CreateAccountViewModel)
+    viewModelOf(::AccountSetupViewModel)
 }
