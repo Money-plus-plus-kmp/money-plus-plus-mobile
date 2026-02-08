@@ -33,4 +33,15 @@
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
+
+    <!-- Account Screen -->
+    <string name="account_title">Account</string>
+    <string name="manage_categories">Manage categories</string>
+    <string name="app_language">App language</string>
+    <string name="app_theme">App theme</string>
+    <string name="currency">Currency</string>
+    <string name="salary_settings">Salary settings</string>
+    <string name="faq">Frequently asked question</string>
+    <string name="help_support">Help &amp; Support</string>
+    <string name="app_version">App version %s</string>
 </resources>

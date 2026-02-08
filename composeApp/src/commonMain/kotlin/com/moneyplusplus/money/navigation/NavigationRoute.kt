@@ -20,4 +20,7 @@ sealed interface NavigationRoute {
 
     @Serializable
     data object CreateAccount : NavigationRoute
+
+    @Serializable
+    data object Account : NavigationRoute
 }

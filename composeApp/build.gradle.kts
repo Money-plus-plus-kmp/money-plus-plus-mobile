@@ -113,7 +113,6 @@ android {
         create("development") {
             dimension = "environment"
             applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
             val baseUrl = localProperties.getProperty("BASE_URL_DEVELOPMENT", "")
             buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }
