@@ -16,12 +16,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.appBar.AppBar
@@ -33,6 +36,8 @@ import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.componant.SalaryDayDatePicker
+import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.componant.StepProgressBar
 import com.moneyplusplus.presentation.base.collectEffect
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_down_01
@@ -112,8 +117,7 @@ private fun AccountSetupScaffold(
         },
         overlays = {
             bottomSheet(
-                isVisible = true
-                //state.isCurrencyBottomSheetVisible
+                isVisible = state.isCurrencyBottomSheetVisible
             ) {
                 BottomSheet(
                     isVisible = it,
@@ -162,7 +166,8 @@ private fun AccountSetupScaffold(
                                         CurrencyItem(
                                             name = currency.name,
                                             code = currency.code,
-                                            country = currency.country
+                                            country = currency.country,
+                                            isSelected = state.selectedCurrency == currency
                                         )
                                     }
                                 }
@@ -186,15 +191,29 @@ private fun AccountSetupScaffold(
                         }
                     })
             }
+            if (state.isSalaryDayPickerVisible) {
+                SalaryDayDatePicker(
+                    isVisible = state.isSalaryDayPickerVisible,
+                    onDismiss = {
+                        intent(AccountSetupIntent.SalaryDaySelected(
+                            state.salaryDay ?: 1
+                        ))
+                    },
+                    onDaySelected = { day ->
+                        intent(AccountSetupIntent.SalaryDaySelected(day))
+                    }
+                )
+            }
         }
     )
 }
 
 @Composable
-fun CurrencyItem(
+private fun CurrencyItem(
     name: String,
     code: String,
     country: String,
+    isSelected: Boolean,
     onClick: () -> Unit = {}
 ) {
     Column(
@@ -266,11 +285,6 @@ val currencies = listOf(
     CurrencyUiModel("Saudi Riyal", "Saudi Arabia", "SAR")
 )
 
-data class CurrencyUiModel(
-    val name: String,
-    val country: String,
-    val code: String
-)
 
 @Composable
 private fun AccountSetupContent(
@@ -316,23 +330,26 @@ private fun AccountSetupContent(
             onValueChanged = { },
             leadingIcon = painterResource(Res.drawable.money_01),
             trailingIcon = painterResource(Res.drawable.arrow_down_01),
+            onTrailingIconClick = { intent(AccountSetupIntent.ToggleCurrencyArrow) },
             showTrailingDivider = false,
-            onTrailingIconClick = {},
             modifier = Modifier.padding(bottom = 12.dp),
         )
 
         TextField(
             value = state.salary,
             hint = "Salary",
-            onValueChanged = { },
+            onValueChanged = { intent(AccountSetupIntent.SalaryChanged(newSalary = it)) },
             leadingIcon = painterResource(Res.drawable.money_01),
             showTrailingDivider = false,
-            onTrailingIconClick = {},
+            keyboardOptions = KeyboardOptions(
+                keyboardType = KeyboardType.Number,
+                imeAction = ImeAction.Next
+            ),
             modifier = Modifier.padding(bottom = 12.dp),
         )
 
         TextField(
-            value = "",
+            value = state.salaryDayText,
             hint = "Salary day",
             readOnly = true,
             enabled = true,
@@ -340,8 +357,10 @@ private fun AccountSetupContent(
             leadingIcon = painterResource(Res.drawable.calendar_03),
             trailingIcon = painterResource(Res.drawable.arrow_down_01),
             showTrailingDivider = false,
-            onTrailingIconClick = {},
-            modifier = Modifier.padding(bottom = 12.dp),
+            onTrailingIconClick = { intent(AccountSetupIntent.SalaryDayClicked) },
+            modifier = Modifier
+                .padding(bottom = 12.dp)
+                .clickable { intent(AccountSetupIntent.SalaryDayClicked) },
         )
 
 

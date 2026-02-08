@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.auth.create_account.creat_account_flow
+package com.moneyplusplus.presentation.auth.create_account.creat_account_flow.componant
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

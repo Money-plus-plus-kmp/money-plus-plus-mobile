@@ -30,7 +30,7 @@ fun Scaffold(
     topBar: @Composable () -> Unit = {},
     bottomBar: @Composable () -> Unit = {},
     snakeBar: @Composable () -> Unit = {},
-    overlays: ScaffoldScope .() -> Unit = {},
+    overlays: @Composable ScaffoldScope .() -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     val scope = remember { ScaffoldScopeImpl() }.apply {
