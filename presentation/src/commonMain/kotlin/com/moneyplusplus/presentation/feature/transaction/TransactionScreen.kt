@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.bottomSheet.BottomSheet
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
+import com.moneyplusplus.design_system.component.snackbar.LocalMSnackbarState
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.feature.transaction.component.CategoryFilterBottomSheet
 import com.moneyplusplus.presentation.feature.transaction.component.EmptyTransactionsView
@@ -46,13 +47,17 @@ import org.koin.compose.viewmodel.koinViewModel
 fun TransactionScreen(
     modifier: Modifier = Modifier,
     viewModel: TransactionViewModel = koinViewModel(),
-
     ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val snackbar = LocalMSnackbarState.current
     val listState = rememberLazyListState()
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
-            //todo handle effects here  whenever we needed
+            when (effect) {
+                is TransactionEffect.ShowSnackbarError -> {
+                    snackbar.showError(effect.message)
+                }
+            }
         }
     }
     LaunchedEffect(state.typeFilter) {

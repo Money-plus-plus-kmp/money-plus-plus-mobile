@@ -109,6 +109,7 @@ class TransactionViewModel(
                         errorMessage = error.message
                     )
                 }
+                sendEffect(TransactionEffect.ShowSnackbarError(error.message ?: "Unknown Error"))
             }
         )
     }
