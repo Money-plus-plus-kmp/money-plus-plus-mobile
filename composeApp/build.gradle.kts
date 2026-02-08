@@ -38,7 +38,6 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":design_system"))
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
         }
@@ -114,7 +113,6 @@ android {
         create("development") {
             dimension = "environment"
             applicationIdSuffix = ".dev"
-            versionNameSuffix = "-dev"
             val baseUrl = localProperties.getProperty("BASE_URL_DEVELOPMENT", "")
             buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         }

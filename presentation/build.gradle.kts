@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 plugins {
@@ -10,18 +9,8 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
 }
 
-compose.resources {
-    publicResClass = false
-    packageOfResClass = "money.presentation.generated.resources"
-    generateResClass = always
-}
-
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
-    }
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -74,19 +63,9 @@ android {
     namespace = "com.moneyplusplus.presentation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     testOptions {
         unitTests.isReturnDefaultValues = true
     }

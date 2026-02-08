@@ -1,16 +1,11 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
-}
-
-compose.resources {
-    publicResClass = false
-    packageOfResClass = "money.design_system.generated.resources"
-    generateResClass = always
+    alias(libs.plugins.androidLibrary)
 }
 
 kotlin {
@@ -20,28 +15,35 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
-    iosX64()
-    iosArm64()
-    iosSimulatorArm64()
 
-    sourceSets {
-        commonMain.dependencies {
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(libs.compose.ui.backhandler)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
-        }
-        commonTest.dependencies {
-            implementation(libs.kotlin.test)
-        }
-        androidMain.dependencies {
-            implementation(libs.androidx.ui.tooling)
-            implementation(libs.androidx.activity.compose)
+    val iosX64 = iosX64()
+    val iosArm64 = iosArm64()
+    val iosSimulatorArm64 = iosSimulatorArm64()
+
+    listOf(iosX64, iosArm64, iosSimulatorArm64).forEach { target: KotlinNativeTarget ->
+        target.binaries.framework {
+            baseName = "DesignSystem"
+            isStatic = true
         }
     }
+
+    sourceSets {
+        commonMain {
+            dependencies {
+                // Compose
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.ui)
+                implementation(compose.components.resources)
+                implementation(compose.components.uiToolingPreview)
+                implementation(libs.compose.ui.backhandler)
+            }
+        }
+    }
+}
+
+dependencies {
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }
 
 android {
@@ -51,17 +53,7 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-
     testOptions {
         unitTests.isReturnDefaultValues = true
     }
-}
-
-dependencies {
-    debugImplementation(compose.uiTooling)
 }
