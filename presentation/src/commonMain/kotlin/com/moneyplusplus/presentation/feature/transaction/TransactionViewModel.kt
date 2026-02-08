@@ -6,7 +6,6 @@ import com.moneyplusplus.domain.usecase.transaction.GetTransactionsUseCase
 import com.moneyplusplus.presentation.base.BaseViewModel
 import com.moneyplusplus.presentation.mapper.toDomain
 import com.moneyplusplus.presentation.mapper.toUiModel
-import com.moneyplusplus.presentation.model.toUiModel
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock

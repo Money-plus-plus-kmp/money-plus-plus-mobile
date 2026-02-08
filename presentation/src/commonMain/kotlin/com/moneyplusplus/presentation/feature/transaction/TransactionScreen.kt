@@ -40,10 +40,7 @@ import com.moneyplusplus.presentation.feature.transaction.component.TransactionT
 import com.moneyplusplus.presentation.model.CategoryUiModel
 import com.moneyplusplus.presentation.model.TransactionUiModel
 import kotlinx.datetime.LocalDate
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import org.koin.compose.viewmodel.koinViewModel
-import kotlin.time.Clock
 
 @Composable
 fun TransactionScreen(
@@ -52,9 +49,7 @@ fun TransactionScreen(
 
     ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    val currentDate = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
     val listState = rememberLazyListState()
-    val displayedDate = state.date ?: currentDate
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
             //todo handle effects here  whenever we needed
@@ -67,7 +62,7 @@ fun TransactionScreen(
     TransactionScreenContent(
         isLoading = state.isLoading,
         transactions = state.transactions,
-        date = displayedDate,
+        date = state.date,
         listState = listState,
         selectedTransactionType = state.typeFilter,
         allCategories = state.categories,
@@ -98,7 +93,7 @@ fun TransactionScreen(
         onDatePickerDialogDismiss = {
             viewModel.handleIntent(TransactionIntent.OnDatePickerDialogDismiss)
         },
-        currentDate = displayedDate,
+        currentDate = state.date,
 
         modifier = modifier
     )
@@ -108,7 +103,7 @@ fun TransactionScreen(
 private fun TransactionScreenContent(
     isLoading: Boolean,
     transactions: List<TransactionUiModel>,
-    selectedTransactionType: TransactionTypeFilter,
+    selectedTransactionType: TransactionUiState.TransactionTypeFilter,
     date: LocalDate,
     listState: LazyListState,
     onDateClick: () -> Unit,
@@ -120,7 +115,7 @@ private fun TransactionScreenContent(
     currentDate: LocalDate,
     onApplyFilterClick: (List<String>) -> Unit,
     onDismissCategorySheet: () -> Unit,
-    onTransactionTypeClick: (TransactionTypeFilter) -> Unit,
+    onTransactionTypeClick: (TransactionUiState.TransactionTypeFilter) -> Unit,
     onAddTransactionClick: () -> Unit,
     onDateSelected: (LocalDate) -> Unit,
     onDatePickerDialogDismiss: () -> Unit,
@@ -177,9 +172,9 @@ private fun TransactionScreenContent(
         }
     ) {
         val currentState = when {
-            isLoading && transactions.isEmpty() -> ContentState.LOADING
-            transactions.isEmpty() -> ContentState.EMPTY
-            else -> ContentState.CONTENT
+            isLoading && transactions.isEmpty() -> TransactionUiState.ContentState.LOADING
+            transactions.isEmpty() -> TransactionUiState.ContentState.EMPTY
+            else -> TransactionUiState.ContentState.CONTENT
         }
         AnimatedContent(
             targetState = currentState,
@@ -196,7 +191,7 @@ private fun TransactionScreenContent(
             contentKey = { it },
         ) { state ->
             when (state) {
-                ContentState.LOADING -> {
+                TransactionUiState.ContentState.LOADING -> {
                     Column(Modifier.fillMaxSize().padding(16.dp)) {
                         repeat(20) {
                             TransactionLoadingItem()
@@ -204,13 +199,13 @@ private fun TransactionScreenContent(
                     }
                 }
 
-                ContentState.EMPTY -> {
+                TransactionUiState.ContentState.EMPTY -> {
                     Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                         EmptyTransactionsView(onAddTransactionClick = onAddTransactionClick)
                     }
                 }
 
-                ContentState.CONTENT -> {
+                TransactionUiState.ContentState.CONTENT -> {
                     LazyColumn(
                         contentPadding = PaddingValues(16.dp),
                         verticalArrangement = Arrangement.spacedBy(16.dp),

@@ -10,7 +10,9 @@ sealed class TransactionIntent : UiIntent {
     data object OnDateClick : TransactionIntent()
     data class OnDateSelected(val date: LocalDate) : TransactionIntent()
     data object OnDatePickerDialogDismiss : TransactionIntent()
-    data class OnTransactionTypeClick(val type: TransactionTypeFilter) : TransactionIntent()
+    data class OnTransactionTypeClick(val type: TransactionUiState.TransactionTypeFilter) :
+        TransactionIntent()
+
     data object OnAddTransactionClick : TransactionIntent()
     data object OnAddTransactionSheetDismissed : TransactionIntent()
 
