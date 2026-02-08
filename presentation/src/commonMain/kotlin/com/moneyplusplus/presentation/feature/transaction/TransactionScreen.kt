@@ -57,6 +57,14 @@ fun TransactionScreen(
                 is TransactionEffect.ShowSnackbarError -> {
                     snackbar.showError(effect.message)
                 }
+                TransactionEffect.NavigateToAddTransaction -> {
+                    //TODO Navigate to add transaction screen
+
+                }
+                TransactionEffect.NavigateToMakeExpense -> {
+                    //TODO Navigate To MakeExpense screen
+
+                }
             }
         }
     }
