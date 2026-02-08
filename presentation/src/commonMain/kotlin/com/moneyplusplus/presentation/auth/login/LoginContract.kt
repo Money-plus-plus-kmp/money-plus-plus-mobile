@@ -21,7 +21,6 @@ data class LoginState(
                 !isLoading
 }
 
-
 sealed interface LoginIntent : UiIntent {
     data class EmailChanged(val newEmail: String) : LoginIntent
     data class PasswordChanged(val newPassword: String) : LoginIntent

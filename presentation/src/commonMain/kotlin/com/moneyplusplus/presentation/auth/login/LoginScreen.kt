@@ -149,11 +149,11 @@ private fun LoginFormSection(
 
         TextField(
             value = state.email,
-            hint = stringResource(Res.string.email),
+            hint = stringResource(resource = Res.string.email),
             leadingIcon = painterResource(Res.drawable.mail_02),
-            onValueChanged = { intent(LoginIntent.EmailChanged(it)) },
+            onValueChanged = { intent(LoginIntent.EmailChanged(newEmail = it)) },
             modifier = Modifier.padding(bottom = 12.dp),
-            errorMessage = state.emailError?.let { stringResource(it) },
+            errorMessage = state.emailError?.let { stringResource(resource = it) },
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next
@@ -162,8 +162,8 @@ private fun LoginFormSection(
 
         TextField(
             value = state.password,
-            hint = stringResource(Res.string.password),
-            onValueChanged = { intent(LoginIntent.PasswordChanged(it)) },
+            hint = stringResource(resource = Res.string.password),
+            onValueChanged = { intent(LoginIntent.PasswordChanged(newPassword = it)) },
             leadingIcon = painterResource(Res.drawable.square_lock_02),
             trailingIcon = if (state.isPasswordVisible)
                 painterResource(Res.drawable.heroicons_outline)
