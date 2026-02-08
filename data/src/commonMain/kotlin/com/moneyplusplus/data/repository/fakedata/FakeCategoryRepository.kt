@@ -12,10 +12,10 @@ class FakeCategoryRepository
     private val allCategories: List<Category> = FakeDataSource.getFakeCategories()
 
 
-    override suspend fun getCategories(): Result<List<Category>> {
+    override suspend fun getCategories(): List<Category> {
         delay(1500)
 
-        return Result.success(allCategories)
+        return allCategories
 
     }
 

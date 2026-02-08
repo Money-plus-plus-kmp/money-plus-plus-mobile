@@ -1,6 +1,5 @@
 package com.moneyplusplus.data.repository
 
-import com.moneyplusplus.data.base.safeCall
 import com.moneyplusplus.data.dto.TransactionResponse
 import com.moneyplusplus.data.mapper.toDomain
 import com.moneyplusplus.domain.entity.Transaction
@@ -18,7 +17,7 @@ class TransactionRepositoryImpl(
 ) : TransactionRepository {
     override suspend fun getTransactions(
         transactionFilter: TransactionFilter
-    ): Result<List<Transaction>> = safeCall { callTransactions(transactionFilter) }
+    ): List<Transaction> = callTransactions(transactionFilter)
 
 
     private suspend fun callTransactions(transactionFilter: TransactionFilter): List<Transaction> {
@@ -29,8 +28,6 @@ class TransactionRepositoryImpl(
             transactionFilter.categoriesIds.forEach { categoryId ->
                 parameter("category_ids", categoryId.toString())
             }
-
-
         }.body<List<TransactionResponse>>()
         return response.map { it.toDomain() }
     }

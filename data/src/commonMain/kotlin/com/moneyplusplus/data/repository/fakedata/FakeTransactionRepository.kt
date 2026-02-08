@@ -13,7 +13,7 @@ class FakeTransactionRepository : TransactionRepository {
     @OptIn(ExperimentalUuidApi::class)
     override suspend fun getTransactions(
         transactionFilter: TransactionFilter
-    ): Result<List<Transaction>> {
+    ): List<Transaction> {
 
         delay(1000)
 
@@ -31,10 +31,8 @@ class FakeTransactionRepository : TransactionRepository {
                         transaction.date.month == filterDate.month
             }
         }
-        return if (filteredList.isNotEmpty()) {
-            Result.success(filteredList)
-        } else {
-            Result.success(emptyList())
+        return filteredList.ifEmpty {
+            emptyList()
         }
     }
 }

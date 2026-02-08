@@ -1,6 +1,5 @@
 package com.moneyplusplus.data.repository
 
-import com.moneyplusplus.data.base.safeCall
 import com.moneyplusplus.data.dto.CategoryResponse
 import com.moneyplusplus.data.mapper.toDomain
 import com.moneyplusplus.domain.entity.Category
@@ -23,9 +22,7 @@ class CategoryRepositoryImpl(
         TODO("Not yet implemented")
     }
 
-    override suspend fun getCategories(): Result<List<Category>> = safeCall { callCategories() }
-
-    private suspend fun callCategories(): List<Category> {
+    override suspend fun getCategories(): List<Category> {
         val response = client.get("categories").body<List<CategoryResponse>>()
         return response.map { it.toDomain() }
     }

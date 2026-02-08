@@ -15,7 +15,7 @@ import kotlin.uuid.Uuid
 object FakeDataSource {
 
 
-    private val EGP = Currency("EGP", "Egyptian Pound", "Egypt")
+    private val EGP = Currency("EGP", "Egyptian Pound")
     private fun getTitlesForCategory(category: Category): List<String> {
         return when (category.name) {
             "Food" -> listOf(

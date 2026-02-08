@@ -8,8 +8,6 @@ class GetTransactionsUseCase(
     private val transactionRepository: TransactionRepository
 
 ) {
-    suspend operator fun invoke(transactionFilter: TransactionFilter): Result<List<Transaction>> =
-        transactionRepository.getTransactions(transactionFilter).map { transactions ->
-            transactions.sortedByDescending { it.date }
-        }
+    suspend operator fun invoke(transactionFilter: TransactionFilter): List<Transaction> =
+        transactionRepository.getTransactions(transactionFilter).sortedByDescending { it.date }
 }
