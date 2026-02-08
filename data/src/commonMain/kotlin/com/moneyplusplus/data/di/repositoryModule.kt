@@ -12,6 +12,6 @@ import org.koin.dsl.module
 
 val repositoryModule = module {
     singleOf(::AuthRepositoryImpl) bind AuthRepository::class
-    singleOf(::AccountDataSourceImpl) bind AccountDataSource::class
     singleOf(::AccountRepositoryImpl) bind AccountRepository::class
+    singleOf(::AccountDataSourceImpl) bind AccountDataSource::class
 }

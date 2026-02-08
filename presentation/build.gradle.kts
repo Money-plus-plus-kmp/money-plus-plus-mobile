@@ -74,6 +74,10 @@ android {
     namespace = "com.moneyplusplus.presentation"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
