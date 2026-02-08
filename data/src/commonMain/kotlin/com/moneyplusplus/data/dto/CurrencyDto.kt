@@ -9,6 +9,4 @@ data class CurrencyDto(
     val code: String,
     @SerialName("name")
     val name: String,
-    @SerialName("country")
-    val country: String
 )

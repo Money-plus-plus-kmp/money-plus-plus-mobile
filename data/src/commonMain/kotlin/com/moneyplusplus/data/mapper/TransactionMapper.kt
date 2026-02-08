@@ -18,7 +18,6 @@ fun TransactionResponse.toDomain() = Transaction(
     currency = Currency(
         code = currency.code,
         name = currency.name,
-        country = currency.country
     ),
     category = categoryResponse.toDomain()
 )
