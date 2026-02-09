@@ -8,9 +8,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    sourceSets.all {
+        languageSettings.optIn("kotlin.uuid.ExperimentalUuidApi")
+    }
     sourceSets {
         commonMain.dependencies {
             implementation(libs.koin.core)
+            api(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
                     // Core multiplatform test

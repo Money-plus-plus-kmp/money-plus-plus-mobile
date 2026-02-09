@@ -15,13 +15,16 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    sourceSets.all {
+        languageSettings.optIn("kotlin.uuid.ExperimentalUuidApi")
+    }
+
     sourceSets {
         commonMain {
             dependencies {
                 // Compose
                 implementation(compose.material3)
                 implementation(compose.runtime)
-                implementation(projects.designSystem)
                 implementation(compose.foundation)
                 implementation(compose.ui)
                 implementation(compose.components.resources)
@@ -39,6 +42,7 @@ kotlin {
                 implementation(libs.koin.compose.viewmodel)
                 api(libs.koin.annotations)
                 implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
             }
         }
 

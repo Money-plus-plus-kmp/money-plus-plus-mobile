@@ -22,6 +22,7 @@ kmpCapturableCompose = "1.0.0"
 kotlin = "2.3.0"
 koverVersion = "0.9.4"
 kotlinxDatetime = "0.7.1"
+ktorClientAndroidVersion = "3.4.0"
 navigationCompose = "2.9.1"
 ksp = "2.2.20-2.0.3"
 koin-core = "4.1.1"
@@ -80,6 +81,7 @@ coil-compose-core = { module = "io.coil-kt.coil3:coil-compose-core", version.ref
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
+ktor-ktor-client-android-v340 = { module = "io.ktor:ktor-client-android", version.ref = "ktorClientAndroidVersion" }
 mokkery-coroutines = { module = "dev.mokkery:mokkery-coroutines", version.ref = "mockkery" }
 multiplatform-settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "multiplatformSettings" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
