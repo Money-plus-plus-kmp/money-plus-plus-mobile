@@ -73,7 +73,7 @@ fun TransactionScreen(
     }
 
     TransactionScreenContent(
-        isLoading = state.isLoading,
+        currentState = state.contentState,
         transactions = state.transactions,
         date = state.date,
         listState = listState,
@@ -106,16 +106,14 @@ fun TransactionScreen(
         onDatePickerDialogDismiss = {
             viewModel.handleIntent(TransactionIntent.OnDatePickerDialogDismiss)
         },
-        currentDate = state.date,
-
         modifier = modifier
     )
 }
 
 @Composable
 private fun TransactionScreenContent(
-    isLoading: Boolean,
     transactions: List<TransactionUiModel>,
+    currentState: TransactionUiState.ContentState,
     selectedTransactionType: TransactionUiState.TransactionTypeFilter,
     date: LocalDate,
     listState: LazyListState,
@@ -125,7 +123,6 @@ private fun TransactionScreenContent(
     selectedCategoryIds: List<String>,
     showCategoriesFilterBottomSheet: Boolean,
     showDatePickerDialog: Boolean,
-    currentDate: LocalDate,
     onApplyFilterClick: (List<String>) -> Unit,
     onDismissCategorySheet: () -> Unit,
     onTransactionTypeClick: (TransactionUiState.TransactionTypeFilter) -> Unit,
@@ -175,7 +172,7 @@ private fun TransactionScreenContent(
             ) {
                 MonthYearPickerDialog(
                     visible = showDatePickerDialog,
-                    currentDate = currentDate,
+                    currentDate = date,
                     onDateSelected = onDateSelected,
                     onDismiss = onDatePickerDialogDismiss
                 )
@@ -184,11 +181,6 @@ private fun TransactionScreenContent(
 
         }
     ) {
-        val currentState = when {
-            isLoading && transactions.isEmpty() -> TransactionUiState.ContentState.LOADING
-            transactions.isEmpty() -> TransactionUiState.ContentState.EMPTY
-            else -> TransactionUiState.ContentState.CONTENT
-        }
         AnimatedContent(
             targetState = currentState,
             transitionSpec = {

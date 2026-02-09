@@ -1,20 +1,16 @@
 package com.moneyplusplus.presentation.feature.transaction
 
 import com.moneyplusplus.domain.model.TransactionFilter
-import com.moneyplusplus.domain.repository.CategoryRepository
+import com.moneyplusplus.domain.usecase.GetCategoriesUseCase
 import com.moneyplusplus.domain.usecase.transaction.GetTransactionsUseCase
 import com.moneyplusplus.presentation.base.BaseViewModel
-import com.moneyplusplus.presentation.mapper.toDomain
 import com.moneyplusplus.presentation.mapper.toUiModel
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
-import kotlin.time.Clock
-import kotlin.uuid.Uuid
+import com.moneyplusplus.presentation.model.TransactionUiModel
 
 
 class TransactionViewModel(
     private val getTransactionsUseCase: GetTransactionsUseCase,
-    private val categoryRepository: CategoryRepository,
+    private val getCategoriesUseCase: GetCategoriesUseCase,
 ) : BaseViewModel<
         TransactionUiState,
         TransactionIntent,
@@ -22,7 +18,7 @@ class TransactionViewModel(
     TransactionUiState()
 ) {
     init {
-        initDateThenLoadTransactions()
+        loadTransactions()
         loadCategories()
     }
 
@@ -38,13 +34,13 @@ class TransactionViewModel(
 
             is TransactionIntent.OnApplyFilterClick -> {
                 updateState { copy(selectedCategoryIds = intent.selectedCategoryIds) }
-                applyLocalFilters()
+                applyLocalFilters(newCategoryIds = intent.selectedCategoryIds)
             }
 
             is TransactionIntent.OnTransactionTypeClick -> {
                 if (currentState.typeFilter == intent.type) return
                 updateState { copy(typeFilter = intent.type) }
-                applyLocalFilters()
+                applyLocalFilters(newTypeFilter = intent.type)
             }
 
             is TransactionIntent.OnDateClick -> {
@@ -73,18 +69,11 @@ class TransactionViewModel(
 
     }
 
-    private fun initDateThenLoadTransactions() {
-        val today = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
-        updateState { copy(date = today) }
-        loadTransactions()
-    }
-
-
     private fun loadTransactions() {
         val filter = TransactionFilter(
             date = currentState.date,
-            type = currentState.typeFilter.toDomain(),
-            categoriesIds = currentState.selectedCategoryIds.map { Uuid.parse(it) }
+            type = null,
+            categoriesIds = emptyList()
         )
         tryExecute(
             block = { getTransactionsUseCase(filter) },
@@ -92,14 +81,15 @@ class TransactionViewModel(
                 updateState { copy(isLoading = true, isError = false) }
             },
             onSuccess = { transactions ->
+                val allTransactions = transactions.map { it.toUiModel() }
                 updateState {
                     copy(
-                        allTransactions = transactions.map { it.toUiModel() },
+                        allTransactions = allTransactions,
                         isLoading = false,
                         isError = false
                     )
                 }
-                applyLocalFilters()
+                applyLocalFilters(newListToFilter = allTransactions)
             },
             onError = { error ->
                 updateState {
@@ -116,45 +106,40 @@ class TransactionViewModel(
 
     private fun loadCategories() {
         tryExecute(
-            block = { categoryRepository.getCategories() },
-            onStart = {
-                updateState { copy(isLoading = true, isError = false) }
-            },
+            block = { getCategoriesUseCase() },
             onSuccess = { categories ->
                 updateState {
                     copy(
                         categories = categories.map { category ->
                             category.toUiModel()
                         },
-                        isLoading = false,
-                        isError = false
                     )
                 }
             },
             onError = { error ->
-                updateState {
-                    copy(
-                        isLoading = false,
-                        isError = true,
-                        errorMessage = error.message
-                    )
-                }
+                sendEffect(TransactionEffect.ShowSnackbarError(error.message ?: "Unknown Error"))
             }
         )
 
     }
 
-    private fun applyLocalFilters() {
-        val allTransactions = currentState.allTransactions
-        var filteredTransactions = when (currentState.typeFilter) {
+    private fun applyLocalFilters(
+        newListToFilter: List<TransactionUiModel>? = null,
+        newTypeFilter: TransactionUiState.TransactionTypeFilter? = null,
+        newCategoryIds: List<String>? = null
+    ) {
+        val typeFilter = newTypeFilter ?: currentState.typeFilter
+        val selectedCategoryIds = newCategoryIds ?: currentState.selectedCategoryIds
+        val allTransactions = newListToFilter ?: currentState.allTransactions
+        var filteredTransactions = when (typeFilter) {
             TransactionUiState.TransactionTypeFilter.ALL -> allTransactions
             TransactionUiState.TransactionTypeFilter.INCOMES -> allTransactions.filter { it.isExpense.not() }
             TransactionUiState.TransactionTypeFilter.EXPENSES -> allTransactions.filter { it.isExpense }
         }
 
-        if (currentState.selectedCategoryIds.isNotEmpty()) {
+        if (selectedCategoryIds.isNotEmpty()) {
             filteredTransactions = filteredTransactions.filter { transaction ->
-                transaction.categoryId in currentState.selectedCategoryIds
+                transaction.categoryId in selectedCategoryIds
             }
         }
         updateState { copy(transactions = filteredTransactions) }

@@ -1,7 +1,9 @@
 package com.moneyplusplus.presentation.feature.transaction.component
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -51,7 +54,6 @@ fun MonthYearPickerDialog(
     if (visible) {
         var selectedYear by remember { mutableIntStateOf(currentDate.year) }
         var selectedMonth by remember { mutableStateOf(currentDate.month) }
-
         AlertDialog(
             onDismissRequest = onDismiss,
         ) {
@@ -97,15 +99,32 @@ fun MonthYearPickerDialog(
                 ) {
                     items(Month.entries, key = { it.name }) { month ->
                         val isSelected = month == selectedMonth
-                        Chip(
-                            text = month.name.take(3),
-                            isSelected = isSelected,
-                            onClick = { selectedMonth = month },
-                            modifier = Modifier.height(48.dp)
-                        )
+                        val isAppliedDate =
+                            month == currentDate.month && selectedYear == currentDate.year
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Chip(
+                                text = month.name.take(3),
+                                isSelected = isSelected,
+                                onClick = { selectedMonth = month },
+                                modifier = Modifier
+                                    .height(48.dp).then(
+                                        if (isAppliedDate && !isSelected) {
+                                            Modifier.border(
+                                                width = 1.5.dp,
+                                                color = Theme.colorScheme.primary.primary,
+                                                shape = RoundedCornerShape(12.dp)
+                                            )
+                                        } else {
+                                            Modifier
+                                        }
+                                    )
+                            )
+                        }
+
                     }
                 }
-
 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
