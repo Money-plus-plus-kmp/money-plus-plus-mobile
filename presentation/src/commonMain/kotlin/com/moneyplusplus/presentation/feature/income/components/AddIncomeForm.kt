@@ -15,11 +15,10 @@ import kotlinx.datetime.LocalDate
 fun AddIncomeForm(
     modifier: Modifier = Modifier,
     amount: Int?,
-    currency: String,
+    currency: String?,
     date: LocalDate,
     note: String,
     setAmount: (Int?) -> Unit,
-    setCurrency: (String) -> Unit,
     setNote: (String) -> Unit,
     onDateClick: () -> Unit
 ) {
@@ -33,7 +32,6 @@ fun AddIncomeForm(
             amount = amount,
             currency = currency,
             setAmount = setAmount,
-            setCurrency = setCurrency,
             modifier = Modifier.fillMaxWidth()
         )
 

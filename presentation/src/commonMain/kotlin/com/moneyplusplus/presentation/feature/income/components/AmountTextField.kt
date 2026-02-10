@@ -22,13 +22,12 @@ import org.jetbrains.compose.resources.painterResource
 fun AmountTextField(
     modifier: Modifier = Modifier,
     amount: Int?,
-    currency: String,
-    setAmount: (Int?) -> Unit,
-    setCurrency: (String) -> Unit,
+    currency: String?,
+    setAmount: (Int?) -> Unit
 ) {
     Box(modifier = modifier) {
         TextField(
-            value = amount.toString(),
+            value = amount?.toString().orEmpty(),
             hint = "Amount",
             leadingIcon = painterResource(Res.drawable.money_01),
             keyboardOptions = KeyboardOptions(
@@ -37,15 +36,17 @@ fun AmountTextField(
             onValueChanged = { setAmount(it.toIntOrNull()) }
         )
 
-        Text(
-            text = currency,
-            style = Theme.typography.label.small,
-            modifier = Modifier
-                .padding(end = 16.dp)
-                .clip(shape = RoundedCornerShape(100.dp))
-                .background(color = Theme.colorScheme.surface.surface)
-                .padding(horizontal = 8.dp, vertical = 4.dp)
-                .align(Alignment.CenterEnd)
-        )
+        currency?.let {
+            Text(
+                text = currency,
+                style = Theme.typography.label.small,
+                modifier = Modifier
+                    .padding(end = 16.dp)
+                    .clip(shape = RoundedCornerShape(100.dp))
+                    .background(color = Theme.colorScheme.surface.surface)
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
+                    .align(Alignment.CenterEnd)
+            )
+        }
     }
 }
