@@ -15,7 +15,9 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain)
-
+            implementation(libs.androidx.credentials)
+            implementation(libs.androidx.credentials.play.services.auth)
+            implementation(libs.googleid)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
@@ -35,7 +37,17 @@ android {
     namespace = "com.moneyplusplus.data"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
+    buildFeatures {
+        buildConfig = true
+    }
+    kotlin {
+        jvmToolchain(17)
+    }
+
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
+        val googleClientId: String = project.findProperty("GOOGLE_CLIENT_ID") as? String ?: ""
+
+        buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
     }
 }
