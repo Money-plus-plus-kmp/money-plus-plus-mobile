@@ -12,7 +12,9 @@ import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.Theme
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    onAddIncome: () -> Unit
+) {
     val snackbar = LocalMSnackbarState.current
 
     Column(
@@ -26,6 +28,10 @@ fun HomeScreen() {
 
         Button(onClick = { snackbar.showError("Connection failed") }) {
             Text("Delete", style = Theme.typography.title.medium)
+        }
+
+        Button(onClick = onAddIncome) {
+            Text("Add Income", style = Theme.typography.title.medium)
         }
 
     }

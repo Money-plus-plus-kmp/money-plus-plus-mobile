@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.moneyplusplus.presentation.auth.create_account.CreateAccountScreen
 import com.moneyplusplus.presentation.feature.forgetPassword.ForgetPasswordScreen
 import com.moneyplusplus.presentation.HomeScreen
+import com.moneyplusplus.presentation.feature.income.screens.addincome.AddIncomeScreen
 import com.moneyplusplus.presentation.login.LoginScreen
 
 /**
@@ -39,7 +40,11 @@ fun AppNavHost(
         }
 
         composable<NavigationRoute.Home> {
-            HomeScreen()
+            HomeScreen(
+                onAddIncome = {
+                    navController.navigate(NavigationRoute.AddIncome)
+                }
+            )
         }
 
         composable<NavigationRoute.ForgetPassword> {
@@ -59,5 +64,12 @@ fun AppNavHost(
                 }
             )
         }
+
+        composable<NavigationRoute.AddIncome> {
+            AddIncomeScreen(
+                navigateBack = { navController.popBackStack() }
+            )
+        }
+
     }
 }
