@@ -34,7 +34,10 @@ class AddIncomeViewModel(
     private fun addIncome() {
         tryExecute(
             onSuccess = { sendEffect(AddIncomeEffect.ShowSuccess) },
-            onError = { sendEffect(AddIncomeEffect.ShowError) },
+            onError = {
+                println("Trace + ${it.printStackTrace()}")
+                sendEffect(AddIncomeEffect.ShowError)
+                      },
             block = { addIncome(currentState.toIncome() ?: return@tryExecute) }
         )
     }

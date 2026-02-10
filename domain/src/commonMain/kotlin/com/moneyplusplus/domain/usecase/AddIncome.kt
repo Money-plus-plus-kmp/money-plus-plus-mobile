@@ -11,6 +11,7 @@ class AddIncome(
     private val incomeRepository: IncomeRepository
 ) {
     suspend operator fun invoke(income: Income) {
+        println("Trace + Use case $income")
         validateIncomeAmount(income.amount)
         validateIncomeDate(income.date)
         incomeRepository.addIncome(income)

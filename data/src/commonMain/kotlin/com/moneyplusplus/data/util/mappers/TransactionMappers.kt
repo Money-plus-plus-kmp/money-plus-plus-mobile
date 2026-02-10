@@ -7,5 +7,6 @@ import com.moneyplusplus.domain.entity.Income
 fun Income.toAddTransactionRequest() = AddTransactionRequest(
     type = TransactionType.INCOME,
     amount = amount,
-    date = date.toString()
+    date = date.toString(),
+    note = note
 )
