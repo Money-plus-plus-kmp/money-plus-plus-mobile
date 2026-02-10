@@ -47,7 +47,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
         val googleClientId: String = project.findProperty("GOOGLE_CLIENT_ID") as? String ?: ""
-
         buildConfigField("String", "GOOGLE_CLIENT_ID", "\"$googleClientId\"")
     }
 }
