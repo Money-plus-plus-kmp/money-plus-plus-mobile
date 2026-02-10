@@ -1,7 +1,6 @@
 package com.moneyplusplus.data.di
 
-import org.koin.dsl.module
+import org.koin.core.module.Module
 
-internal actual fun platformModule() = module {
-    // iOS-specific dependencies can be declared here
-}
+internal actual val platformModule: Module
+    get() = TODO("Not yet implemented")
