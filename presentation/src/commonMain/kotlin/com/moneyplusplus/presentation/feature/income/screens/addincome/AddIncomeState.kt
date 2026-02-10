@@ -8,7 +8,7 @@ import kotlinx.datetime.LocalDate
 
 data class AddIncomeState(
     val amount: Int? = null,
-    val currencyCode: String = "IQD", // temp until get default currency from settings
+    val currencyCode: String? = null, // temp until get default currency from settings
     val date: LocalDate = LocalDate.currentDate(),
     val note: String = "",
     val isAddEnabled: Boolean = false,
@@ -17,15 +17,9 @@ data class AddIncomeState(
 
 fun AddIncomeState.toIncome(): Income? {
     if (amount == null) return null
-    val currency = Currency( // temp until fetching currencies
-        code = currencyCode,
-        name = "Iraqi Dinar",
-        country = "Iraq"
-    )
 
     return Income(
         amount = amount,
-        currency = currency,
         date = date,
         note = note
     )

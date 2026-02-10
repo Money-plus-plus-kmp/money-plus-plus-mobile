@@ -13,36 +13,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.component.button.Button
 import com.moneyplusplus.design_system.component.button.PrimaryButton
 import com.moneyplusplus.design_system.component.datetime.DatePicker
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
-import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.design_system.component.snackbar.LocalMSnackbarState
 import com.moneyplusplus.presentation.base.ObserveAsEffect
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeForm
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeTopBar
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun AddIncomeScreen(
     viewModel: AddIncomeViewModel = koinViewModel(),
-    modifier: Modifier = Modifier
+    navigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
+    val snackBar = LocalMSnackbarState.current
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            is AddIncomeEffect.NavigateBack -> {} //TODO navigate back
-            is AddIncomeEffect.ShowError -> {} //TODO navigate to login
-            is AddIncomeEffect.ShowSuccess -> {} //TODO show snackbar
+            is AddIncomeEffect.NavigateBack -> { navigateBack() }
+            is AddIncomeEffect.ShowError -> { snackBar.showError("Error: Failed to Add Income!") }
+            is AddIncomeEffect.ShowSuccess -> { snackBar.showSuccess("Income Added Successfully!") }
         }
     }
 
     AddIncomeContent(
         state = state,
         onIntent = viewModel::handleIntent,
-        modifier = modifier
     )
 
 }
@@ -50,11 +48,10 @@ fun AddIncomeScreen(
 @Composable
 private fun AddIncomeContent(
     state: AddIncomeState,
-    onIntent: (AddIncomeIntent) -> Unit,
-    modifier: Modifier = Modifier
+    onIntent: (AddIncomeIntent) -> Unit
 ) {
     Scaffold(
-        modifier = modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize(),
         fullScreen = true,
         topBar = { AddIncomeTopBar(onBackClick = { onIntent(AddIncomeIntent.OnBackClick) }) }
     ) {
@@ -70,7 +67,6 @@ private fun AddIncomeContent(
                     date = state.date,
                     note = state.note,
                     setAmount = { onIntent(AddIncomeIntent.SetAmount(it)) },
-                    setCurrency = { onIntent(AddIncomeIntent.SetCurrency(it)) },
                     setNote = { onIntent(AddIncomeIntent.SetNote(it)) },
                     onDateClick = { onIntent(AddIncomeIntent.OnDateClick) }
                 )
@@ -93,12 +89,4 @@ private fun AddIncomeContent(
 
     }
 
-}
-
-@Composable
-@Preview()
-private fun PreviewAddIncomeScreen() {
-    MoneyTheme {
-        AddIncomeScreen()
-    }
 }

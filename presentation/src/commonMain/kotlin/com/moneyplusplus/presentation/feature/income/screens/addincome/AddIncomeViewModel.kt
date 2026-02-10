@@ -1,13 +1,24 @@
 package com.moneyplusplus.presentation.feature.income.screens.addincome
 
-import com.moneyplusplus.domain.usecase.validation.AddIncomeUseCase
+import com.moneyplusplus.domain.usecase.AddIncome
 import com.moneyplusplus.presentation.base.BaseViewModel
 import kotlinx.datetime.LocalDate
 
 class AddIncomeViewModel(
-    private val addIncomeUseCase: AddIncomeUseCase
+    private val addIncome: AddIncome
 ) : BaseViewModel<AddIncomeState, AddIncomeIntent, AddIncomeEffect>(AddIncomeState()) {
 
+    init {
+        // Temp until get User Data
+        // Then get the user's currency
+
+        updateState {
+            copy(
+                currencyCode = "EGP"
+            )
+        }
+
+    }
     override fun handleIntent(intent: AddIncomeIntent) {
         when (intent) {
             AddIncomeIntent.OnAddIncomeClick -> addIncome()
@@ -16,7 +27,6 @@ class AddIncomeViewModel(
             is AddIncomeIntent.SetNote -> setNote(intent.note)
             is AddIncomeIntent.OnDateClick -> showDatePicker()
             is AddIncomeIntent.OnBackClick -> navigateBack()
-            is AddIncomeIntent.SetCurrency -> setCurrency(intent.currencyCode)
             is AddIncomeIntent.OnDatePickerDismiss -> dismissDatePicker()
         }
     }
@@ -25,7 +35,7 @@ class AddIncomeViewModel(
         tryExecute(
             onSuccess = { sendEffect(AddIncomeEffect.ShowSuccess) },
             onError = { sendEffect(AddIncomeEffect.ShowError) },
-            block = { addIncomeUseCase(currentState.toIncome() ?: return@tryExecute) }
+            block = { addIncome(currentState.toIncome() ?: return@tryExecute) }
         )
     }
 
@@ -33,7 +43,7 @@ class AddIncomeViewModel(
         updateState {
             copy(
                 amount = amount,
-                isAddEnabled = isAddEnabled(this)
+                isAddEnabled = isAddEnabled(amount)
             )
         }
     }
@@ -53,14 +63,6 @@ class AddIncomeViewModel(
         }
     }
 
-    private fun setCurrency(currencyCode: String) {
-        updateState {
-            copy(
-                currencyCode = currencyCode
-            )
-        }
-    }
-
     private fun showDatePicker() {
         updateState { copy(isDatePickerVisible = true) }
     }
@@ -75,8 +77,6 @@ class AddIncomeViewModel(
         sendEffect(AddIncomeEffect.NavigateBack)
     }
 
-    private fun isAddEnabled(state: AddIncomeState): Boolean {
-        return state.amount != null && state.amount > 0
-    }
+    private fun isAddEnabled(amount: Int?) = amount != null && amount > 0
 
 }
