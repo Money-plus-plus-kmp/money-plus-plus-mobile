@@ -1,4 +1,4 @@
-package com.moneyplusplus.domain.usecase.validation
+package com.moneyplusplus.domain.usecase
 
 import com.moneyplusplus.domain.entity.Income
 import com.moneyplusplus.domain.repository.IncomeRepository
@@ -7,7 +7,7 @@ import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Clock
 
-class AddIncomeUseCase(
+class AddIncome(
     private val incomeRepository: IncomeRepository
 ) {
     suspend operator fun invoke(income: Income) {

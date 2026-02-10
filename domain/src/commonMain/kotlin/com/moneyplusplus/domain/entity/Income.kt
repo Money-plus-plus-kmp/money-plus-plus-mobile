@@ -4,7 +4,6 @@ import kotlinx.datetime.LocalDate
 
 data class Income(
     val amount: Int,
-    val currency: Currency,
     val date: LocalDate,
     val note: String
 )
