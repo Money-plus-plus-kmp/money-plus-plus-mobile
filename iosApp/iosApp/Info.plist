@@ -4,5 +4,8 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>BASE_URL</key>
+    <string>https://money-plus-dev.vercel.app/api/v1</string>
+
 </dict>
 </plist>
