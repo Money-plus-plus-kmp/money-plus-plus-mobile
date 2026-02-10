@@ -1,11 +1,21 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
-android.buildFeatures.buildConfig = true
+val localProperties = Properties().apply {
+    val localFile = project.rootProject.file("local.properties")
+    if (localFile.exists()) {
+        load(localFile.inputStream())
+    }
+}
+
 
 kotlin {
+    jvmToolchain(21)
     androidTarget()
     iosX64()
     iosArm64()
@@ -24,6 +34,7 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.logging)
             implementation(libs.koin.core)
+            implementation(libs.kotlinx.datetime)
         }
         commonTest.dependencies {
 
@@ -46,19 +57,24 @@ android {
         buildConfig = true
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
     buildTypes {
         debug {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"${project.properties["BASE_URL"]}\""
+                "\"${localProperties.getProperty("BASE_URL")}\""
             )
         }
         release {
             buildConfigField(
                 "String",
                 "BASE_URL",
-                "\"${project.properties["BASE_URL"]}\""
+                "\"${localProperties.getProperty("BASE_URL")}\""
             )
         }
     }
