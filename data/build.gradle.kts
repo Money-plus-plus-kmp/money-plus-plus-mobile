@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.androidLibrary)
 }
 
+android.buildFeatures.buildConfig = true
+
 kotlin {
     androidTarget()
     iosX64()
@@ -39,4 +41,26 @@ android {
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
     }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"${project.properties["BASE_URL"]}\""
+            )
+        }
+        release {
+            buildConfigField(
+                "String",
+                "BASE_URL",
+                "\"${project.properties["BASE_URL"]}\""
+            )
+        }
+    }
+
 }

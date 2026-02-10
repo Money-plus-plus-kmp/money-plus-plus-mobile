@@ -6,12 +6,16 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.defaultRequest
+import io.ktor.http.ContentType
 import io.ktor.http.ContentType.Application.Json
+import io.ktor.http.contentType
 import kotlinx.serialization.json.Json
 import io.ktor.serialization.kotlinx.json.json
 
 fun createHttpClient(
-    engine: HttpClientEngine
+    engine: HttpClientEngine,
+    baseUrl: String
 ): HttpClient =
     HttpClient(engine) {
 
@@ -28,5 +32,9 @@ fun createHttpClient(
         install(HttpTimeout) {
             requestTimeoutMillis = 30_000
             connectTimeoutMillis = 30_000
+        }
+        defaultRequest {
+            url(baseUrl)
+            contentType(Json)
         }
     }
