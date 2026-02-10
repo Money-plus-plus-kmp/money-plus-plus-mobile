@@ -1,4 +1,27 @@
 <resources>
+    <string name="login_welcome">Welcome again!</string>
+    <string name="login_subtitle">Enter your credentials to access your account</string>
+    <string name="email_hint">Email</string>
+    <string name="login">Login</string>
+    <string name="or">or</string>
+    <string name="continue_with_google">Continue with Google</string>
+    <string name="logo_plus">++</string>
+    <string name="logo_money">Money</string>
+    <string name="error_email_empty">Email is required</string>
+    <string name="error_email_invalid">Invalid email address</string>
+    <string name="error_password_empty">Password is required</string>
+    <string name="error_password_invalid">Invalid password</string>
+    <string name="error_invalid_credentials">Invalid email or password</string>
+    <string name="error_email_already_exists">Email is already exists</string>
+    <string name="create_new_account">Create new account</string>
+    <string name="create_account">Create account</string>
+    <string name="start_control_money">Start taking control of your money</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="password_hint">*Use at least 8 characters, Contain at least one capital letter and one symbol.</string>
+    <string name="back_button">Back Button</string>
+    <string name="money_logo">Money Logo</string>
+    <string name="error_username_empty">Username is required</string>
     <string name="lock">lock</string>
     <string name="background_pattern">background pattern</string>
     <string name="arrow_left">arrow left</string>
@@ -10,4 +33,5 @@
     <string name="email">email</string>
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
 </resources>

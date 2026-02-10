@@ -16,6 +16,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.domain)
+
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.content.negotiation)
