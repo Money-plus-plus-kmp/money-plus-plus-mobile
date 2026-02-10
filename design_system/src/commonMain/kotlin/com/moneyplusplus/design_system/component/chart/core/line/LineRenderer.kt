@@ -15,16 +15,16 @@ internal object LineRenderer {
         animationProgress: Float,
         canvasWidth: Float = size.width
     ) {
+        val lineStrokeWidth = 3.dp
         clipRect(right = canvasWidth * animationProgress) {
             drawPath(
                 path = path,
                 color = lineColor,
                 style = Stroke(
-                    width = LINE_STROKE_WIDTH.toPx(),
+                    width = lineStrokeWidth.toPx(),
                     cap = StrokeCap.Round
                 )
             )
         }
     }
 }
-private val LINE_STROKE_WIDTH = 3.dp

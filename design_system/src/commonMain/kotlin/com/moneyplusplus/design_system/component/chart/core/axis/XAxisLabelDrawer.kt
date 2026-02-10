@@ -28,7 +28,8 @@ internal fun <T> DrawScope.drawXAxisLabels(
 
     val yAxisLabelsWidth = ChartLayoutCalculator.calculateYAxisLabelsWidth(yTextLayoutResult)
     val startOffset = yAxisLabelsWidth.toDp() + ChartDimensions.TEXT_SPACING
-    val labelY = size.height - X_AXIS_LABEL_BOTTOM_OFFSET.toPx()
+    val labelBottomOffset = 20.dp
+    val labelY = size.height - labelBottomOffset.toPx()
 
     labels.forEachIndexed { index, label ->
         val xPosition = (startOffset + (xRegionWidth * index))

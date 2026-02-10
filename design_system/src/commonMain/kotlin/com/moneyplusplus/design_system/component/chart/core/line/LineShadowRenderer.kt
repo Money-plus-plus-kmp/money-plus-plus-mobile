@@ -55,8 +55,8 @@ internal object LineShadowRenderer {
             close()
         }
     }
-}
 
-private val SHADOW_OFFSET = 40.dp
-private const val GRADIENT_FILL_BOTTOM_FACTOR = 40f
-private const val SHADOW_ALPHA = 0.32f
+    private val SHADOW_OFFSET = 40.dp
+    private const val GRADIENT_FILL_BOTTOM_FACTOR = 40f
+    private const val SHADOW_ALPHA = 0.32f
+}

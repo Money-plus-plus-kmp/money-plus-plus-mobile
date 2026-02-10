@@ -18,15 +18,14 @@ internal object ChartLayoutCalculator {
 
     fun calculateXAxisSegmentWidth(totalWidth: Dp, startOffset: Dp, pointCount: Int): Dp {
         return if (pointCount > 1) {
-            (totalWidth - startOffset) / (pointCount - 1)
+            (totalWidth - startOffset) / pointCount
         } else {
             totalWidth
         }
     }
 
     fun calculateChartWidth(dataSize: Int, startOffset: Dp): Dp {
-        return (ChartDimensions.POINT_WIDTH * dataSize) + startOffset + MIN_WIDTH_PADDING
+        val minWidthPadding = 20.dp
+        return (ChartDimensions.POINT_WIDTH * dataSize) + startOffset + minWidthPadding
     }
 }
-
-private val MIN_WIDTH_PADDING = 20.dp

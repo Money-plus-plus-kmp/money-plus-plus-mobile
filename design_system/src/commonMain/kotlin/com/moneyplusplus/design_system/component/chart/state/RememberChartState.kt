@@ -10,9 +10,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import com.moneyplusplus.design_system.component.chart.calculation.ChartLayoutCalculator
-import com.moneyplusplus.design_system.component.chart.calculation.calculateAllPoints
-import com.moneyplusplus.design_system.component.chart.calculation.calculateLowerBound
-import com.moneyplusplus.design_system.component.chart.calculation.calculateUpperBound
+import com.moneyplusplus.design_system.component.chart.calculation.ChartPointCalculator
+import com.moneyplusplus.design_system.component.chart.calculation.YAxisBoundsCalculator
 import com.moneyplusplus.design_system.component.chart.core.line.CurvedLinePathBuilder
 import com.moneyplusplus.design_system.component.chart.util.NumberFormatter
 
@@ -31,8 +30,8 @@ internal fun rememberChartState(
     val density = LocalDensity.current
 
     return remember(data, xAxisLabels, screenWidth, chartHeight) {
-        val upperValue = calculateUpperBound(data).toFloat()
-        val lowerValue = calculateLowerBound(data).toFloat()
+        val upperValue = YAxisBoundsCalculator.calculateUpperBound(data).toFloat()
+        val lowerValue = YAxisBoundsCalculator.calculateLowerBound(data).toFloat()
 
         val yMaxTextWidth = textMeasurer.measure(
             text = AnnotatedString(NumberFormatter.formatCompactNumber(upperValue))
@@ -49,7 +48,7 @@ internal fun rememberChartState(
 
         val xAxisLabelsHeight = with(density) { X_AXIS_LABELS_HEIGHT.toPx() }
 
-        val points = calculateAllPoints(
+        val points = ChartPointCalculator.calculateAllPoints(
             data = data,
             startOffset = startOffset,
             xRegionWidth = xAxisSegmentWidth,
