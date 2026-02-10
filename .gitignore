@@ -17,5 +17,4 @@ captures
 !*.xcworkspace/contents.xcworkspacedata
 **/xcshareddata/WorkspaceSettings.xcsettings
 node_modules/
-# Local gradle properties (secrets)
 gradle.properties
