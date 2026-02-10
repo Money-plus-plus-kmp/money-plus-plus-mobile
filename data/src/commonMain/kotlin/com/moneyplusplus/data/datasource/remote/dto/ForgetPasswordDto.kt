@@ -1,4 +1,4 @@
-package com.moneyplusplus.data.dto
+package com.moneyplusplus.data.datasource.remote.dto
 
 import kotlinx.serialization.Serializable
 
