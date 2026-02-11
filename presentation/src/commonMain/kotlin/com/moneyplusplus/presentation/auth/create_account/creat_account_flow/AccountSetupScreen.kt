@@ -2,7 +2,6 @@ package com.moneyplusplus.presentation.auth.create_account.creat_account_flow
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,6 +37,7 @@ import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.componant.SalaryDayDatePicker
 import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.componant.StepProgressBar
+import com.moneyplusplus.presentation.auth.create_account.selectionTriangle
 import com.moneyplusplus.presentation.base.collectEffect
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_down_01
@@ -53,7 +53,6 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
-
 
 @Composable
 fun AccountSetupScreen(
@@ -107,7 +106,7 @@ private fun AccountSetupScaffold(
         bottomBar = {
             PrimaryButton(
                 onClick = {},
-                isEnabled = true,
+                isEnabled = state.isFormValid,
                 isLoading = false,
                 text = "Next",
                 modifier = Modifier
@@ -116,99 +115,124 @@ private fun AccountSetupScaffold(
             )
         },
         overlays = {
-            bottomSheet (isVisible = state.isCurrencyBottomSheetVisible) {
+            bottomSheet(isVisible = state.isCurrencyBottomSheetVisible) {
                 BottomSheet(
                     isVisible = it,
                     onDismissRequest = { intent(AccountSetupIntent.DismissCurrencyBottomSheet) },
                     sheetContent = {
-                        Box {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxHeight()
-                                    .padding(top = 24.dp)
-                                    .padding(horizontal = 16.dp)
-                            ) {
-                                Row(
-                                    modifier = Modifier.padding(bottom = 12.dp),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = "Currency",
-                                        style = Theme.typography.title.small,
-                                        color = Color.Black,
-                                    )
-                                    Spacer(modifier = Modifier.weight(1f))
-                                    Icon(
-                                        painter = painterResource(Res.drawable.ic_cancel),
-                                        contentDescription = "cancel bottom sheet icon ",
-                                        modifier = Modifier.clickable {
-                                            intent(AccountSetupIntent.DismissCurrencyBottomSheet)
-                                        }
-                                    )
-                                }
-
-                                MyDivider(modifier = Modifier.padding(bottom = 16.dp))
-
-                                TextField(
-                                    value = "",
-                                    hint = "Search ...",
-                                    readOnly = true,
-                                    enabled = true,
-                                    onValueChanged = { },
-                                    leadingIcon = painterResource(Res.drawable.search_01),
-                                    showTrailingDivider = false,
-                                    onTrailingIconClick = {},
-                                    modifier = Modifier.padding(bottom = 12.dp),
-                                )
-
-                                LazyColumn {
-                                    items(currencies) { currency ->
-                                        CurrencyItem(
-                                            name = currency.name,
-                                            code = currency.code,
-                                            country = currency.country,
-                                            isSelected = state.selectedCurrency == currency
-                                        )
-                                    }
-                                }
-                            }
-
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(color = Theme.colorScheme.surface.surfaceLow)
-                                    .align(Alignment.BottomCenter)
-                                    .padding(16.dp)
-                            ) {
-                                PrimaryButton(
-                                    onClick = {},
-                                    text = "Select",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(bottom = 8.dp)
-                                )
-                            }
-                        }
+                        CurrencyBottomSheetContent(
+                            state = state,
+                            intent = intent
+                        )
                     })
             }
-            bottomSheet (isVisible = state.isSalaryDayPickerVisible) {
-                SalaryDayDatePicker(
-                    isVisible = it,
-                    onDismiss = {
-                        intent(
-                            AccountSetupIntent.SalaryDaySelected(
-                                state.salaryDay ?: 1
-                            )
-                        )
-                    },
-                    onDaySelected = { day ->
-                        intent(AccountSetupIntent.SalaryDaySelected(day))
-                    }
+            bottomSheet(isVisible = state.isSalaryDayPickerVisible) {
+                SalaryDayPickerOverlay(
+                    state = state,
+                    intent = intent,
+                    isVisible = it
                 )
             }
         }
     )
+}
+
+@Composable
+private fun SalaryDayPickerOverlay(
+    state: AccountSetupState,
+    intent: (AccountSetupIntent) -> Unit,
+    isVisible: Boolean
+) {
+    SalaryDayDatePicker(
+        isVisible = isVisible,
+        onDismiss = {
+            intent(
+                AccountSetupIntent.SalaryDaySelected(
+                    state.salaryDay ?: 1
+                )
+            )
+        },
+        onDaySelected = { day ->
+            intent(AccountSetupIntent.SalaryDaySelected(day))
+        }
+    )
+}
+
+@Composable
+private fun CurrencyBottomSheetContent(
+    state: AccountSetupState,
+    intent: (AccountSetupIntent) -> Unit
+) {
+    Box {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight()
+                .padding(top = 24.dp)
+                .padding(end = 16.dp)
+        ) {
+            Row(
+                modifier = Modifier.padding(bottom = 12.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Currency",
+                    style = Theme.typography.title.small,
+                    color = Color.Black,
+                )
+                Spacer(modifier = Modifier.weight(1f))
+                Icon(
+                    painter = painterResource(Res.drawable.ic_cancel),
+                    contentDescription = "cancel bottom sheet icon",
+                    modifier = Modifier.clickable {
+                        intent(AccountSetupIntent.DismissCurrencyBottomSheet)
+                    }
+                )
+            }
+
+            MyDivider(modifier = Modifier.padding(bottom = 16.dp))
+
+            TextField(
+                value = "",
+                hint = "Search ...",
+                readOnly = true,
+                enabled = true,
+                onValueChanged = { },
+                leadingIcon = painterResource(Res.drawable.search_01),
+                showTrailingDivider = false,
+                onTrailingIconClick = {},
+                modifier = Modifier.padding(bottom = 12.dp),
+            )
+
+            LazyColumn {
+                items(state.currencies) { currency ->
+                    CurrencyItem(
+                        name = currency.name,
+                        code = currency.code,
+                        country = currency.country,
+                        isSelected = state.selectedCurrency == currency,
+                        onClick = { intent(AccountSetupIntent.SelectCurrencyItem(currency)) }
+                    )
+                }
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = Theme.colorScheme.surface.surfaceLow)
+                .align(Alignment.BottomCenter)
+                .padding(16.dp)
+        ) {
+            PrimaryButton(
+                onClick = { intent(AccountSetupIntent.DismissCurrencyBottomSheet) },
+                text = "Select",
+                isEnabled = state.selectedCurrency != null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+            )
+        }
+    }
 }
 
 @Composable
@@ -219,34 +243,47 @@ private fun CurrencyItem(
     isSelected: Boolean,
     onClick: () -> Unit = {}
 ) {
+    val itemSelectedColor = if (isSelected)
+        Theme.colorScheme.primary.primary
+    else
+        Theme.colorScheme.title
+
     Column(
         modifier = Modifier
+            .fillMaxWidth()
+            .selectionTriangle(
+                isVisible = isSelected,
+                color = Theme.colorScheme.primary.primary
+            )
             .clickable { onClick() }
+            .padding(start = 24.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onClick() }
                 .padding(bottom = 4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = name,
                 style = Theme.typography.label.medium,
-                color = Theme.colorScheme.title,
+                color = itemSelectedColor,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = code,
                 style = Theme.typography.label.medium,
-                color = Theme.colorScheme.title
+                color = itemSelectedColor
             )
         }
 
         Text(
             text = country,
             style = Theme.typography.label.small,
-            color = Theme.colorScheme.body
+            color = if (isSelected)
+                Theme.colorScheme.primary.primary
+            else
+                Theme.colorScheme.body
         )
         MyDivider(modifier = Modifier.padding(vertical = 8.dp))
     }
@@ -266,28 +303,6 @@ private fun MyDivider(
             )
     )
 }
-
-val currencies = listOf(
-    CurrencyUiModel("Iraqi Dinar", "Iraq", "IQD"),
-    CurrencyUiModel("Egyptian Pound", "Egypt", "EGP"),
-    CurrencyUiModel("Syrian Pound", "Syria", "SYP"),
-    CurrencyUiModel("Jordanian Dinar", "Jordan", "JOD"),
-    CurrencyUiModel("Kuwaiti Dinar", "Kuwait", "KWD"),
-    CurrencyUiModel("Bahraini Dinar", "Bahrain", "BHD"),
-    CurrencyUiModel("Omani Rial", "Oman", "OMR"),
-    CurrencyUiModel("Qatari Rial", "Qatar", "QAR"),
-    CurrencyUiModel("Saudi Riyal", "Saudi Arabia", "SAR"),
-    CurrencyUiModel("Iraqi Dinar", "Iraq", "IQD"),
-    CurrencyUiModel("Egyptian Pound", "Egypt", "EGP"),
-    CurrencyUiModel("Syrian Pound", "Syria", "SYP"),
-    CurrencyUiModel("Jordanian Dinar", "Jordan", "JOD"),
-    CurrencyUiModel("Kuwaiti Dinar", "Kuwait", "KWD"),
-    CurrencyUiModel("Bahraini Dinar", "Bahrain", "BHD"),
-    CurrencyUiModel("Omani Rial", "Oman", "OMR"),
-    CurrencyUiModel("Qatari Rial", "Qatar", "QAR"),
-    CurrencyUiModel("Saudi Riyal", "Saudi Arabia", "SAR")
-)
-
 
 @Composable
 private fun AccountSetupContent(
@@ -326,7 +341,7 @@ private fun AccountSetupContent(
         )
 
         TextField(
-            value = "",
+            value = state.selectedCurrency?.displayName ?: "",
             hint = "Currency",
             readOnly = true,
             enabled = true,
@@ -366,8 +381,6 @@ private fun AccountSetupContent(
                 .padding(bottom = 12.dp)
                 .clickable { intent(AccountSetupIntent.SalaryDayClicked) },
         )
-
-
     }
 }
 
@@ -376,7 +389,9 @@ private fun AccountSetupContent(
 private fun Preview() {
     MoneyTheme {
         AccountSetupScaffold(
-            state = AccountSetupState(),
+            state = AccountSetupState(
+                isCurrencyBottomSheetVisible = true
+            ),
             intent = {}
         )
     }

@@ -6,10 +6,11 @@ import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import com.moneyplusplus.design_system.component.button.TextButton
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import kotlinx.datetime.Instant
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import kotlinx.datetime.Instant
+
 @Composable
 fun SalaryDayDatePicker(
     isVisible: Boolean,
@@ -44,7 +45,6 @@ fun SalaryDayDatePicker(
 @Preview(showBackground = true)
 @Composable
 fun SalaryDayDatePickerPreview() {
-
     MoneyTheme {
         SalaryDayDatePicker(
             isVisible = true,
