@@ -37,6 +37,8 @@ kotlin {
                 implementation(compose.components.resources)
                 implementation(compose.components.uiToolingPreview)
                 implementation(libs.compose.ui.backhandler)
+                implementation(libs.kotlinx.datetime)
+                implementation(compose.material3)
             }
         }
     }

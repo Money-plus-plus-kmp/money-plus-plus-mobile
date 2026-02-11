@@ -17,6 +17,9 @@ class AuthRepositoryImpl() : AuthRepository {
     }
 
     override suspend fun login(email: String, password: String): User {
+        // temp access token until login
+        AuthTokenProvider.accessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2OThiNjM1MDA2ZGUwOTYwMTAxYjBmMWQiLCJpYXQiOjE3NzA3NTAwMTEsImV4cCI6MTc3MDc1NzIxMX0.9udCT_EzDXt2sJgNNgzU1njdigPz3OFBneBCmB9f6Y8"
+
         return User(
             id = Uuid.random(),
             email = "",

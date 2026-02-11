@@ -27,7 +27,7 @@ fun PrimaryButton(
     containerColor: Color = Theme.colorScheme.primary.primary,
     disabledContainerColor: Color = Theme.colorScheme.disable,
     contentColor: Color = Theme.colorScheme.onPrimary.onPrimary,
-    disabledContentColor: Color = Theme.colorScheme.disable,
+    disabledContentColor: Color = Theme.colorScheme.onPrimary.onPrimary,
     contentPadding: PaddingValues = PaddingValues(16.dp),
     shape: Shape = RoundedCornerShape(16.dp)
 ) {
