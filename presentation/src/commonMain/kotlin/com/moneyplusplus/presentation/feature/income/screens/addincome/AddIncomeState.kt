@@ -1,6 +1,5 @@
 package com.moneyplusplus.presentation.feature.income.screens.addincome
 
-import com.moneyplusplus.domain.entity.Currency
 import com.moneyplusplus.domain.entity.Income
 import com.moneyplusplus.presentation.base.UiState
 import com.moneyplusplus.presentation.utils.currentDate

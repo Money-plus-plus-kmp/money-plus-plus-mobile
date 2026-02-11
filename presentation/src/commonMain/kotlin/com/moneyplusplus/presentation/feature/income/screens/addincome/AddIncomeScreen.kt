@@ -68,6 +68,7 @@ private fun AddIncomeContent(
                 horizontalAlignment = Alignment.Start,
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
+
                 AddIncomeForm(
                     amount = state.amount,
                     currency = state.currencyCode,

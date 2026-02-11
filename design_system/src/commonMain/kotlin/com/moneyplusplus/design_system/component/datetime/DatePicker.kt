@@ -40,23 +40,24 @@ fun DatePicker(
                         }
                         onDismissRequest()
                     },
-                    modifier = Modifier.padding(12.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 )
             },
             dismissButton = {
                 TextButton(
                     text = "Cancel",
                     onClick = { onDismissRequest() },
-                    modifier = Modifier.padding(12.dp)
+                    modifier = Modifier.padding(horizontal = 12.dp)
                 )
-            },
-            colors = DatePickerDefaults.colors(
-                selectedDayContainerColor = Theme.colorScheme.primary.primary,
-                todayDateBorderColor = Theme.colorScheme.primary.primary
-            )
+            }
         ) {
             DatePicker(
                 state = datePickerState,
+                colors = DatePickerDefaults.colors(
+                    selectedDayContainerColor = Theme.colorScheme.primary.primary,
+                    todayDateBorderColor = Theme.colorScheme.primary.primary,
+                    todayContentColor = Theme.colorScheme.primary.primary
+                )
             )
         }
     }
