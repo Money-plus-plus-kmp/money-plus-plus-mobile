@@ -14,11 +14,17 @@ class AccountSetupViewModel() :
             is AccountSetupIntent.SalaryChanged -> onSalaryChanged(intent.newSalary)
             is AccountSetupIntent.SalaryDaySelected -> onSalaryDaySelected(intent.day)
             is AccountSetupIntent.SelectCurrencyItem -> onCurrencyItemSelected(intent.currency)
+            is AccountSetupIntent.CurrentBalanceChanged -> onBalanceChanged(intent.newBalance)
             AccountSetupIntent.ClickCurrencyArrow -> onCurrencyArrowClicked()
             AccountSetupIntent.DismissCurrencyBottomSheet -> dismissCurrencyBottomSheet()
             AccountSetupIntent.SalaryDayClicked -> onSalaryDayClicked()
+            AccountSetupIntent.FinishClicked -> submitData()
+            AccountSetupIntent.NextClicked -> onNextClicked()
         }
     }
+
+    private fun onBalanceChanged(newBalance: String) {
+        updateState { copy(currentBalance = newBalance) }    }
 
     private fun onCurrencyItemSelected(currency: CurrencyUiModel) {
         println(currentState.selectedCurrency)
@@ -77,5 +83,20 @@ class AccountSetupViewModel() :
                 isSalaryDayPickerVisible = false
             )
         }
+    }
+
+    private fun onNextClicked() {
+        updateState {
+            copy(
+                currentStep = when (currentStep) {
+                    AccountSetupStep.STEP_ONE -> AccountSetupStep.STEP_TWO
+                    AccountSetupStep.STEP_TWO -> AccountSetupStep.STEP_THREE
+                    AccountSetupStep.STEP_THREE -> AccountSetupStep.STEP_THREE
+                }
+            )
+        }
+    }
+
+    private fun submitData() {
     }
 }

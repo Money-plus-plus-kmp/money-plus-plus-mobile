@@ -26,7 +26,7 @@ fun StepProgressBar(
                     .weight(1f)
                     .height(6.dp)
                     .background(
-                        color = if (index == currentStep)
+                        color = if (index <= currentStep)
                             Theme.colorScheme.title
                         else
                             Theme.colorScheme.stroke,
