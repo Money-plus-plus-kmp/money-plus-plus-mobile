@@ -26,12 +26,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.button.PrimaryButton
 import com.moneyplusplus.design_system.component.icon.Icon
-import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
-import com.moneyplusplus.domain.entity.Currency
 import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.AccountSetupIntent
 import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.AccountSetupState
 import com.moneyplusplus.presentation.auth.create_account.creat_account_flow.CurrencyUiModel
@@ -47,7 +45,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun AccountSetupContent(
+fun StepOneContent(
     modifier: Modifier = Modifier,
     state: AccountSetupState,
     intent: (AccountSetupIntent) -> Unit
@@ -57,29 +55,11 @@ fun AccountSetupContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 16.dp)
-    ) {
-        StepProgressBar(
-            currentStep = 0,
-            modifier = Modifier.padding(top = 24.dp)
-        )
-
-        Text(
-            text = "Step 1 of 3",
-            style = Theme.typography.label.small,
-            color = Theme.colorScheme.body,
-            modifier = Modifier.padding(top = 16.dp)
-        )
-        Text(
-            text = "Let’s set up your account",
-            style = Theme.typography.heading.medium,
-            color = Theme.colorScheme.title,
-            modifier = Modifier.padding(top = 4.dp)
-        )
-        Text(
-            text = "Set Salary",
-            style = Theme.typography.body.small,
-            color = Theme.colorScheme.body,
-            modifier = Modifier.padding(top = 4.dp, bottom = 24.dp)
+    )
+    {
+        StepsHeader(
+            currentStep = state.currentStep.ordinal,
+            description = "Set Salary"
         )
 
         TextField(
@@ -288,9 +268,9 @@ fun MyDivider(
 
 @Preview(showBackground = true)
 @Composable
-fun AccountSetupContentPreview() {
+fun StepOneContentPreview() {
     MoneyTheme {
-        AccountSetupContent(
+        StepOneContent(
             state = AccountSetupState(
                 salary = "5000",
                 salaryDay = 15,
