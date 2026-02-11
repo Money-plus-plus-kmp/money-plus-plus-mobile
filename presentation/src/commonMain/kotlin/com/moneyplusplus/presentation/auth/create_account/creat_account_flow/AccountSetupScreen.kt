@@ -116,12 +116,10 @@ private fun AccountSetupScaffold(
             )
         },
         overlays = {
-            bottomSheet(
-                isVisible = state.isCurrencyBottomSheetVisible
-            ) {
+            bottomSheet (isVisible = state.isCurrencyBottomSheetVisible) {
                 BottomSheet(
                     isVisible = it,
-                    onDismissRequest = {},
+                    onDismissRequest = { intent(AccountSetupIntent.DismissCurrencyBottomSheet) },
                     sheetContent = {
                         Box {
                             Column(
@@ -143,7 +141,10 @@ private fun AccountSetupScaffold(
                                     Spacer(modifier = Modifier.weight(1f))
                                     Icon(
                                         painter = painterResource(Res.drawable.ic_cancel),
-                                        contentDescription = "cancel bottom sheet icon "
+                                        contentDescription = "cancel bottom sheet icon ",
+                                        modifier = Modifier.clickable {
+                                            intent(AccountSetupIntent.DismissCurrencyBottomSheet)
+                                        }
                                     )
                                 }
 
@@ -191,13 +192,15 @@ private fun AccountSetupScaffold(
                         }
                     })
             }
-            if (state.isSalaryDayPickerVisible) {
+            bottomSheet (isVisible = state.isSalaryDayPickerVisible) {
                 SalaryDayDatePicker(
-                    isVisible = state.isSalaryDayPickerVisible,
+                    isVisible = it,
                     onDismiss = {
-                        intent(AccountSetupIntent.SalaryDaySelected(
-                            state.salaryDay ?: 1
-                        ))
+                        intent(
+                            AccountSetupIntent.SalaryDaySelected(
+                                state.salaryDay ?: 1
+                            )
+                        )
                     },
                     onDaySelected = { day ->
                         intent(AccountSetupIntent.SalaryDaySelected(day))
@@ -330,9 +333,10 @@ private fun AccountSetupContent(
             onValueChanged = { },
             leadingIcon = painterResource(Res.drawable.money_01),
             trailingIcon = painterResource(Res.drawable.arrow_down_01),
-            onTrailingIconClick = { intent(AccountSetupIntent.ToggleCurrencyArrow) },
+            onTrailingIconClick = { intent(AccountSetupIntent.ClickCurrencyArrow) },
             showTrailingDivider = false,
-            modifier = Modifier.padding(bottom = 12.dp),
+            modifier = Modifier
+                .padding(bottom = 12.dp),
         )
 
         TextField(

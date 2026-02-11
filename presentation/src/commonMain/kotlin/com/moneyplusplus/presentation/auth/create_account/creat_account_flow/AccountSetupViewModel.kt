@@ -10,7 +10,8 @@ class AccountSetupViewModel() :
         when (intent) {
             is AccountSetupIntent.SalaryChanged -> onSalaryChanged(intent.newSalary)
             is AccountSetupIntent.SalaryDaySelected -> onSalaryDaySelected(intent.day)
-            AccountSetupIntent.ToggleCurrencyArrow -> onCurrencyArrowToggled()
+            AccountSetupIntent.ClickCurrencyArrow -> onCurrencyArrowClicked()
+            AccountSetupIntent.DismissCurrencyBottomSheet -> dismissCurrencyBottomSheet()
             AccountSetupIntent.SalaryDayClicked -> onSalaryDayClicked()
 
         }
@@ -20,8 +21,14 @@ class AccountSetupViewModel() :
         updateState { copy(salary = newSalary) }
     }
 
-    private fun onCurrencyArrowToggled() {
-        updateState { copy(isCurrencyBottomSheetVisible = !isCurrencyBottomSheetVisible) }
+    private fun onCurrencyArrowClicked() {
+        println("Currency Clicked ${currentState.isCurrencyBottomSheetVisible}")
+        updateState { copy(isCurrencyBottomSheetVisible = true) }
+        println("Currency Clicked ${currentState.isCurrencyBottomSheetVisible}")
+    }
+
+    private fun dismissCurrencyBottomSheet() {
+        updateState { copy(isCurrencyBottomSheetVisible = false) }
     }
 
     private fun onSalaryDayClicked() {

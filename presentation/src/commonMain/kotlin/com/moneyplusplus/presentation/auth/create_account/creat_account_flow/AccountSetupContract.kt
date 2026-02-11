@@ -1,6 +1,5 @@
 package com.moneyplusplus.presentation.auth.create_account.creat_account_flow
 
-import com.moneyplusplus.presentation.auth.login.LoginIntent
 import com.moneyplusplus.presentation.base.UiEffect
 import com.moneyplusplus.presentation.base.UiIntent
 import com.moneyplusplus.presentation.base.UiState
@@ -22,7 +21,8 @@ data class CurrencyUiModel(
 )
 
 sealed interface AccountSetupIntent : UiIntent {
-    data object ToggleCurrencyArrow : AccountSetupIntent
+    data object ClickCurrencyArrow : AccountSetupIntent
+    data object DismissCurrencyBottomSheet : AccountSetupIntent
     data object SalaryDayClicked : AccountSetupIntent
     data class SalaryDaySelected(val day: Int) : AccountSetupIntent
     data class SalaryChanged(val newSalary: String) : AccountSetupIntent
