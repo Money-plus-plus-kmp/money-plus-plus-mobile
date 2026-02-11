@@ -9,7 +9,7 @@ import androidx.credentials.GetCredentialRequest
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.moneyplusplus.data.BuildConfig
-import com.moneyplusplus.data.datasource.remote.auth.GoogleAuthDataSource
+import com.moneyplusplus.data.datasource.remote.auth.google.GoogleAuthDataSource
 
 class GoogleAuthManager(private val context: Context) : GoogleAuthDataSource {
     private val clientId = BuildConfig.GOOGLE_CLIENT_ID
