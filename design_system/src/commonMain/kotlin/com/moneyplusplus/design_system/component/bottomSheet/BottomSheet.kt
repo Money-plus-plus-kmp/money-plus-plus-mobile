@@ -14,12 +14,16 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.anchoredDraggable
 import androidx.compose.foundation.gestures.animateTo
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -50,9 +54,22 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.icon.Icon
+import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.scaffold.ScaffoldScope
+import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.component.textField.TextField
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
 import kotlinx.coroutines.launch
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.arrow_left
+import money.design_system.generated.resources.ic_cancel
+import money.design_system.generated.resources.ic_success
+import money.design_system.generated.resources.money_logo
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.math.roundToInt
 
 enum class BottomSheetValue {
@@ -246,4 +263,64 @@ private fun rememberDragState() = remember {
             BottomSheetValue.EXPANDED at Float.MAX_VALUE
         }
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun CustomScaffoldBottomSheetPreview() {
+    MoneyTheme {
+        Scaffold(
+            overlays = {
+                bottomSheet(
+                    isVisible = true
+                ) {
+                    BottomSheet(
+                        isVisible = it,
+                        onDismissRequest = {},
+                        sheetContent = {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .padding(top = 24.dp)
+                                    .padding(horizontal = 16.dp)
+                            )
+                            {
+                                Row(
+                                    modifier = Modifier.padding(bottom = 12.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = "Currency",
+                                        style = Theme.typography.title.small,
+                                        color = Color.Black,
+                                        modifier = Modifier.padding(bottom = 16.dp)
+                                    )
+                                    Spacer(modifier = Modifier.weight(1f))
+                                    Icon(
+                                        painter = painterResource(Res.drawable.ic_cancel),
+                                        contentDescription = null
+                                    )
+                                }
+                            }
+                        },
+                        stickyFooterContent = {
+                            Text(
+                                text = "Sticky Footer",
+                                style = Theme.typography.body.small,
+                                color = Theme.colorScheme.body,
+                                modifier = Modifier.padding(16.dp)
+                            )
+                        }
+                    )
+                }
+            }
+        ) {
+            Text(
+                text = "Main Screen Content",
+                style = Theme.typography.body.small,
+                color = Theme.colorScheme.body,
+            )
+        }
+    }
 }
