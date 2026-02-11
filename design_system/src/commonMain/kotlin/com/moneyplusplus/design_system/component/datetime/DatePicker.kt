@@ -49,14 +49,19 @@ fun DatePicker(
                     onClick = { onDismissRequest() },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
-            }
+            },
+            colors = DatePickerDefaults.colors(
+                containerColor = Theme.colorScheme.surface.surfaceLow,
+            )
         ) {
             DatePicker(
                 state = datePickerState,
                 colors = DatePickerDefaults.colors(
                     selectedDayContainerColor = Theme.colorScheme.primary.primary,
                     todayDateBorderColor = Theme.colorScheme.primary.primary,
-                    todayContentColor = Theme.colorScheme.primary.primary
+                    todayContentColor = Theme.colorScheme.primary.primary,
+                    containerColor = Theme.colorScheme.surface.surfaceLow,
+
                 )
             )
         }

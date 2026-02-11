@@ -19,6 +19,7 @@ class AddIncomeViewModel(
         }
 
     }
+
     override fun handleIntent(intent: AddIncomeIntent) {
         when (intent) {
             AddIncomeIntent.OnAddIncomeClick -> addIncome()
@@ -34,10 +35,7 @@ class AddIncomeViewModel(
     private fun addIncome() {
         tryExecute(
             onSuccess = { sendEffect(AddIncomeEffect.ShowSuccess) },
-            onError = {
-                println("Trace + ${it.printStackTrace()}")
-                sendEffect(AddIncomeEffect.ShowError)
-                      },
+            onError = { sendEffect(AddIncomeEffect.ShowError) },
             block = { addIncome(currentState.toIncome() ?: return@tryExecute) }
         )
     }
