@@ -1,7 +1,8 @@
 package com.moneyplusplus.data.repository
 
 import com.moneyplusplus.data.datasource.remote.auth.AuthDataSource
-import com.moneyplusplus.data.datasource.remote.auth.GoogleAuthDataSource
+import com.moneyplusplus.data.datasource.remote.auth.google.GoogleAuthDataSource
+import com.moneyplusplus.domain.exception.AuthenticationException
 import com.moneyplusplus.domain.repository.AuthRepository
 import kotlin.uuid.ExperimentalUuidApi
 
@@ -17,14 +18,15 @@ class AuthRepositoryImpl(
 
     override suspend fun login(email: String, password: String) {
         authDataSource.login(email, password)
-        //TODO save token after add the room or data store
+        //TODO save token
 
     }
 
     override suspend fun signInWithGoogle() {
-        val googleToken = googleAuthDataSource.signInWithGoogle() ?: return
+        val googleToken = googleAuthDataSource.signInWithGoogle()
+            ?: throw AuthenticationException.InvalidCredentials
         authDataSource.signInWithGoogle(googleToken)
-        //TODO save token after add the room or data store
+        //TODO save auth token
 
     }
 
