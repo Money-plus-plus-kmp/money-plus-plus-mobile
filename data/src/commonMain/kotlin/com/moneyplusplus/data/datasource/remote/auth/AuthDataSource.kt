@@ -1,9 +1,9 @@
 package com.moneyplusplus.data.datasource.remote.auth
 
 import com.moneyplusplus.data.base.ApiEndpoints
-import com.moneyplusplus.data.datasource.remote.dto.ForgetPasswordDto
-import com.moneyplusplus.data.datasource.remote.dto.GoogleLoginDto
-import com.moneyplusplus.data.datasource.remote.dto.LoginDto
+import com.moneyplusplus.data.datasource.remote.request.ForgotPasswordRequest
+import com.moneyplusplus.data.datasource.remote.request.GoogleLoginRequest
+import com.moneyplusplus.data.datasource.remote.request.LoginRequest
 import com.moneyplusplus.data.datasource.remote.response.ForgetPasswordResponse
 import com.moneyplusplus.data.datasource.remote.response.LoginResponse
 import com.moneyplusplus.domain.entity.User
@@ -34,7 +34,7 @@ class AuthDataSource(
         return client.post(urlString = ApiEndpoints.LOGIN) {
             contentType(ContentType.Application.Json)
             setBody(
-                LoginDto(
+                LoginRequest(
                     email = email,
                     password = password
                 )
@@ -45,7 +45,7 @@ class AuthDataSource(
     suspend fun signInWithGoogle(token: String): LoginResponse {
         return client.post(urlString = ApiEndpoints.TOKEN_VALIDATION) {
             contentType(ContentType.Application.Json)
-            setBody(GoogleLoginDto(token))
+            setBody(GoogleLoginRequest(token))
         }.body()
     }
 
@@ -53,7 +53,7 @@ class AuthDataSource(
         val response: ForgetPasswordResponse =
             client.get(urlString = ApiEndpoints.FORGOT_PASSWORD) {
                 contentType(ContentType.Application.Json)
-                setBody(ForgetPasswordDto(email))
+                setBody(ForgotPasswordRequest(email))
             }.body()
 
         return response.message
