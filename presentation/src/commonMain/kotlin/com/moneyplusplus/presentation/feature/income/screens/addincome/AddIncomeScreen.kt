@@ -32,9 +32,17 @@ fun AddIncomeScreen(
 
     ObserveAsEffect(viewModel.effect) { effect ->
         when (effect) {
-            is AddIncomeEffect.NavigateBack -> { navigateBack() }
-            is AddIncomeEffect.ShowError -> { snackBar.showError("Error: Failed to Add Income!") }
-            is AddIncomeEffect.ShowSuccess -> { snackBar.showSuccess("Income Added Successfully!") }
+            is AddIncomeEffect.NavigateBack -> {
+                navigateBack()
+            }
+
+            is AddIncomeEffect.ShowError -> {
+                snackBar.showError("Error: Failed to Add Income!")
+            }
+
+            is AddIncomeEffect.ShowSuccess -> {
+                snackBar.showSuccess("Income Added Successfully!")
+            }
         }
     }
 
@@ -52,7 +60,6 @@ private fun AddIncomeContent(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        fullScreen = true,
         topBar = { AddIncomeTopBar(onBackClick = { onIntent(AddIncomeIntent.OnBackClick) }) }
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
