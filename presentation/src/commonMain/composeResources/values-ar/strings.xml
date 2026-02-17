@@ -34,4 +34,10 @@
     <string name="back_button">زر الرجوع</string>
     <string name="money_logo">شعار المال</string>
     <string name="error_username_empty">يجب إدخال اسم المستخدم</string>
+
+    <string name="monthly_overview">نظرة شهرية</string>
+    <string name="no_monthly_overview">لا توجد بيانات لهذا الشهر</string>
+    <string name="income">الدخل</string>
+    <string name="expense">المصروفات</string>
+    <string name="savings_message">لقد وفّرت %1$s %2$s هذا الشهر</string>
 </resources>

@@ -33,4 +33,10 @@
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
+
+    <string name="monthly_overview">Monthly Overview</string>
+    <string name="no_monthly_overview">No data available for this month</string>
+    <string name="income">Income</string>
+    <string name="expense">Expenses</string>
+    <string name="savings_message">You saved %1$s %2$s this month</string>
 </resources>
