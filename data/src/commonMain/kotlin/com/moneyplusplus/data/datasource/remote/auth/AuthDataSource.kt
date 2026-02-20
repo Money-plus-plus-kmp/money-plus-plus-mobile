@@ -9,7 +9,6 @@ import com.moneyplusplus.data.datasource.remote.response.LoginResponse
 import com.moneyplusplus.domain.entity.User
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
-import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -51,7 +50,7 @@ class AuthDataSource(
 
     suspend fun resetPassword(email: String): String {
         val response: ForgetPasswordResponse =
-            client.get(urlString = ApiEndpoints.FORGOT_PASSWORD) {
+            client.post(urlString = ApiEndpoints.FORGOT_PASSWORD) {
                 contentType(ContentType.Application.Json)
                 setBody(ForgotPasswordRequest(email))
             }.body()
