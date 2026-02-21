@@ -17,23 +17,23 @@ import com.moneyplusplus.design_system.component.button.PrimaryButton
 import com.moneyplusplus.design_system.component.datetime.DatePicker
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.snackbar.LocalMSnackbarState
-import com.moneyplusplus.presentation.base.ObserveAsEffect
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeForm
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeTopBar
 import org.koin.compose.viewmodel.koinViewModel
 import org.jetbrains.compose.resources.stringResource
 import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.add
+import com.moneyplusplus.presentation.base.*
 
 @Composable
 fun AddIncomeScreen(
     viewModel: AddIncomeViewModel = koinViewModel(),
     navigateBack: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
+    val state = viewModel.collectState()
     val snackBar = LocalMSnackbarState.current
 
-    ObserveAsEffect(viewModel.effect) { effect ->
+    viewModel.effect.collectEffect { effect ->
         when (effect) {
             is AddIncomeEffect.NavigateBack -> {
                 navigateBack()
