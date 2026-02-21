@@ -10,14 +10,9 @@ import org.koin.dsl.module
 fun initKoin(config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(appModule)
+        modules(modules = appModule)
     }
 }
-
-fun doInitKoin() {
-    initKoin { }
-}
-
 val appModule = module {
     includes(
         dataModule,
