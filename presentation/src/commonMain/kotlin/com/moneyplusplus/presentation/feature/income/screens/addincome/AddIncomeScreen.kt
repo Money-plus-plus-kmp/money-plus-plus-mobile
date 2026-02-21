@@ -21,6 +21,9 @@ import com.moneyplusplus.presentation.base.ObserveAsEffect
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeForm
 import com.moneyplusplus.presentation.feature.income.components.AddIncomeTopBar
 import org.koin.compose.viewmodel.koinViewModel
+import org.jetbrains.compose.resources.stringResource
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.add
 
 @Composable
 fun AddIncomeScreen(
@@ -80,7 +83,7 @@ private fun AddIncomeContent(
                 )
 
                 PrimaryButton(
-                    text = "Add",
+                    text = stringResource(Res.string.add),
                     isEnabled = state.isAddEnabled,
                     onClick = { onIntent(AddIncomeIntent.OnAddIncomeClick) },
                     modifier = Modifier.fillMaxWidth()

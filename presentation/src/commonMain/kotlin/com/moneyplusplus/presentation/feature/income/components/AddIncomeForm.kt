@@ -9,6 +9,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.textField.MultiLineTextField
 import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.resources.stringResource
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.note
 
 @Composable
 fun AddIncomeForm(
@@ -26,7 +29,6 @@ fun AddIncomeForm(
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-
         AmountTextField(
             amount = amount,
             currency = currency,
@@ -42,7 +44,7 @@ fun AddIncomeForm(
 
         MultiLineTextField(
             value = note,
-            hint = "Note",
+            hint = stringResource(Res.string.note),
             onValueChanged = setNote
         )
     }

@@ -7,11 +7,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.moneyplusplus.design_system.component.textField.TextField
 import kotlinx.datetime.LocalDate
-import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.arrow_down_01
 import money.presentation.generated.resources.calendar_03
 import org.jetbrains.compose.resources.painterResource
-
+import org.jetbrains.compose.resources.stringResource
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.date
 
 @Composable
 fun DateTextField(
@@ -23,7 +24,7 @@ fun DateTextField(
 
     TextField(
         value = date.toString(),
-        hint = "Date",
+        hint = stringResource(Res.string.date),
         leadingIcon = painterResource(Res.drawable.calendar_03),
         trailingIcon = painterResource(Res.drawable.arrow_down_01),
         readOnly = true,

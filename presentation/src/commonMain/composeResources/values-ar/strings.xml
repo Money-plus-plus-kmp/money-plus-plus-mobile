@@ -34,4 +34,9 @@
     <string name="back_button">زر الرجوع</string>
     <string name="money_logo">شعار المال</string>
     <string name="error_username_empty">يجب إدخال اسم المستخدم</string>
+    <string name="add_income">أضف دخل</string>
+    <string name="note">ملاحظة</string>
+    <string name="amount">المبلغ</string>
+    <string name="add">أضف</string>
+    <string name="date">التاريخ</string>
 </resources>

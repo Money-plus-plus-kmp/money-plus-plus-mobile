@@ -14,9 +14,11 @@ import androidx.compose.ui.unit.dp
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.component.textField.TextField
 import com.moneyplusplus.design_system.theme.theme.Theme
-import money.presentation.generated.resources.Res
 import money.presentation.generated.resources.money_01
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
+import money.presentation.generated.resources.Res
+import money.presentation.generated.resources.amount
 
 @Composable
 fun AmountTextField(
@@ -28,7 +30,7 @@ fun AmountTextField(
     Box(modifier = modifier) {
         TextField(
             value = amount?.toString().orEmpty(),
-            hint = "Amount",
+            hint = stringResource(Res.string.amount),
             leadingIcon = painterResource(Res.drawable.money_01),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number

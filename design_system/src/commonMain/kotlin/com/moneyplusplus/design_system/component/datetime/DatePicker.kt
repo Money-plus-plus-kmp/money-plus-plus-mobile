@@ -15,7 +15,10 @@ import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
 import kotlinx.datetime.toLocalDateTime
 import kotlin.time.Instant
-
+import org.jetbrains.compose.resources.stringResource
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.ok
+import money.design_system.generated.resources.cancel
 
 @Composable
 fun DatePicker(
@@ -33,7 +36,7 @@ fun DatePicker(
             onDismissRequest = { onDismissRequest() },
             confirmButton = {
                 TextButton(
-                    text = "OK",
+                    text = stringResource(Res.string.ok),
                     onClick = {
                         datePickerState.selectedDateMillis?.let { millis ->
                             onDateSelected(LocalDate.fromEpochMillis(millis))
@@ -45,7 +48,7 @@ fun DatePicker(
             },
             dismissButton = {
                 TextButton(
-                    text = "Cancel",
+                    text = stringResource(Res.string.cancel),
                     onClick = { onDismissRequest() },
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )

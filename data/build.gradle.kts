@@ -15,7 +15,6 @@ val localProperties = Properties().apply {
 
 
 kotlin {
-    jvmToolchain(21)
     androidTarget()
     iosX64()
     iosArm64()

@@ -34,4 +34,8 @@
     <string name="Email_text">Email</string>
     <string name="send_reset_link">Send reset link</string>
     <string name="error_generic">Something went wrong. Please try again.</string>
+    <string name="note">Note</string>
+    <string name="amount">Amount</string>
+    <string name="add">Add</string>
+    <string name="date">Date</string>
 </resources>
