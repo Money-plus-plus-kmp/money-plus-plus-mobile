@@ -4,47 +4,77 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.moneyplusplus.design_system.component.chart.data.ChartPoint
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
+import com.moneyplusplus.domain.entity.MonthlyOverview
+import com.moneyplusplus.presentation.statistics.component.MonthlyOverviewSection
 import com.moneyplusplus.presentation.statistics.component.SpendingTrendChart
-import kotlinx.datetime.LocalDate
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.viewmodel.koinViewModel
 
+private val ContentPadding = 16.dp
+private val TopSpacing = 50.dp
+private val SectionSpacing = 24.dp
 
 @Composable
-fun StatisticsScreen() {
-    Scaffold(
-        modifier = Modifier.padding(16.dp)
-    ) {
+fun StatisticsScreen(
+    viewModel: StatisticsViewModel = koinViewModel(),
+) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-        Spacer(
-            modifier = Modifier.height(50.dp)
-        )
+    StatisticsScreenContent(
+        state = state,
+        intent = viewModel::handleIntent,
+    )
+}
+
+@Composable
+private fun StatisticsScreenContent(
+    state: StatisticsState,
+    intent: (StatisticsIntent) -> Unit,
+) {
+    Scaffold(
+        modifier = Modifier.padding(ContentPadding)
+    ) {
+        Spacer(modifier = Modifier.height(TopSpacing))
+
+        state.monthlyOverview?.let { overview ->
+            MonthlyOverviewSection(overview = overview)
+        }
+
+        Spacer(modifier = Modifier.height(SectionSpacing))
 
         SpendingTrendChart(
-            title = "Spending Trend", points = listOf(
-                ChartPoint(LocalDate(2024, 12, 1), 500.0),
-                ChartPoint(LocalDate(2024, 12, 2), 705.0),
-                ChartPoint(LocalDate(2024, 12, 3), 60.0),
-                ChartPoint(LocalDate(2024, 12, 4), 815.0),
-                ChartPoint(LocalDate(2024, 12, 5), 90.0),
-                ChartPoint(LocalDate(2024, 12, 6), 1501.0),
-                ChartPoint(LocalDate(2024, 12, 7), 2010.0),
-                ChartPoint(LocalDate(2024, 12, 8), 1100.0),
-                ChartPoint(LocalDate(2024, 12, 9), 120.0),
-                ChartPoint(LocalDate(2024, 12, 10), 100.0),
-                ChartPoint(LocalDate(2024, 12, 11), 550.0),
-                ChartPoint(LocalDate(2024, 12, 12), 765.0),
-                ChartPoint(LocalDate(2024, 12, 13), 608.0),
-                ChartPoint(LocalDate(2024, 12, 14), 855.0),
-                ChartPoint(LocalDate(2024, 12, 15), 960.0),
-                ChartPoint(LocalDate(2024, 12, 16), 1520.0),
-                ChartPoint(LocalDate(2024, 12, 17), 2040.0),
-                ChartPoint(LocalDate(2024, 12, 18), 1860.0),
-                ChartPoint(LocalDate(2024, 12, 19), 1290.0),
-                ChartPoint(LocalDate(2024, 12, 20), 1070.0),
-            ), valueSuffix = "EG"
+            title = "Spending Trend",
+            points = state.spendingTrendPoints,
+            valueSuffix = state.currency,
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun StatisticsScreenPreview() {
+    MoneyTheme {
+        StatisticsScreenContent(
+            state = StatisticsState(
+                monthlyOverview = MonthlyOverview(
+                    income = 1_500_000.0,
+                    expenses = 850_000.0,
+                    currency = "IQD",
+                    maxValue = 2_000_000.0,
+                    scaleLabels = listOf(
+                        "0", "250K", "500K", "750K",
+                        "1M", "1.25M", "1.5M", "1.75M", "2M",
+                    ),
+                ),
+                currency = "IQD",
+            ),
+            intent = {},
         )
     }
 }
