@@ -1,57 +1,52 @@
 package com.moneyplusplus.presentation.account
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.moneyplusplus.domain.entity.User
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
+import com.moneyplusplus.domain.repository.AccountRepository
+import com.moneyplusplus.presentation.base.BaseViewModel
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
-
-import com.moneyplusplus.domain.repository.AccountRepository
 
 @OptIn(ExperimentalUuidApi::class)
 class AccountViewModel(
     private val accountRepository: AccountRepository
-) : ViewModel() {
-    private val _state = MutableStateFlow(AccountState())
-    val state: StateFlow<AccountState> = _state.asStateFlow()
+) : BaseViewModel<AccountState, AccountIntent, AccountEffect>(AccountState()) {
+    // TODO: Replace this with the authenticated user from AuthRepository/session state.
+    private val mockUser = User(
+        id = Uuid.parse("00000000-0000-0000-0000-000000000001"),
+        email = "user@example.com",
+        name = "Antigravity User"
+    )
 
     init {
         loadData()
     }
 
     private fun loadData() {
-        viewModelScope.launch {
-            _state.update { it.copy(isLoading = true) }
-            try {
-                // Mocking a user profile (In real app, fetch from AuthRepository)
-                val mockUser = User(
-                    id = Uuid.random(),
-                    email = "user@example.com",
-                    name = "Antigravity User"
-                )
-                
-                // Fetch Account Data
-                val account = accountRepository.getAccount(mockUser.id.toString())
-                
-                _state.update { it.copy(userProfile = mockUser, account = account, isLoading = false) }
-            } catch (e: Exception) {
-               _state.update { it.copy(error = e.message, isLoading = false) }
+        tryExecute(
+            onStart = { updateState { copy(isLoading = true, error = null) } },
+            block = { accountRepository.getAccount(mockUser.id.toString()) },
+            onSuccess = { account ->
+                updateState {
+                    copy(
+                        userProfile = mockUser.toUi(),
+                        account = account.toUi(),
+                        isLoading = false
+                    )
+                }
+            },
+            onError = { throwable ->
+                updateState { copy(error = throwable.message, isLoading = false) }
             }
-        }
+        )
     }
 
-    fun handleIntent(intent: AccountIntent) {
+    override fun handleIntent(intent: AccountIntent) {
         when (intent) {
             AccountIntent.EditProfile -> {
-                // Handle navigation to edit profile
+                sendEffect(AccountEffect.NavigateToEditProfile)
             }
             is AccountIntent.NavigateToSettings -> {
-                // Handle navigation to settings
+                sendEffect(AccountEffect.NavigateToSettings(intent.type))
             }
         }
     }

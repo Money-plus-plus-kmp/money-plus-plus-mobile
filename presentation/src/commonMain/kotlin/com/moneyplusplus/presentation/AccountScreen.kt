@@ -3,12 +3,12 @@ package com.moneyplusplus.presentation
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -17,17 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.appBar.AccountInfoCard
 import com.moneyplusplus.design_system.component.appBar.AppBar
-import com.moneyplusplus.design_system.component.appBar.SettingsRowCard
-import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
 import com.moneyplusplus.design_system.component.text.Text
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.account.AccountIntent
 import com.moneyplusplus.presentation.account.AccountViewModel
 import com.moneyplusplus.presentation.account.SettingsType
+import com.moneyplusplus.presentation.account.component.SettingsRowCard
 import money.presentation.generated.resources.Res
-import money.presentation.generated.resources.*
+import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -47,6 +47,44 @@ fun AccountScreen(
         },
         backgroundColor = Theme.colorScheme.surface.surface
     ) {
+        val settingItems = listOf(
+            AccountSettingItem(
+                titleRes = Res.string.manage_categories,
+                iconRes = Res.drawable.ic_dashboard_circle_settings,
+                type = SettingsType.MANAGE_CATEGORIES
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.app_language,
+                iconRes = Res.drawable.ic_translation,
+                type = SettingsType.APP_LANGUAGE
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.app_theme,
+                iconRes = Res.drawable.ic_sun,
+                type = SettingsType.APP_THEME
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.currency,
+                iconRes = Res.drawable.ic_coins,
+                type = SettingsType.CURRENCY
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.salary_settings,
+                iconRes = Res.drawable.ic_money,
+                type = SettingsType.SALARY
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.faq,
+                iconRes = Res.drawable.ic_help_circle,
+                type = SettingsType.FAQ
+            ),
+            AccountSettingItem(
+                titleRes = Res.string.help_support,
+                iconRes = Res.drawable.ic_customer_support,
+                type = SettingsType.HELP_SUPPORT
+            )
+        )
+
         Box(
             modifier = Modifier
                 .fillMaxSize()
@@ -64,144 +102,48 @@ fun AccountScreen(
             LazyColumn(
                 contentPadding = PaddingValues(
                     horizontal = 16.dp,
-                    vertical = 16.dp
+                    top = 16.dp,
+                    bottom = 80.dp
                 ),
                 modifier = Modifier.fillMaxSize()
             ) {
 
                 item {
                     val profile = state.userProfile
-                    val initials = profile?.name?.filter { it.isUpperCase() }?.run {
-                        if (length >= 2) "${this[0]} ${this[1]}" else this
-                    } ?: ""
+                    val initials = profile?.name
+                        ?.split(" ")
+                        ?.filter { it.isNotBlank() }
+                        ?.take(2)
+                        ?.joinToString(" ") { it.first().uppercase() }
+                        .orEmpty()
 
                     AccountInfoCard(
                         name = profile?.name ?: "",
                         email = profile?.email ?: "",
                         initials = initials,
+                        modifier = Modifier.padding(bottom = 32.dp),
                         onEditClick = { viewModel.handleIntent(AccountIntent.EditProfile) }
                     )
-                    Spacer(Modifier.height(32.dp))
                 }
 
-                item {
+                itemsIndexed(settingItems) { index, settingItem ->
                     SettingsRowCard(
-                        title = stringResource(Res.string.manage_categories),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_dashboard_circle_settings),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
+                        title = stringResource(settingItem.titleRes),
+                        icon = painterResource(settingItem.iconRes),
+                        showDivider = index != settingItems.lastIndex,
                         onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.MANAGE_CATEGORIES))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.app_language),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_translation),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
+                            viewModel.handleIntent(
+                                AccountIntent.NavigateToSettings(settingItem.type)
                             )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.APP_LANGUAGE))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.app_theme),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_sun),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.APP_THEME))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.currency),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_coins),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.CURRENCY))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.salary_settings),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_money),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.SALARY))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.faq),
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_help_circle),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.FAQ))
-                        }
-                    )
-                }
-                item {
-                    SettingsRowCard(
-                        title = stringResource(Res.string.help_support),
-                        showDivider = false,
-                        leadingContent = {
-                            Icon(
-                                painter = painterResource(Res.drawable.ic_customer_support),
-                                contentDescription = null,
-                                tint = Theme.colorScheme.body,
-                                modifier = Modifier.size(24.dp)
-                            )
-                        },
-                        onClick = {
-                            viewModel.handleIntent(AccountIntent.NavigateToSettings(SettingsType.HELP_SUPPORT))
                         }
                     )
                 }
 
                 item {
-                    Spacer(Modifier.height(64.dp))
                     Box(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 64.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
@@ -215,3 +157,9 @@ fun AccountScreen(
         }
     }
 }
+
+private data class AccountSettingItem(
+    val titleRes: StringResource,
+    val iconRes: DrawableResource,
+    val type: SettingsType
+)
