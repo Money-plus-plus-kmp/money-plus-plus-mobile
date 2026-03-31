@@ -2,6 +2,7 @@ package com.moneyplusplus.presentation.auth.create_account
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -11,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.moneyplusplus.design_system.component.appBar.AppBar
-import com.moneyplusplus.design_system.component.appBar.AppBarOptionContainer
 import com.moneyplusplus.design_system.component.button.PrimaryButton
 import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.scaffold.Scaffold
@@ -21,7 +21,7 @@ import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
 import com.moneyplusplus.presentation.base.collectEffect
 import money.presentation.generated.resources.Res
-import money.presentation.generated.resources.arrow_icon
+import money.presentation.generated.resources.arrow_left
 import money.presentation.generated.resources.back_button
 import money.presentation.generated.resources.create_account
 import money.presentation.generated.resources.create_new_account
@@ -56,21 +56,27 @@ fun CreateAccountScreen(
         }
     }
 
+    CreateAccountScaffold(
+        state = state,
+        intent = viewModel::handleIntent
+    )
+}
+
+@Composable
+private fun CreateAccountScaffold(
+    state: CreateAccountState,
+    intent: (CreateAccountIntent) -> Unit
+) {
     Scaffold(
         topBar = {
             AppBar(
                 leadingContent = {
-                    AppBarOptionContainer(
-                        onClick = { viewModel.handleIntent(CreateAccountIntent.OnBackClicked) },
-                        isBadgeVisible = true,
-                        content = {
-                            Icon(
-                                painter = painterResource(Res.drawable.arrow_icon),
-                                contentDescription = stringResource(Res.string.back_button)
-                            )
-                        }
+                    Icon(
+                        painter = painterResource(Res.drawable.arrow_left),
+                        contentDescription = stringResource(Res.string.back_button)
                     )
                 },
+                onLeadingClick = { intent(CreateAccountIntent.OnBackClicked) },
                 title = stringResource(Res.string.create_account),
                 trailingContent = {
                     Icon(
@@ -83,7 +89,7 @@ fun CreateAccountScreen(
         content = {
             CreateAccountContent(
                 state = state,
-                intent = viewModel::handleIntent,
+                intent = intent,
             )
         },
         bottomBar = {
@@ -92,13 +98,16 @@ fun CreateAccountScreen(
                 isEnabled = true,
                 isLoading = false,
                 text = stringResource(Res.string.create_account),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
             )
         }
     )
 }
 
 @Composable
-fun CreateAccountContent(
+private fun CreateAccountContent(
     modifier: Modifier = Modifier,
     state: CreateAccountState,
     intent: (CreateAccountIntent) -> Unit
@@ -168,7 +177,7 @@ fun CreateAccountContent(
 @Composable
 private fun Preview() {
     MoneyTheme {
-        CreateAccountContent(
+        CreateAccountScaffold(
             state = CreateAccountState(),
             intent = {}
         )

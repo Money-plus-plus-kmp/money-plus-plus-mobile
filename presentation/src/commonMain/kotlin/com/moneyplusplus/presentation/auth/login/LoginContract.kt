@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.auth.login
 
 import com.moneyplusplus.presentation.base.UiEffect
 import com.moneyplusplus.presentation.base.UiIntent
@@ -20,7 +20,6 @@ data class LoginState(
                 passwordError == null &&
                 !isLoading
 }
-
 
 sealed interface LoginIntent : UiIntent {
     data class EmailChanged(val newEmail: String) : LoginIntent

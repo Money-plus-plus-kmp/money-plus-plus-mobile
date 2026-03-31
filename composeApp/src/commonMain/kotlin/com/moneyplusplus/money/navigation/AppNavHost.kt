@@ -7,8 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.moneyplusplus.presentation.auth.create_account.CreateAccountScreen
 import com.moneyplusplus.presentation.feature.forgetPassword.ForgetPasswordScreen
-import com.moneyplusplus.presentation.login.LoginScreen
 import com.moneyplusplus.presentation.statistics.StatisticsScreen
+import com.moneyplusplus.presentation.auth.login.LoginScreen
 
 @Composable
 fun AppNavHost(

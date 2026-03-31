@@ -20,15 +20,21 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.icon.Icon
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.arrow_left
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppBarOptionContainer(
     modifier: Modifier = Modifier,
     isBadgeVisible: Boolean = false,
     badgeColor: Color = Theme.colorScheme.primary.primary,
-    containerColor: Color = Theme.colorScheme.surface.surfaceLow,
-    shape: Shape = RoundedCornerShape(16.dp),
+    containerColor: Color = Theme.colorScheme.surface.surface,
+    shape: Shape = CircleShape,
     badgeShape: Shape = CircleShape,
     iconContentPadding: PaddingValues = PaddingValues(10.dp),
     onClick: (() -> Unit)? = null,
@@ -67,5 +73,38 @@ fun AppBarOptionContainer(
                     .background(badgeColor, badgeShape)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AppBarOptionContainerPreview() {
+    MoneyTheme {
+        AppBarOptionContainer(
+            onClick = {},
+            content = {
+                Icon(
+                    painter = painterResource(Res.drawable.arrow_left),
+                    contentDescription = null
+                )
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AppBarOptionContainerWithBadgePreview() {
+    MoneyTheme {
+        AppBarOptionContainer(
+            isBadgeVisible = true,
+            onClick = {},
+            content = {
+                Icon(
+                    painter = painterResource(Res.drawable.arrow_left),
+                    contentDescription = null
+                )
+            }
+        )
     }
 }

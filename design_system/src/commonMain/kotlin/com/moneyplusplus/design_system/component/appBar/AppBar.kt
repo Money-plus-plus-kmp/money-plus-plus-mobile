@@ -1,5 +1,6 @@
 package com.moneyplusplus.design_system.component.appBar
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -11,8 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.moneyplusplus.design_system.component.icon.Icon
 import com.moneyplusplus.design_system.component.text.Text
+import com.moneyplusplus.design_system.theme.theme.MoneyTheme
 import com.moneyplusplus.design_system.theme.theme.Theme
+import money.design_system.generated.resources.Res
+import money.design_system.generated.resources.arrow_left
+import money.design_system.generated.resources.ic_error
+import money.design_system.generated.resources.money_logo
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun AppBar(
@@ -29,6 +38,7 @@ fun AppBar(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = modifier
             .fillMaxWidth()
+            .background(color = Theme.colorScheme.surface.surfaceLow)
             .padding(contentPadding)
     ) {
         leadingContent?.let { content ->
@@ -52,5 +62,28 @@ fun AppBar(
                 trailingContent()
             }
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun AppBarPreview() {
+    MoneyTheme {
+        AppBar(
+            title = "Account setup",
+            leadingContent = {
+                Icon(
+                    painter = painterResource(Res.drawable.arrow_left),
+                    contentDescription = null
+                )
+            },
+            onLeadingClick = { },
+            trailingContent = {
+                Icon(
+                    painter = painterResource(Res.drawable.money_logo),
+                    contentDescription = null
+                )
+            }
+        )
     }
 }

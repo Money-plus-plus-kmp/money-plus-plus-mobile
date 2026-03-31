@@ -1,4 +1,4 @@
-package com.moneyplusplus.presentation.login
+package com.moneyplusplus.presentation.auth.login
 
 import com.moneyplusplus.domain.exception.AuthenticationException
 import com.moneyplusplus.domain.exception.ValidationException

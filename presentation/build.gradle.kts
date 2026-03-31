@@ -40,6 +40,10 @@ kotlin {
                 api(libs.koin.annotations)
                 implementation(libs.kotlinx.serialization.json)
 
+                // Serialization & DateTime
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+
                 implementation(libs.kotlinx.datetime)
 
             }

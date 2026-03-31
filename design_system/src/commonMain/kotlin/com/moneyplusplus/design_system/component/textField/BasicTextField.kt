@@ -213,7 +213,7 @@ private fun InnerTextFieldWithHint(
             Text(
                 text = hint,
                 style = Theme.typography.label.medium,
-                color = Theme.colorScheme.title,
+                color = Theme.colorScheme.body,
             )
         }
     }
