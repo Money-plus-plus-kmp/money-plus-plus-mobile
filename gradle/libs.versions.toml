@@ -16,6 +16,9 @@ buildkonfig = "0.17.1"
 coil = "3.3.0"
 collection = "1.5.0"
 composeMultiplatform = "1.9.3"
+credentials = "1.6.0-rc01"
+credentialsPlayServicesAuth = "1.6.0-rc01"
+googleid = "1.2.0"
 junit = "4.13.2"
 kermit = "2.0.8"
 kmpCapturableCompose = "1.0.0"
@@ -56,6 +59,9 @@ uiToolingVersion = "1.10.1"
 [libraries]
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "collection" }
+androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
+androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentialsPlayServicesAuth" }
+googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }

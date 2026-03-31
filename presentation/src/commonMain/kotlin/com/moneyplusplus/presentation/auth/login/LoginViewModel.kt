@@ -1,6 +1,5 @@
 package com.moneyplusplus.presentation.auth.login
 
-import com.moneyplusplus.domain.entity.User
 import com.moneyplusplus.domain.exception.AuthenticationException
 import com.moneyplusplus.domain.exception.ValidationException
 import com.moneyplusplus.domain.repository.AuthRepository
@@ -45,18 +44,18 @@ class LoginViewModel(
         tryExecute(
             onStart = ::setLoadingState,
             block = ::loginUser,
-            onSuccess = ::handleLoginSuccess,
+            onSuccess = { handleLoginSuccess() },
             onError = ::handleLoginError
         )
     }
 
-    private suspend fun loginUser(): User {
+    private suspend fun loginUser() {
         val email = currentState.email
         val password = currentState.password
         return authRepository.login(email, password)
     }
 
-    private fun handleLoginSuccess(user: User) {
+    private fun handleLoginSuccess() {
         updateState { copy(
             isLoading = false,
             email = "",
